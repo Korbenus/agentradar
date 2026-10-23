@@ -99,49 +99,67 @@ function localizedHref(path: string): string {
 
   <!-- Main Explore Section -->
   <section id="explore" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <!-- Categories Filter Tabs (Primary) - Flex-wrap so all buttons are 100% visible -->
-    <div class="flex flex-wrap items-center gap-2.5 mb-5">
-      {categories.map((cat, idx) => (
-        <button
-          type="button"
-          class={`filter-btn whitespace-nowrap text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 border ${
-            idx === 0
-              ? 'active bg-radar-500 text-slate-950 border-radar-400 shadow-md shadow-radar-500/20'
-              : 'bg-dark-900 border-dark-750 text-slate-200 hover:border-radar-500/50'
-          }`}
-          data-category={cat.val}
-        >
-          <span class="text-base leading-none">{categoryIcons[cat.val] || '⚡'}</span>
-          <span>{cat.label}</span>
-        </button>
-      ))}
-    </div>
-
-    <!-- Secondary Faceted Filters: Budget & AI Act Badge -->
-    <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-dark-900 border border-dark-800 mb-8 shadow-sm">
-      <!-- Pricing Filter Pills -->
-      <div class="flex flex-wrap items-center gap-2">
-        <span class="text-xs uppercase font-extrabold text-slate-400 mr-1 tracking-wider">Budget :</span>
-        {pricingFilters.map((pf, idx) => (
-          <button
-            type="button"
-            class={`pricing-btn text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-xl transition cursor-pointer border ${
-              idx === 0 
-                ? 'active bg-radar-500 text-slate-950 border-radar-400 shadow-sm' 
-                : 'bg-dark-800 text-slate-200 border-dark-700 hover:border-radar-500/50'
-            }`}
-            data-pricing={pf.val}
-          >
-            {pf.label}
-          </button>
-        ))}
+    <!-- Unified Filter Hub: Aligned & Symmetrical (4 columns on desktop/tablet, 2 on mobile) -->
+    <div class="p-4 sm:p-6 rounded-3xl bg-dark-900 border border-dark-800 shadow-xl mb-10 space-y-5">
+      <!-- Top: 8 Balanced Category Buttons (2 clean rows of 4) -->
+      <div>
+        <div class="flex items-center justify-between mb-3 px-1">
+          <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">
+            {lang === 'fr' ? '📂 Catégories d\'agents IA' : '📂 AI Agent Categories'}
+          </span>
+          <span class="text-xs text-slate-400 font-medium">8 {lang === 'fr' ? 'domaines d\'expertise' : 'domains'}</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          {categories.map((cat, idx) => (
+            <button
+              type="button"
+              class={`filter-btn text-xs sm:text-sm font-bold px-3 sm:px-4 py-3 rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-2 border text-center ${
+                idx === 0
+                  ? 'active bg-radar-500 text-slate-950 border-radar-400 shadow-md shadow-radar-500/20'
+                  : 'bg-dark-950 border-dark-750 text-slate-200 hover:border-radar-500/40'
+              }`}
+              data-category={cat.val}
+            >
+              <span class="text-base shrink-0 leading-none">{categoryIcons[cat.val] || '⚡'}</span>
+              <span class="truncate">{cat.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      <!-- AI Act Checkbox Toggle -->
-      <label class="inline-flex items-center gap-2 cursor-pointer select-none text-xs sm:text-sm font-semibold text-slate-200 hover:text-radar-400 transition px-3 py-1.5 rounded-xl bg-dark-800 border border-dark-700">
-        <input type="checkbox" id="aiActToggle" class="rounded bg-dark-950 border-slate-500 text-radar-500 focus:ring-radar-500/40 w-4 h-4" />
-        <span>{t('filter.aiActOnly')}</span>
-      </label>
+      <!-- Divider -->
+      <div class="h-[1px] bg-dark-800"></div>
+
+      <!-- Bottom: Faceted Filters (Budget Segmented Control + EU AI Act Toggle) -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+        <!-- Budget segmented selector -->
+        <div class="flex items-center gap-2.5">
+          <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">
+            Budget :
+          </span>
+          <div class="inline-flex p-1 rounded-2xl bg-dark-950 border border-dark-750 gap-1">
+            {pricingFilters.map((pf, idx) => (
+              <button
+                type="button"
+                class={`pricing-btn text-xs font-bold px-3.5 py-1.5 rounded-xl transition cursor-pointer ${
+                  idx === 0 
+                    ? 'active bg-radar-500 text-slate-950 shadow-sm' 
+                    : 'text-slate-300 hover:text-white'
+                }`}
+                data-pricing={pf.val}
+              >
+                {pf.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- EU AI Act compliance toggle -->
+        <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-xs font-bold text-slate-200 hover:text-radar-400 transition px-3.5 py-2 rounded-2xl bg-dark-950 border border-dark-750 shrink-0">
+          <input type="checkbox" id="aiActToggle" class="rounded bg-dark-900 border-slate-600 text-radar-500 focus:ring-radar-500/40 w-4 h-4 cursor-pointer" />
+          <span>🇪🇺 {t('filter.aiActOnly')}</span>
+        </label>
+      </div>
     </div>
 
     <!-- Featured Section (shown if "ALL" active) -->
@@ -263,11 +281,11 @@ function localizedHref(path: string): string {
     btn.addEventListener('click', () => {
       filterButtons.forEach((b) => {
         b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-md', 'shadow-radar-500/20');
-        b.classList.add('bg-dark-900', 'border-dark-750', 'text-slate-200');
+        b.classList.add('bg-dark-950', 'border-dark-750', 'text-slate-200');
       });
 
       btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-md', 'shadow-radar-500/20');
-      btn.classList.remove('bg-dark-900', 'border-dark-750', 'text-slate-200');
+      btn.classList.remove('bg-dark-950', 'border-dark-750', 'text-slate-200');
 
       activeCategory = btn.getAttribute('data-category') || 'ALL';
       updateList();
@@ -277,12 +295,12 @@ function localizedHref(path: string): string {
   pricingButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       pricingButtons.forEach((b) => {
-        b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-sm');
-        b.classList.add('bg-dark-800', 'text-slate-200', 'border-dark-700');
+        b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'shadow-sm');
+        b.classList.add('text-slate-300');
       });
 
-      btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-sm');
-      btn.classList.remove('bg-dark-800', 'text-slate-200', 'border-dark-700');
+      btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'shadow-sm');
+      btn.classList.remove('text-slate-300');
 
       activePricing = btn.getAttribute('data-pricing') || 'ALL';
       updateList();
