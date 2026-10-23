@@ -259,12 +259,20 @@ const jsonLd = {
                 <span class="text-slate-300 font-medium">{topAlternative.data.priceStartingAt}</span>
               </div>
             </div>
-            <a
-              href={altUrl}
-              class="shrink-0 px-4 py-2.5 rounded-xl bg-dark-800 hover:bg-dark-700 text-white font-semibold text-xs transition border border-dark-700"
-            >
-              Compare with {topAlternative.data.name} →
-            </a>
+            <div class="flex flex-wrap items-center gap-2">
+              <a
+                href={altUrl}
+                class="px-4 py-2 rounded-xl bg-dark-800 hover:bg-dark-700 text-white font-semibold text-xs transition border border-dark-700"
+              >
+                Read Review →
+              </a>
+              <a
+                href={localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}&b=${altSlug}`)}
+                class="px-4 py-2 rounded-xl bg-radar-500/10 hover:bg-radar-500/20 text-radar-400 font-semibold text-xs transition border border-radar-500/30 flex items-center gap-1.5"
+              >
+                <span>Duel in Arena ⚡</span>
+              </a>
+            </div>
           </div>
         )}
 
@@ -347,6 +355,14 @@ const jsonLd = {
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
               </svg>
             </a>
+
+            <a
+              href={topAlternative ? localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}&b=${altSlug}`) : localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}`)}
+              class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-dark-950 hover:bg-dark-800 text-slate-300 hover:text-white font-medium text-xs transition border border-dark-800 text-center"
+            >
+              <span>⚡ Duel in Compare Arena</span>
+            </a>
+
             <p class="text-[10px] text-center text-slate-500">
               {t('card.affiliateDisclaimer')}
             </p>

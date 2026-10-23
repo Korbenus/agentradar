@@ -63,8 +63,16 @@ const navLinks = [
       ))}
     </nav>
 
-    <!-- Right Actions: Command Palette search trigger + Language Picker -->
-    <div class="flex items-center gap-3">
+    <!-- Right Actions: Mobile Compare pill + Command Palette search trigger + Language Picker -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href={localizedHref('/compare')}
+        class="lg:hidden flex items-center gap-1 px-2 py-1.5 rounded-lg bg-dark-900 border border-dark-800 text-xs font-bold text-radar-400 hover:border-radar-500/40 transition"
+        title="Compare Agents"
+        aria-label="Compare Agents"
+      >
+        <span>VS</span>
+      </a>
       <CommandPalette lang={lang} />
       <LanguagePicker currentLang={lang} />
     </div>

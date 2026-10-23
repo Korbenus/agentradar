@@ -192,15 +192,22 @@ const presets = [
     `;
   }
 
-  function updateComparison() {
+  function updateComparison(syncUrl = true) {
     const keyA = selectA ? selectA.value : '';
     const keyB = selectB ? selectB.value : '';
     renderAgentCard(colA, agentsMap[keyA]);
     renderAgentCard(colB, agentsMap[keyB]);
+
+    if (syncUrl && keyA && keyB && window.history && window.history.replaceState) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('a', keyA);
+      url.searchParams.set('b', keyB);
+      window.history.replaceState({}, '', url.toString());
+    }
   }
 
-  if (selectA) selectA.addEventListener('change', updateComparison);
-  if (selectB) selectB.addEventListener('change', updateComparison);
+  if (selectA) selectA.addEventListener('change', () => updateComparison(true));
+  if (selectB) selectB.addEventListener('change', () => updateComparison(true));
 
   presetButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -208,12 +215,26 @@ const presets = [
       const b = btn.getAttribute('data-b');
       if (selectA && a) selectA.value = a;
       if (selectB && b) selectB.value = b;
-      updateComparison();
+      updateComparison(true);
     });
   });
 
-  // Initial render with preset default Devin vs Cursor
-  if (selectA && agentsMap['devin']) selectA.value = 'devin';
-  if (selectB && agentsMap['cursor-agent']) selectB.value = 'cursor-agent';
-  updateComparison();
+  // Read URL search params if present, else fallback to Devin vs Cursor
+  const params = new URLSearchParams(window.location.search);
+  const paramA = params.get('a');
+  const paramB = params.get('b');
+
+  if (paramA && agentsMap[paramA] && selectA) {
+    selectA.value = paramA;
+  } else if (selectA && agentsMap['devin']) {
+    selectA.value = 'devin';
+  }
+
+  if (paramB && agentsMap[paramB] && selectB) {
+    selectB.value = paramB;
+  } else if (selectB && agentsMap['cursor-agent']) {
+    selectB.value = 'cursor-agent';
+  }
+
+  updateComparison(false);
 </script>
