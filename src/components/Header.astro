@@ -1,0 +1,66 @@
+---
+const navLinks = [
+  { name: 'Tous les Agents', href: '/#explore' },
+  { name: 'Support Client', href: '/categories/support-client' },
+  { name: 'Prospection B2B', href: '/categories/prospection-b2b' },
+  { name: 'Code & Dev', href: '/categories/code-dev' },
+  { name: 'Soumettre un Agent', href: '/submit', highlight: true },
+];
+---
+
+<header class="sticky top-0 z-50 backdrop-blur-md bg-dark-950/80 border-b border-dark-800/80 transition-all">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Brand -->
+    <a href="/" class="flex items-center gap-3 group">
+      <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-radar-400 p-[1px] shadow-lg shadow-radar-500/20">
+        <div class="w-full h-full bg-dark-950 rounded-[11px] flex items-center justify-center">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-radar-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-radar-500"></span>
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-lg font-bold tracking-tight text-white group-hover:text-radar-400 transition-colors">
+          Agent<span class="text-radar-400">Radar</span>
+        </span>
+        <span class="text-[10px] text-slate-400 -mt-1 tracking-wider uppercase font-semibold">Veille B2B 2026</span>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-6">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`text-sm font-medium transition-colors ${
+            link.highlight
+              ? 'px-3.5 py-1.5 rounded-lg bg-radar-500/10 text-radar-400 border border-radar-500/30 hover:bg-radar-500/20'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          {link.name}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Right Action -->
+    <div class="flex items-center gap-3">
+      <a
+        href="/rss.xml"
+        title="Flux RSS"
+        class="hidden sm:inline-flex p-2 rounded-lg bg-dark-900 border border-dark-800 text-slate-400 hover:text-radar-400 hover:border-radar-500/30 transition-all text-xs"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93v-2.83Z"/>
+        </svg>
+      </a>
+      <a
+        href="/submit"
+        class="inline-flex md:hidden text-xs font-semibold px-3 py-1.5 rounded-lg bg-radar-500 text-black hover:bg-radar-400 transition"
+      >
+        Ajouter
+      </a>
+    </div>
+  </div>
+</header>

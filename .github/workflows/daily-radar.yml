@@ -1,0 +1,46 @@
+name: "Daily Autonomous Radar"
+
+on:
+  schedule:
+    # Tourne chaque nuit à 03:00 UTC (05:00 heure de Paris)
+    - cron: '0 3 * * *'
+  workflow_dispatch: # Permet de déclencher l'audit manuellement en 1 clic sur GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  run-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Exécution du Moteur Radar Autonome
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: 'gemini-3.8-flash'
+        run: |
+          python -u scripts/radar.py
+
+      - name: Vérification et Publication Automatique
+        run: |
+          git config --global user.name "AgentRadar Bot"
+          git config --global user.email "bot@agentradar.pages.dev"
+          
+          # Vérifie si un nouveau fichier a été créé dans src/content/agents/
+          if [ -n "$(git status --porcelain src/content/agents/)" ]; then
+            echo "Nouveau(x) agent(s) détecté(s) ! Publication en cours..."
+            git add src/content/agents/
+            git commit -m "chore(radar): nouvel agent analysé et publié automatiquement [skip ci]"
+            git push origin main
+          else
+            echo "Aucune nouvelle fiche aujourd'hui. Dépôt à jour."
+          fi

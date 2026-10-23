@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AgentCard from '../../components/AgentCard.astro';
+import { getCollection } from 'astro:content';
+
+const categoryMap: Record<string, { title: string; desc: string }> = {
+  'code-dev': {
+    title: 'Code & Dev',
+    desc: 'Agents logiciels autonomes capables de coder, débuguer, réécrire des architectures et automatiser les pipelines CI/CD.'
+  },
+  'support-client': {
+    title: 'Support Client',
+    desc: 'Agents conversationnels capables de résoudre les tickets complexes, traiter les retours et exécuter des opérations en base de données sans intervention humaine.'
+  },
+  'prospection-b2b': {
+    title: 'Prospection B2B',
+    desc: 'Agents commerciaux autonomes pour qualifier les prospects, personnaliser les prises de contact par email/LinkedIn et fixer des rendez-vous qualifiés.'
+  },
+  'productivite-assistant': {
+    title: 'Productivité & Assistant',
+    desc: 'Assistants exécutifs pour automatiser la gestion d\'emails, les comptes-rendus de réunion et l\'orchestration de votre agenda.'
+  },
+  'comptabilite-finance': {
+    title: 'Comptabilité & Finance',
+    desc: 'Agents spécialisés dans le rapprochement bancaire, la conformité fiscale, la détection d\'anomalies et les prévisions de trésorerie.'
+  },
+  'conformite-juridique': {
+    title: 'Conformité & Juridique',
+    desc: 'Agents d\'audit réglementaire, d\'analyse de contrats complexes et de mise en conformité avec l\'EU AI Act et le RGPD.'
+  },
+  'marketing-contenu': {
+    title: 'Marketing & Contenu',
+    desc: 'Agents autonomes de veille concurrentielle, création de contenu multicanal et optimisation SEO programmatique.'
+  }
+};
+
+export async function getStaticPaths() {
+  const slugs = [
+    'code-dev',
+    'support-client',
+    'prospection-b2b',
+    'productivite-assistant',
+    'comptabilite-finance',
+    'conformite-juridique',
+    'marketing-contenu'
+  ];
+
+  return slugs.map((category) => ({
+    params: { category },
+  }));
+}
+
+const { category } = Astro.params;
+const currentCat = categoryMap[category] || {
+  title: category,
+  desc: 'Découvrez notre sélection des meilleurs agents IA dans cette catégorie.'
+};
+
+const allAgents = await getCollection('agents');
+const filteredAgents = allAgents.filter(a => a.data.category === currentCat.title);
+---
+
+<Layout
+  title={`Meilleurs Agents IA ${currentCat.title} (2026) | AgentRadar`}
+  description={currentCat.desc}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <nav class="flex items-center gap-2 text-xs text-slate-400 mb-8">
+      <a href="/" class="hover:text-white transition">Accueil</a>
+      <span>/</span>
+      <span class="text-slate-200">Catégories</span>
+      <span>/</span>
+      <span class="text-radar-400">{currentCat.title}</span>
+    </nav>
+
+    <div class="max-w-3xl mb-12">
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">Catégorie Spécialisée</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+        Agents IA : {currentCat.title}
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+        {currentCat.desc}
+      </p>
+    </div>
+
+    {filteredAgents.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredAgents.map((agent) => (
+          <AgentCard agent={agent} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20 bg-dark-900/40 rounded-2xl border border-dark-800">
+        <p class="text-slate-400 text-sm">Notre robot autonome analyse actuellement de nouveaux agents dans cette catégorie.</p>
+        <p class="text-xs text-slate-500 mt-2">Revenez d'ici 24h ou soumettez un agent dès maintenant.</p>
+        <a href="/submit" class="mt-6 inline-block px-5 py-2.5 rounded-xl bg-radar-500 text-black font-semibold text-xs">
+          Proposer un agent
+        </a>
+      </div>
+    )}
+  </div>
+</Layout>
