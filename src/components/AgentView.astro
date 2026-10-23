@@ -1,0 +1,272 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AgentCard from './AgentCard.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+
+interface Props {
+  agent: CollectionEntry<'agents'>;
+  allAgents: CollectionEntry<'agents'>[];
+  lang?: SupportedLang;
+}
+
+const { agent, allAgents, lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+const { Content } = await render(agent);
+
+const relatedAgents = allAgents
+  .filter(a => a.id !== agent.id && a.data.category === agent.data.category)
+  .slice(0, 3);
+
+const {
+  name,
+  tagline,
+  category,
+  rating,
+  pricingModel,
+  priceStartingAt,
+  websiteUrl,
+  affiliateUrl,
+  badge,
+  aiActCompliant,
+  dateAdded,
+  pros,
+  cons,
+  keyFeatures,
+  targetAudience,
+} = agent.data;
+
+const targetUrl = affiliateUrl || websiteUrl;
+
+function localizedHref(path: string): string {
+  if (lang === defaultLang) return path;
+  if (path === '/') return `/${lang}`;
+  return `/${lang}${path}`;
+}
+
+const categorySlug = category.toLowerCase().replace(/ & /g, '-').replace(/\s+/g, '-');
+
+// JSON-LD Product & Review structured data
+const jsonLd = {
+  "@context": "https://schema.org/",
+  "@type": "SoftwareApplication",
+  "name": name,
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Cloud / Web",
+  "offers": {
+    "@type": "Offer",
+    "price": priceStartingAt,
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": rating,
+    "bestRating": "5",
+    "ratingCount": "42"
+  },
+  "description": tagline
+};
+---
+
+<Layout
+  lang={lang}
+  title={`${name} : 2026 In-Depth Review, Pricing & Features | AgentRadar`}
+  description={tagline}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <article class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-slate-400 mb-8">
+      <a href={localizedHref('/')} class="hover:text-white transition">AgentRadar</a>
+      <span>/</span>
+      <a href={localizedHref(`/categories/${categorySlug}`)} class="hover:text-white transition">{category}</a>
+      <span>/</span>
+      <span class="text-slate-200">{name}</span>
+    </nav>
+
+    <!-- Header Block -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-dark-800">
+      <div class="space-y-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+            {category}
+          </span>
+          {badge && (
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              ★ {badge}
+            </span>
+          )}
+          {aiActCompliant && (
+            <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              {t('card.aiActReady')}
+            </span>
+          )}
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+          {name}
+        </h1>
+        <p class="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
+          {tagline}
+        </p>
+      </div>
+
+      <!-- Quick Action on Top -->
+      <div class="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+        <a
+          href={targetUrl}
+          target="_blank"
+          rel="sponsored noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-radar-500 hover:bg-radar-400 text-black font-bold text-sm transition-all shadow-lg shadow-radar-500/20 text-center"
+        >
+          <span>{t('card.tryNow')} {name}</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </a>
+        <span class="text-[11px] text-center text-slate-500">
+          Official Direct Link • Free Trial
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Content 2 Columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
+      <!-- Left Column: Review, Pros/Cons, Details -->
+      <div class="lg:col-span-2 space-y-12">
+        <!-- Pros and Cons Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Pros -->
+          <div class="p-6 rounded-2xl bg-dark-900/60 border border-emerald-500/20">
+            <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              {t('card.pros')}
+            </h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              {pros.map((pro) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-emerald-400 font-bold shrink-0">+</span>
+                  <span>{pro}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Cons -->
+          <div class="p-6 rounded-2xl bg-dark-900/60 border border-rose-500/20">
+            <h3 class="text-sm font-bold text-rose-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+              </svg>
+              {t('card.cons')}
+            </h3>
+            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+              {cons.map((con) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-rose-400 font-bold shrink-0">-</span>
+                  <span>{con}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Key features checklist -->
+        <div class="p-6 rounded-2xl bg-dark-900/40 border border-dark-800">
+          <h3 class="text-base font-bold text-white mb-4">{t('card.features')}</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
+            {keyFeatures.map((feat) => (
+              <div class="flex items-center gap-2">
+                <span class="text-radar-400">✓</span>
+                <span>{feat}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Rendered Markdown Body -->
+        <div class="prose prose-invert prose-emerald max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-radar-400 prose-p:text-slate-300 prose-p:leading-relaxed">
+          <Content />
+        </div>
+
+        <!-- Target Audience Callout -->
+        <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/30 to-dark-900 border border-emerald-500/30">
+          <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-2">{t('card.targetAudience')}</h4>
+          <p class="text-sm text-slate-200 leading-relaxed">
+            {targetAudience}
+          </p>
+        </div>
+      </div>
+
+      <!-- Right Column: Sticky Summary & Affiliate Box -->
+      <div class="space-y-6">
+        <div class="sticky top-24 p-6 rounded-2xl bg-dark-900 border border-dark-800 shadow-xl space-y-6">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-semibold text-slate-400">{t('card.techRating')}</span>
+            <div class="flex items-center gap-1 text-sm font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-md">
+              <span>★</span>
+              <span>{rating.toFixed(1)} / 5</span>
+            </div>
+          </div>
+
+          <div class="border-t border-dark-800 pt-4 space-y-3 text-xs sm:text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-400">{t('card.pricingModel')} :</span>
+              <span class="font-semibold text-white">{pricingModel}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">{t('card.startingPrice')} :</span>
+              <span class="font-bold text-radar-400">{priceStartingAt}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">{t('card.category')} :</span>
+              <span class="text-slate-200">{category}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">EU AI Act :</span>
+              <span class="text-emerald-400 font-semibold">{aiActCompliant ? 'Ready' : 'Pending'}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">{t('card.lastVerified')} :</span>
+              <span class="text-slate-400">{dateAdded}</span>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-dark-800 space-y-3">
+            <a
+              href={targetUrl}
+              target="_blank"
+              rel="sponsored noopener noreferrer"
+              class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-radar-500 hover:bg-radar-400 text-black font-bold text-sm transition-all shadow-lg shadow-radar-500/20 text-center"
+            >
+              <span>{t('card.tryNow')} {name}</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+            </a>
+            <p class="text-[10px] text-center text-slate-500">
+              {t('card.affiliateDisclaimer')}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Agents Section -->
+    {relatedAgents.length > 0 && (
+      <div class="mt-24 pt-12 border-t border-dark-800">
+        <h2 class="text-2xl font-bold text-white mb-8">
+          {t('card.related')} « {category} »
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relatedAgents.map((rel) => (
+            <AgentCard agent={rel} lang={lang} />
+          ))}
+        </div>
+      </div>
+    )}
+  </article>
+</Layout>

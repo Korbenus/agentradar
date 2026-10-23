@@ -1,0 +1,38 @@
+---
+import AgentView from '../../../components/AgentView.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { type SupportedLang } from '../../../i18n/translations';
+
+export async function getStaticPaths() {
+  const agents = await getCollection('agents');
+  const nonDefaultLangs: SupportedLang[] = ['fr', 'es', 'de', 'it', 'ja'];
+
+  const paths = [];
+  for (const lang of nonDefaultLangs) {
+    for (const agent of agents) {
+      paths.push({
+        params: {
+          lang,
+          slug: agent.id.replace(/\.md$/, ''),
+        },
+        props: {
+          agent,
+          allAgents: agents,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  agent: CollectionEntry<'agents'>;
+  allAgents: CollectionEntry<'agents'>[];
+}
+
+const { lang } = Astro.params as { lang: SupportedLang };
+const { agent, allAgents } = Astro.props;
+---
+
+<AgentView agent={agent} allAgents={allAgents} lang={lang} />

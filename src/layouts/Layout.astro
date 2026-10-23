@@ -1,24 +1,39 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { defaultLang, type SupportedLang, languages } from '../i18n/translations';
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  lang?: SupportedLang;
 }
 
 const {
-  title = "AgentRadar | Comparateur des Meilleurs Agents IA & Automatisations B2B",
-  description = "Découvrez, comparez et choisissez les meilleurs agents IA autonomes pour votre entreprise. Support client, prospection, code, finance et conformité.",
-  ogImage = "/og-image.png"
+  title = "AgentRadar | Compare the Best Autonomous AI Agents (2026)",
+  description = "Discover, compare and select the best autonomous AI agents for your business. B2B sales outreach, customer support, coding, accounting, and EU AI Act compliance.",
+  ogImage = "/og-image.png",
+  lang = defaultLang
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Helper for hreflang links
+function getCleanPath(): string {
+  let p = Astro.url.pathname;
+  for (const l of Object.keys(languages)) {
+    if (p === `/${l}` || p === `/${l}/`) return '/';
+    if (p.startsWith(`/${l}/`)) return p.slice(l.length + 1);
+  }
+  return p;
+}
+
+const cleanPath = getCleanPath();
 ---
 
 <!doctype html>
-<html lang="fr" class="dark scroll-smooth">
+<html lang={lang} class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,7 +42,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
 
-    <!-- Open Graph / Facebook / LinkedIn -->
+    <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -41,8 +56,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
 
+    <!-- Multilingual hreflang alternate links for SEO -->
+    <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(cleanPath, Astro.site)} />
+    <link rel="alternate" hreflang="fr" href={new URL(`/fr${cleanPath === '/' ? '' : cleanPath}`, Astro.site)} />
+    <link rel="alternate" hreflang="es" href={new URL(`/es${cleanPath === '/' ? '' : cleanPath}`, Astro.site)} />
+    <link rel="alternate" hreflang="de" href={new URL(`/de${cleanPath === '/' ? '' : cleanPath}`, Astro.site)} />
+    <link rel="alternate" hreflang="it" href={new URL(`/it${cleanPath === '/' ? '' : cleanPath}`, Astro.site)} />
+    <link rel="alternate" hreflang="ja" href={new URL(`/ja${cleanPath === '/' ? '' : cleanPath}`, Astro.site)} />
+
     <!-- RSS feed auto-discovery -->
-    <link rel="alternate" type="application/rss+xml" title="Flux RSS AgentRadar" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="AgentRadar RSS Feed" href="/rss.xml" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,7 +80,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       "name": "AgentRadar",
       "url": "https://agentradar.pages.dev",
       "description": description,
-      "inLanguage": "fr-FR"
+      "inLanguage": lang
     })} />
   </head>
   <body class="bg-dark-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-radar-500 selection:text-black">
@@ -66,11 +90,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
     </div>
 
-    <Header />
+    <Header lang={lang} />
     <main class="flex-grow">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>
 

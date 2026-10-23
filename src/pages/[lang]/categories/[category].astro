@@ -1,0 +1,32 @@
+---
+import CategoryView from '../../../components/CategoryView.astro';
+import { type SupportedLang } from '../../../i18n/translations';
+
+export async function getStaticPaths() {
+  const slugs = [
+    'code-dev',
+    'support-client',
+    'prospection-b2b',
+    'productivite-assistant',
+    'comptabilite-finance',
+    'conformite-juridique',
+    'marketing-contenu'
+  ];
+  const nonDefaultLangs: SupportedLang[] = ['fr', 'es', 'de', 'it', 'ja'];
+
+  const paths = [];
+  for (const lang of nonDefaultLangs) {
+    for (const category of slugs) {
+      paths.push({
+        params: { lang, category },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang, category } = Astro.params as { lang: SupportedLang; category: string };
+---
+
+<CategoryView category={category} lang={lang} />

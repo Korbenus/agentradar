@@ -152,27 +152,27 @@ Pour une PME ou une équipe en croissance, déployer {name} permet d'éviter l'e
 
 
 def build_prompt(candidate, slug):
-    return f"""Tu es un analyste expert des technologies d'Intelligence Artificielle et des Agents Autonomes en 2026.
-Rédige une fiche technique détaillée et objective au format JSON pour l'agent suivant :
-- Nom : {candidate['name']}
-- Contexte / Rôle : {candidate['hint']}
+    return f"""You are a world-class technology analyst specializing in Autonomous AI Agents and Enterprise Automation in 2026.
+Write an in-depth, objective review and technical specifications sheet in JSON format for the following AI agent:
+- Name: {candidate['name']}
+- Context / Role: {candidate['hint']}
 
-Tu dois impérativement renvoyer un JSON valide respectant cette structure exacte :
+You MUST return a valid JSON object matching this exact structure:
 {{
   "name": "{candidate['name']}",
   "slug": "{slug}",
-  "tagline": "Une phrase d'accroche percutante et précise en français (max 160 caractères)",
-  "category": "Une catégorie exactement parmi : {json.dumps(VALID_CATEGORIES, ensure_ascii=False)}",
-  "rating": un nombre flottant entre 4.4 et 4.9,
-  "pricingModel": "Un parmi : Freemium, Payant, Gratuit / Open-Source, Sur Devis",
-  "priceStartingAt": "Ex: 49 $ / mois, ou 0 € (Open-Source), ou Sur devis",
-  "websiteUrl": "URL officielle valide",
-  "badge": "Ex: Coup de Cœur, Nouveauté 2026, ou Leader B2B",
-  "pros": ["Point fort 1 concis", "Point fort 2 concis", "Point fort 3 concis"],
-  "cons": ["Point faible 1 réaliste", "Point faible 2 réaliste"],
-  "keyFeatures": ["Fonctionnalité clé 1", "Fonctionnalité clé 2", "Fonctionnalité clé 3", "Fonctionnalité clé 4"],
-  "targetAudience": "Description claire de la cible idéale en 1 phrase",
-  "articleBody": "Texte complet en markdown en français avec sous-titres h2 et h3, expliquant en profondeur le fonctionnement, les cas d'usage concrets et l'analyse de rentabilité financière."
+  "tagline": "A sharp, high-converting one-sentence hook in English (max 160 characters)",
+  "category": "Exactly one category from: {json.dumps(VALID_CATEGORIES, ensure_ascii=False)}",
+  "rating": a float between 4.4 and 4.9,
+  "pricingModel": "One of: Freemium, Payant, Gratuit / Open-Source, Sur Devis",
+  "priceStartingAt": "e.g. $49 / month, or $0 (Open Source), or Custom Quote",
+  "websiteUrl": "Valid official URL",
+  "badge": "e.g. Top Pick, New in 2026, or Enterprise Leader",
+  "pros": ["Concise strength 1 in English", "Concise strength 2 in English", "Concise strength 3 in English"],
+  "cons": ["Realistic limitation 1 in English", "Realistic limitation 2 in English"],
+  "keyFeatures": ["Core feature 1 in English", "Core feature 2 in English", "Core feature 3 in English", "Core feature 4 in English"],
+  "targetAudience": "Clear description of the ideal buyer / target team in 1 sentence in English",
+  "articleBody": "Comprehensive Markdown review in English with h2 and h3 subheadings covering: Overview & Architecture, Key Business Use Cases, and ROI & Financial Payback analysis."
 }}
 """
 

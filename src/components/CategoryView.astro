@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AgentCard from './AgentCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+
+interface Props {
+  category: string;
+  lang?: SupportedLang;
+}
+
+const { category, lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+
+const categoryInfo: Record<string, { enTitle: string; titleKey: string; descKey: string }> = {
+  'code-dev': {
+    enTitle: 'Code & Dev',
+    titleKey: 'cat.codeDev',
+    descKey: 'Autonomous engineering agents capable of full codebase refactoring, terminal execution, and CI/CD operations.'
+  },
+  'support-client': {
+    enTitle: 'Support Client',
+    titleKey: 'cat.supportClient',
+    descKey: 'Enterprise customer care agents resolving complex inquiries, issuing refunds, and updating ERP systems autonomously.'
+  },
+  'prospection-b2b': {
+    enTitle: 'Prospection B2B',
+    titleKey: 'cat.prospectionB2B',
+    descKey: 'Autonomous sales agents (AI SDRs) prospecting, enriching leads, and scheduling qualification calls.'
+  },
+  'productivite-assistant': {
+    enTitle: 'Productivité & Assistant',
+    titleKey: 'cat.productiviteAssistant',
+    descKey: 'Executive and team assistants handling email triage, calendar coordination, and workflow orchestration.'
+  },
+  'comptabilite-finance': {
+    enTitle: 'Comptabilité & Finance',
+    titleKey: 'cat.comptabiliteFinance',
+    descKey: 'Financial agents for bank reconciliation, invoice verification, tax compliance, and automated reporting.'
+  },
+  'conformite-juridique': {
+    enTitle: 'Conformité & Juridique',
+    titleKey: 'cat.conformiteJuridique',
+    descKey: 'Legal research and compliance auditing agents for contract review, GDPR, and EU AI Act alignment.'
+  },
+  'marketing-contenu': {
+    enTitle: 'Marketing & Contenu',
+    titleKey: 'cat.marketingContenu',
+    descKey: 'Multi-channel marketing agents executing programmatic SEO, content repurposing, and ad optimization.'
+  }
+};
+
+const info = categoryInfo[category] || {
+  enTitle: category,
+  titleKey: category,
+  descKey: 'Curated list of high-performance autonomous AI solutions in this category.'
+};
+
+const title = t(info.titleKey);
+const desc = info.descKey;
+
+const allAgents = await getCollection('agents');
+const filteredAgents = allAgents.filter(a => a.data.category === info.enTitle);
+
+function localizedHref(path: string): string {
+  if (lang === defaultLang) return path;
+  if (path === '/') return `/${lang}`;
+  return `/${lang}${path}`;
+}
+---
+
+<Layout
+  lang={lang}
+  title={`${title} : Best AI Agents (2026) | AgentRadar`}
+  description={desc}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <nav class="flex items-center gap-2 text-xs text-slate-400 mb-8">
+      <a href={localizedHref('/')} class="hover:text-white transition">AgentRadar</a>
+      <span>/</span>
+      <span class="text-slate-200">{t('footer.keyCategories')}</span>
+      <span>/</span>
+      <span class="text-radar-400">{title}</span>
+    </nav>
+
+    <div class="max-w-3xl mb-12">
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">{t('card.category')}</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+        {title}
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
+        {desc}
+      </p>
+    </div>
+
+    {filteredAgents.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredAgents.map((agent) => (
+          <AgentCard agent={agent} lang={lang} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-20 bg-dark-900/40 rounded-2xl border border-dark-800">
+        <p class="text-slate-400 text-sm">{t('section.noResults')}</p>
+        <a href={localizedHref('/submit')} class="mt-6 inline-block px-5 py-2.5 rounded-xl bg-radar-500 text-black font-semibold text-xs">
+          {t('nav.submit')}
+        </a>
+      </div>
+    )}
+  </div>
+</Layout>

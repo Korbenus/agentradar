@@ -1,0 +1,560 @@
+export type SupportedLang = 'en' | 'fr' | 'es' | 'de' | 'it' | 'ja';
+
+export const languages: Record<SupportedLang, { name: string; flag: string; label: string }> = {
+  en: { name: 'English', flag: '🇬🇧', label: 'EN' },
+  fr: { name: 'Français', flag: '🇫🇷', label: 'FR' },
+  es: { name: 'Español', flag: '🇪🇸', label: 'ES' },
+  de: { name: 'Deutsch', flag: '🇩🇪', label: 'DE' },
+  it: { name: 'Italiano', flag: '🇮🇹', label: 'IT' },
+  ja: { name: '日本語', flag: '🇯🇵', label: 'JA' },
+};
+
+export const defaultLang: SupportedLang = 'en';
+
+export const translations: Record<SupportedLang, Record<string, string>> = {
+  en: {
+    // Nav
+    'nav.allAgents': 'All Agents',
+    'nav.customerSupport': 'Customer Support',
+    'nav.salesOutreach': 'B2B Sales',
+    'nav.codeDev': 'Code & Dev',
+    'nav.submit': 'Submit an Agent',
+    'nav.radarSubtitle': 'B2B Observatory 2026',
+
+    // Hero
+    'hero.badge': '2026 Observatory • Autonomous Real-Time Monitoring',
+    'hero.title': 'Find the Best',
+    'hero.titleHighlight': 'Autonomous AI Agents',
+    'hero.titleEnd': 'for your business',
+    'hero.subtitle': 'Move beyond simple chatbots. Compare agents capable of executing end-to-end tasks: B2B outreach, customer support, code engineering, finance, and EU AI Act compliance.',
+    'hero.searchPlaceholder': 'Search agents, use cases, keywords (e.g. support, SDR, coding)...',
+
+    // Filters & Sections
+    'filter.all': 'All',
+    'section.editorialPick': '★ EDITORIAL SELECTION',
+    'section.allAgents': 'All Indexed AI Agents',
+    'section.available': 'available',
+    'section.noResults': 'No AI agents match your search criteria.',
+    'section.resetSearch': 'Reset search filters',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 AI Act Ready',
+    'card.pricing': 'Pricing',
+    'card.fullReview': 'Full Review',
+    'card.tryNow': 'Try Now',
+    'card.pros': 'Key Advantages',
+    'card.cons': 'Limitations',
+    'card.features': 'Core Capabilities',
+    'card.targetAudience': 'Ideal For',
+    'card.techRating': 'Technical Score',
+    'card.pricingModel': 'Pricing Model',
+    'card.startingPrice': 'Starting At',
+    'card.category': 'Category',
+    'card.lastVerified': 'Last Audited',
+    'card.affiliateDisclaimer': '*Using our partner links supports our autonomous research at no extra cost to you.',
+    'card.related': 'Other top-rated agents in',
+
+    // CTA Banner
+    'cta.badge': 'For SaaS & AI Creators',
+    'cta.title': 'Are you building an autonomous AI agent?',
+    'cta.desc': 'Get audited and featured to over 15,000 tech founders, CTOs, and business operators looking to automate their workflows.',
+    'cta.button': 'Submit Your Agent →',
+
+    // Submit Page
+    'submit.badge': 'Software Vendors & Founders',
+    'submit.title': 'Get Your AI Agent Audited & Listed',
+    'submit.subtitle': 'AgentRadar is the global benchmark directory for autonomous B2B agents. Increase your visibility and convert high-intent buyers.',
+    'submit.standard': 'Standard',
+    'submit.standardTitle': 'Free Community Audit',
+    'submit.standardDesc': 'Your tool will be analyzed by our autonomous pipeline during an upcoming crawl.',
+    'submit.fastTrack': 'Fast-Track',
+    'submit.fastTrackTitle': '24h Express + Featured',
+    'submit.fastTrackDesc': 'Priority audit within 24 hours plus homepage featured placement for 30 days.',
+    'submit.recommended': 'SaaS Recommended',
+    'submit.oneTime': 'one-time fee',
+    'submit.formTitle': 'Submission Form',
+    'submit.agentName': 'AI Agent Name *',
+    'submit.websiteUrl': 'Official Website URL *',
+    'submit.mainCategory': 'Main Category *',
+    'submit.contactEmail': 'Contact Email *',
+    'submit.description': 'Short Description (1-2 sentences) *',
+    'submit.reviewOption': 'Review Speed',
+    'submit.standardFree': 'Standard (Free) - Normal queue',
+    'submit.fastTrackPaid': 'Fast-Track ($49) - Live in 24h + Featured',
+    'submit.sendBtn': 'Send for Audit',
+
+    // Footer
+    'footer.about': 'The independent index and benchmark for autonomous enterprise AI agents. Updated daily via our autonomous real-time crawler.',
+    'footer.transparency': 'Transparency: Some links on this directory are affiliate links. This helps fund our zero-cost infrastructure without compromising our technical objectivity.',
+    'footer.keyCategories': 'Key Categories',
+    'footer.platform': 'Platform',
+    'footer.monitoringActive': '● 24/7 AI Radar Active',
+    'footer.rights': 'All rights reserved.',
+    'footer.network': 'Global CDN deployment • EU AI Act Compliant',
+
+    // Categories
+    'cat.codeDev': 'Code & Dev',
+    'cat.supportClient': 'Customer Support',
+    'cat.prospectionB2B': 'B2B Sales & Outreach',
+    'cat.productiviteAssistant': 'Productivity & Assistant',
+    'cat.comptabiliteFinance': 'Finance & Accounting',
+    'cat.conformiteJuridique': 'Legal & Compliance',
+    'cat.marketingContenu': 'Marketing & Content',
+  },
+
+  fr: {
+    // Nav
+    'nav.allAgents': 'Tous les Agents',
+    'nav.customerSupport': 'Support Client',
+    'nav.salesOutreach': 'Prospection B2B',
+    'nav.codeDev': 'Code & Dev',
+    'nav.submit': 'Soumettre un Agent',
+    'nav.radarSubtitle': 'Veille B2B 2026',
+
+    // Hero
+    'hero.badge': 'Observatoire 2026 • Veille Autonome Active',
+    'hero.title': 'Trouvez les meilleurs',
+    'hero.titleHighlight': 'Agents IA Autonomes',
+    'hero.titleEnd': 'pour votre entreprise',
+    'hero.subtitle': 'Fini les simples chatbots. Comparez les agents capables de résoudre des tâches complexes de bout en bout : prospection, support client, code, finance et conformité EU AI Act.',
+    'hero.searchPlaceholder': 'Rechercher un agent, un cas d\'usage, un mot-clé...',
+
+    // Filters & Sections
+    'filter.all': 'Tous',
+    'section.editorialPick': '★ SÉLECTION DE LA RÉDACTION',
+    'section.allAgents': 'Tous les Agents Référencés',
+    'section.available': 'disponibles',
+    'section.noResults': 'Aucun agent ne correspond à votre recherche.',
+    'section.resetSearch': 'Réinitialiser la recherche',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 Conforme AI Act',
+    'card.pricing': 'Tarif',
+    'card.fullReview': 'Avis complet',
+    'card.tryNow': 'Essayer',
+    'card.pros': 'Points Forts',
+    'card.cons': 'Points Faibles',
+    'card.features': 'Fonctionnalités clés',
+    'card.targetAudience': 'Pour qui cet agent est-il idéal ?',
+    'card.techRating': 'Note Technique',
+    'card.pricingModel': 'Modèle de prix',
+    'card.startingPrice': 'Prix de départ',
+    'card.category': 'Catégorie',
+    'card.lastVerified': 'Dernière vérification',
+    'card.affiliateDisclaimer': '*En passant par ce lien partenaire, vous soutenez notre travail de veille sans surcoût pour vous.',
+    'card.related': 'Autres agents recommandés dans la catégorie',
+
+    // CTA Banner
+    'cta.badge': 'Pour les créateurs de SaaS & IA',
+    'cta.title': 'Vous éditez un Agent IA autonome ?',
+    'cta.desc': 'Faites découvrir votre solution à plus de 15 000 professionnels, décideurs et fondateurs qui cherchent à automatiser leurs opérations.',
+    'cta.button': 'Référencer mon agent →',
+
+    // Submit Page
+    'submit.badge': 'Pour les Éditeurs de Logiciels',
+    'submit.title': 'Faites découvrir votre Agent IA',
+    'submit.subtitle': 'AgentRadar est la référence des agents autonomes B2B. Obtenez une fiche technique vérifiée et gagnez des utilisateurs qualifiés.',
+    'submit.standard': 'Standard',
+    'submit.standardTitle': 'Audit Gratuit',
+    'submit.standardDesc': 'Votre outil sera audité par notre moteur autonome lors d\'une prochaine mise à jour.',
+    'submit.fastTrack': 'Fast-Track',
+    'submit.fastTrackTitle': 'Express 24h + En Vedette',
+    'submit.fastTrackDesc': 'Audit prioritaire en 24h avec mise en avant en page d\'accueil pendant 30 jours.',
+    'submit.recommended': 'Recommandé SaaS',
+    'submit.oneTime': 'paiement unique',
+    'submit.formTitle': 'Formulaire de soumission',
+    'submit.agentName': 'Nom de l\'Agent IA *',
+    'submit.websiteUrl': 'URL du site officiel *',
+    'submit.mainCategory': 'Catégorie principale *',
+    'submit.contactEmail': 'Votre Email de contact *',
+    'submit.description': 'Description en 1 ou 2 phrases *',
+    'submit.reviewOption': 'Option de révision',
+    'submit.standardFree': 'Standard (Gratuit) - Délai normal',
+    'submit.fastTrackPaid': 'Fast-Track (49 €) - En ligne sous 24h + En vedette',
+    'submit.sendBtn': 'Envoyer la demande d\'audit',
+
+    // Footer
+    'footer.about': 'Le répertoire indépendant et comparatif des agents IA autonomes pour entreprises. Mis à jour automatiquement chaque jour.',
+    'footer.transparency': 'Transparence : Certains liens sur ce site sont des liens affiliés finançant notre infrastructure sans influencer nos avis techniques.',
+    'footer.keyCategories': 'Catégories clés',
+    'footer.platform': 'Plateforme',
+    'footer.monitoringActive': '● Veille IA 24/7 Active',
+    'footer.rights': 'Tous droits réservés.',
+    'footer.network': 'Déployé mondialement sur Cloudflare Pages • Conforme AI Act UE',
+
+    // Categories
+    'cat.codeDev': 'Code & Dev',
+    'cat.supportClient': 'Support Client',
+    'cat.prospectionB2B': 'Prospection B2B',
+    'cat.productiviteAssistant': 'Productivité & Assistant',
+    'cat.comptabiliteFinance': 'Comptabilité & Finance',
+    'cat.conformiteJuridique': 'Conformité & Juridique',
+    'cat.marketingContenu': 'Marketing & Contenu',
+  },
+
+  es: {
+    // Nav
+    'nav.allAgents': 'Todos los Agentes',
+    'nav.customerSupport': 'Atención al Cliente',
+    'nav.salesOutreach': 'Ventas B2B',
+    'nav.codeDev': 'Código y Dev',
+    'nav.submit': 'Publicar un Agente',
+    'nav.radarSubtitle': 'Observatorio B2B 2026',
+
+    // Hero
+    'hero.badge': 'Observatorio 2026 • Monitorización Autónoma en Tiempo Real',
+    'hero.title': 'Encuentra los Mejores',
+    'hero.titleHighlight': 'Agentes IA Autónomos',
+    'hero.titleEnd': 'para tu empresa',
+    'hero.subtitle': 'Más allá de los chatbots básicos. Compara agentes capaces de ejecutar flujos completos: prospección comercial, soporte, código y cumplimiento del EU AI Act.',
+    'hero.searchPlaceholder': 'Buscar agentes, casos de uso, palabras clave...',
+
+    // Filters & Sections
+    'filter.all': 'Todos',
+    'section.editorialPick': '★ SELECCIÓN EDITORIAL',
+    'section.allAgents': 'Todos los Agentes Indexados',
+    'section.available': 'disponibles',
+    'section.noResults': 'No se encontraron agentes con ese criterio.',
+    'section.resetSearch': 'Restablecer filtros',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 Conforme con AI Act',
+    'card.pricing': 'Precio',
+    'card.fullReview': 'Análisis Completo',
+    'card.tryNow': 'Probar',
+    'card.pros': 'Ventajas Principales',
+    'card.cons': 'Limitaciones',
+    'card.features': 'Capacidades Clave',
+    'card.targetAudience': 'Ideal Para',
+    'card.techRating': 'Puntuación Técnica',
+    'card.pricingModel': 'Modelo de Precios',
+    'card.startingPrice': 'Desde',
+    'card.category': 'Categoría',
+    'card.lastVerified': 'Última Auditoría',
+    'card.affiliateDisclaimer': '*Los enlaces de afiliados financian nuestra infraestructura sin coste adicional para ti.',
+    'card.related': 'Otros agentes destacados en',
+
+    // CTA Banner
+    'cta.badge': 'Para Desarrolladores de SaaS e IA',
+    'cta.title': '¿Has creado un agente de IA autónomo?',
+    'cta.desc': 'Consigue visibilidad ante más de 15.000 fundadores, directores técnicos y profesionales que buscan automatizar sus procesos.',
+    'cta.button': 'Registrar mi agente →',
+
+    // Submit Page
+    'submit.badge': 'Creadores de Software',
+    'submit.title': 'Publica y Audita tu Agente de IA',
+    'submit.subtitle': 'AgentRadar es el directorio de referencia en agentes autónomos B2B. Aumenta tus conversiones y captación de clientes.',
+    'submit.standard': 'Estándar',
+    'submit.standardTitle': 'Auditoría Gratuita',
+    'submit.standardDesc': 'Tu agente será evaluado por nuestro crawler autónomo en la próxima actualización.',
+    'submit.fastTrack': 'Fast-Track',
+    'submit.fastTrackTitle': 'Exprés 24h + Destacado',
+    'submit.fastTrackDesc': 'Auditoría prioritaria en 24 horas y posición destacada en portada durante 30 días.',
+    'submit.recommended': 'Recomendado SaaS',
+    'submit.oneTime': 'pago único',
+    'submit.formTitle': 'Formulario de Registro',
+    'submit.agentName': 'Nombre del Agente *',
+    'submit.websiteUrl': 'URL Oficial *',
+    'submit.mainCategory': 'Categoría Principal *',
+    'submit.contactEmail': 'Email de Contacto *',
+    'submit.description': 'Descripción breve (1-2 frases) *',
+    'submit.reviewOption': 'Velocidad de Revisión',
+    'submit.standardFree': 'Estándar (Gratis) - Cola normal',
+    'submit.fastTrackPaid': 'Fast-Track (49 €) - Publicación en 24h + Destacado',
+    'submit.sendBtn': 'Enviar para Auditoría',
+
+    // Footer
+    'footer.about': 'Directorio independiente de agentes de IA autónomos empresariales. Actualizado diariamente de forma automatizada.',
+    'footer.transparency': 'Transparencia: Algunos enlaces son de afiliados para financiar el servicio sin influir en nuestra opinión técnica.',
+    'footer.keyCategories': 'Categorías Principales',
+    'footer.platform': 'Plataforma',
+    'footer.monitoringActive': '● Radar IA Activo 24/7',
+    'footer.rights': 'Todos los derechos reservados.',
+    'footer.network': 'Desplegado en Cloudflare Pages • Conforme EU AI Act',
+
+    // Categories
+    'cat.codeDev': 'Código y Dev',
+    'cat.supportClient': 'Atención al Cliente',
+    'cat.prospectionB2B': 'Ventas B2B',
+    'cat.productiviteAssistant': 'Productividad y Asistentes',
+    'cat.comptabiliteFinance': 'Finanzas y Contabilidad',
+    'cat.conformiteJuridique': 'Legal y Cumplimiento',
+    'cat.marketingContenu': 'Marketing y Contenido',
+  },
+
+  de: {
+    // Nav
+    'nav.allAgents': 'Alle KI-Agenten',
+    'nav.customerSupport': 'Kundensupport',
+    'nav.salesOutreach': 'B2B-Vertrieb',
+    'nav.codeDev': 'Code & Dev',
+    'nav.submit': 'Agent Einreichen',
+    'nav.radarSubtitle': 'B2B-Radar 2026',
+
+    // Hero
+    'hero.badge': 'Observatorium 2026 • Autonome Echtzeit-Überwachung',
+    'hero.title': 'Finden Sie die besten',
+    'hero.titleHighlight': 'Autonomen KI-Agenten',
+    'hero.titleEnd': 'für Ihr Unternehmen',
+    'hero.subtitle': 'Mehr als einfache Chatbots. Vergleichen Sie Agenten, die komplexe Workflows autonom lösen: Vertrieb, Support, Programmierung, Buchhaltung und EU AI Act-Konformität.',
+    'hero.searchPlaceholder': 'Agenten, Anwendungsfälle, Stichwörter suchen...',
+
+    // Filters & Sections
+    'filter.all': 'Alle',
+    'section.editorialPick': '★ EMPFEHLUNG DER REDAKTION',
+    'section.allAgents': 'Alle Gelisteten KI-Agenten',
+    'section.available': 'verfügbar',
+    'section.noResults': 'Keine KI-Agenten für diese Suchkriterien gefunden.',
+    'section.resetSearch': 'Suche zurücksetzen',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 AI Act Konform',
+    'card.pricing': 'Preis',
+    'card.fullReview': 'Vollständiger Test',
+    'card.tryNow': 'Ausprobieren',
+    'card.pros': 'Vorteile',
+    'card.cons': 'Einschränkungen',
+    'card.features': 'Kernfunktionen',
+    'card.targetAudience': 'Ideal Für',
+    'card.techRating': 'Technischer Score',
+    'card.pricingModel': 'Preismodell',
+    'card.startingPrice': 'Ab',
+    'card.category': 'Kategorie',
+    'card.lastVerified': 'Zuletzt geprüft',
+    'card.affiliateDisclaimer': '*Partnerlinks finanzieren unsere Infrastruktur ohne Mehrkosten für Sie.',
+    'card.related': 'Weitere empfohlene Agenten in',
+
+    // CTA Banner
+    'cta.badge': 'Für SaaS- & KI-Entwickler',
+    'cta.title': 'Entwickeln Sie einen autonomen KI-Agenten?',
+    'cta.desc': 'Präsentieren Sie Ihre Lösung über 15.000 Gründern, Führungskräften und Entscheidern.',
+    'cta.button': 'Meinen Agenten listen →',
+
+    // Submit Page
+    'submit.badge': 'Für Softwareanbieter',
+    'submit.title': 'Lassen Sie Ihren KI-Agenten prüfen & listen',
+    'submit.subtitle': 'AgentRadar ist das globale Verzeichnis für autonome B2B-Agenten.',
+    'submit.standard': 'Standard',
+    'submit.standardTitle': 'Kostenloses Audit',
+    'submit.standardDesc': 'Ihr Tool wird in der nächsten Aktualisierungsrunde autonom analysiert.',
+    'submit.fastTrack': 'Fast-Track',
+    'submit.fastTrackTitle': '24h Express + Featured',
+    'submit.fastTrackDesc': 'Prioritätsaudit innerhalb von 24 Stunden plus 30 Tage Startseiten-Highlight.',
+    'submit.recommended': 'SaaS-Empfehlung',
+    'submit.oneTime': 'einmalig',
+    'submit.formTitle': 'Einreichungsformular',
+    'submit.agentName': 'Name des KI-Agenten *',
+    'submit.websiteUrl': 'Offizielle Website-URL *',
+    'submit.mainCategory': 'Hauptkategorie *',
+    'submit.contactEmail': 'Kontakt-E-Mail *',
+    'submit.description': 'Kurzbeschreibung (1-2 Sätze) *',
+    'submit.reviewOption': 'Prüfungsoption',
+    'submit.standardFree': 'Standard (Kostenlos) - Normale Warteschlange',
+    'submit.fastTrackPaid': 'Fast-Track (49 €) - Live in 24h + Hervorgehoben',
+    'submit.sendBtn': 'Zur Prüfung einreichen',
+
+    // Footer
+    'footer.about': 'Das unabhängige Benchmark-Verzeichnis für autonome KI-Agenten im B2B-Bereich.',
+    'footer.transparency': 'Transparenz: Einige Links sind Affiliate-Links zur Deckung der Infrastrukturkosten.',
+    'footer.keyCategories': 'Kategorien',
+    'footer.platform': 'Plattform',
+    'footer.monitoringActive': '● 24/7 KI-Radar Aktiv',
+    'footer.rights': 'Alle Rechte vorbehalten.',
+    'footer.network': 'Bereitgestellt auf Cloudflare Pages • EU AI Act Konform',
+
+    // Categories
+    'cat.codeDev': 'Code & Dev',
+    'cat.supportClient': 'Kundensupport',
+    'cat.prospectionB2B': 'B2B-Vertrieb',
+    'cat.productiviteAssistant': 'Produktivität & Assistenten',
+    'cat.comptabiliteFinance': 'Finanzen & Buchhaltung',
+    'cat.conformiteJuridique': 'Recht & Compliance',
+    'cat.marketingContenu': 'Marketing & Content',
+  },
+
+  it: {
+    // Nav
+    'nav.allAgents': 'Tutti gli Agenti',
+    'nav.customerSupport': 'Supporto Clienti',
+    'nav.salesOutreach': 'Vendite B2B',
+    'nav.codeDev': 'Codice e Sviluppo',
+    'nav.submit': 'Invia un Agente',
+    'nav.radarSubtitle': 'Osservatorio B2B 2026',
+
+    // Hero
+    'hero.badge': 'Osservatorio 2026 • Monitoraggio Autonomo in Tempo Reale',
+    'hero.title': 'Trova i Migliori',
+    'hero.titleHighlight': 'Agenti IA Autonomi',
+    'hero.titleEnd': 'per la tua azienda',
+    'hero.subtitle': 'Molto più di semplici chatbot. Confronta agenti capaci di risolvere compiti complessi end-to-end: vendite B2B, assistenza clienti, codice, contabilità e conformità EU AI Act.',
+    'hero.searchPlaceholder': 'Cerca agenti, casi d\'uso, parole chiave...',
+
+    // Filters & Sections
+    'filter.all': 'Tutti',
+    'section.editorialPick': '★ SCELTA DELLA REDAZIONE',
+    'section.allAgents': 'Tutti gli Agenti Registrati',
+    'section.available': 'disponibili',
+    'section.noResults': 'Nessun agente corrisponde ai criteri di ricerca.',
+    'section.resetSearch': 'Reimposta ricerca',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 Conforme AI Act',
+    'card.pricing': 'Prezzo',
+    'card.fullReview': 'Recensione Completa',
+    'card.tryNow': 'Prova Ora',
+    'card.pros': 'Punti di Forza',
+    'card.cons': 'Limitazioni',
+    'card.features': 'Funzionalità Chiave',
+    'card.targetAudience': 'Ideale Per',
+    'card.techRating': 'Punteggio Tecnico',
+    'card.pricingModel': 'Modello di Prezzo',
+    'card.startingPrice': 'A partire da',
+    'card.category': 'Categoria',
+    'card.lastVerified': 'Ultima verifica',
+    'card.affiliateDisclaimer': '*I link di affiliazione finanziano l\'infrastruttura senza costi aggiuntivi per te.',
+    'card.related': 'Altri agenti consigliati in',
+
+    // CTA Banner
+    'cta.badge': 'Per Creatori di SaaS e IA',
+    'cta.title': 'Hai creato un agente di IA autonomo?',
+    'cta.desc': 'Fai conoscere la tua soluzione a oltre 15.000 professionisti e decisori aziendali.',
+    'cta.button': 'Registra il mio agente →',
+
+    // Submit Page
+    'submit.badge': 'Editori Software',
+    'submit.title': 'Fai Revisionare e Registrare il Tuo Agente IA',
+    'submit.subtitle': 'AgentRadar è la directory di riferimento per gli agenti B2B autonomi.',
+    'submit.standard': 'Standard',
+    'submit.standardTitle': 'Audit Gratuito',
+    'submit.standardDesc': 'Il tuo strumento sarà analizzato dal nostro crawler autonomo nel prossimo ciclo.',
+    'submit.fastTrack': 'Fast-Track',
+    'submit.fastTrackTitle': 'Espresso 24h + In Evidenza',
+    'submit.fastTrackDesc': 'Revisione prioritaria in 24 ore e posizionamento in evidenza per 30 giorni.',
+    'submit.recommended': 'Consigliato SaaS',
+    'submit.oneTime': 'pagamento una tantum',
+    'submit.formTitle': 'Modulo di Registrazione',
+    'submit.agentName': 'Nome dell\'Agente *',
+    'submit.websiteUrl': 'URL Sito Ufficiale *',
+    'submit.mainCategory': 'Categoria Principale *',
+    'submit.contactEmail': 'Email di Contatto *',
+    'submit.description': 'Descrizione breve (1-2 frasi) *',
+    'submit.reviewOption': 'Opzione di Revisione',
+    'submit.standardFree': 'Standard (Gratuito) - Coda normale',
+    'submit.fastTrackPaid': 'Fast-Track (49 €) - Live in 24h + In evidenza',
+    'submit.sendBtn': 'Invia per Revisione',
+
+    // Footer
+    'footer.about': 'La directory indipendente di agenti IA per aziende. Aggiornata autonomamente ogni giorno.',
+    'footer.transparency': 'Trasparenza: Alcuni link sono di affiliazione per sostenere l\'infrastruttura gratuita.',
+    'footer.keyCategories': 'Categorie Principali',
+    'footer.platform': 'Piattaforma',
+    'footer.monitoringActive': '● Radar IA Attivo 24/7',
+    'footer.rights': 'Tutti i diritti riservati.',
+    'footer.network': 'Distribuito su Cloudflare Pages • Conforme EU AI Act',
+
+    // Categories
+    'cat.codeDev': 'Codice e Sviluppo',
+    'cat.supportClient': 'Supporto Clienti',
+    'cat.prospectionB2B': 'Vendite B2B',
+    'cat.productiviteAssistant': 'Produttività e Assistenti',
+    'cat.comptabiliteFinance': 'Finanza e Contabilità',
+    'cat.conformiteJuridique': 'Legale e Conformità',
+    'cat.marketingContenu': 'Marketing e Contenuti',
+  },
+
+  ja: {
+    // Nav
+    'nav.allAgents': 'すべてのAIエージェント',
+    'nav.customerSupport': 'カスタマーサポート',
+    'nav.salesOutreach': 'B2B営業・インサイドセールス',
+    'nav.codeDev': '開発・エンジニアリング',
+    'nav.submit': 'エージェントを登録',
+    'nav.radarSubtitle': 'B2B AI動向 2026',
+
+    // Hero
+    'hero.badge': '2026年最新動向 • 自律型AI常時モニタリング',
+    'hero.title': 'ビジネスを加速する最高の',
+    'hero.titleHighlight': '自律型AIエージェント',
+    'hero.titleEnd': 'を比較・選定',
+    'hero.subtitle': '単なるチャットボットの時代は終わりました。B2B営業、問い合わせ対応、コーディング、財務、EU AI規制対応まで、エンドツーエンドで業務を自動実行する実用エージェントを徹底比較。',
+    'hero.searchPlaceholder': 'エージェント名、用途、キーワードで検索 (例: 営業, サポート, コード)...',
+
+    // Filters & Sections
+    'filter.all': 'すべて',
+    'section.editorialPick': '★ 編集部おすすめエージェント',
+    'section.allAgents': '掲載中の全AIエージェント',
+    'section.available': '件 掲載中',
+    'section.noResults': '条件に一致するAIエージェントが見つかりませんでした。',
+    'section.resetSearch': '検索条件をリセット',
+
+    // Card & Details
+    'card.aiActReady': '🇪🇺 EU AI法準拠',
+    'card.pricing': '料金',
+    'card.fullReview': '詳細レビュー',
+    'card.tryNow': '使ってみる',
+    'card.pros': 'メリット・強み',
+    'card.cons': 'デメリット・注意点',
+    'card.features': '主要機能',
+    'card.targetAudience': 'おすすめの対象',
+    'card.techRating': '技術評価スコア',
+    'card.pricingModel': '料金体系',
+    'card.startingPrice': '初期費用・月額',
+    'card.category': 'カテゴリー',
+    'card.lastVerified': '最終検証日',
+    'card.affiliateDisclaimer': '*提携リンク経由のご利用により、追加費用なしで当サイトの無料運営を支援いただけます。',
+    'card.related': '関連するおすすめエージェント',
+
+    // CTA Banner
+    'cta.badge': 'AI製品・SaaS開発者向け',
+    'cta.title': '開発された自律型AIエージェントを掲載しませんか？',
+    'cta.desc': '業務自動化を検討する15,000人以上の意思決定者やエンジニアに製品を直接アピールできます。',
+    'cta.button': '製品を登録する →',
+
+    // Submit Page
+    'submit.badge': 'ソフトウェア開発者・企業向け',
+    'submit.title': 'AIエージェントの掲載・審査申請',
+    'submit.subtitle': 'AgentRadarはB2B自律型AIエージェントの国際ベンチマークディレクトリです。',
+    'submit.standard': 'スタンダード',
+    'submit.standardTitle': '無料審査',
+    'submit.standardDesc': '次回の定期クローリング時に自律評価パイプラインで審査・掲載されます。',
+    'submit.fastTrack': 'ファストトラック',
+    'submit.fastTrackTitle': '24時間特急審査 + トップ掲載',
+    'submit.fastTrackDesc': '24時間以内に優先審査を実施し、30日間トップページ特集枠に掲載。',
+    'submit.recommended': 'SaaS推奨',
+    'submit.oneTime': '一回払い',
+    'submit.formTitle': '掲載申請フォーム',
+    'submit.agentName': 'エージェント名 *',
+    'submit.websiteUrl': '公式WebサイトURL *',
+    'submit.mainCategory': '主要カテゴリー *',
+    'submit.contactEmail': '連絡先メールアドレス *',
+    'submit.description': '概要・特徴 (1〜2文) *',
+    'submit.reviewOption': '審査プラン',
+    'submit.standardFree': '無料プラン (通常順次対応)',
+    'submit.fastTrackPaid': 'ファストトラック ($49) - 24時間以内公開 + 特集枠',
+    'submit.sendBtn': '審査を申請する',
+
+    // Footer
+    'footer.about': '企業向け自律型AIエージェントの独立系比較ディレクトリ。毎日自律的に最新情報を更新。',
+    'footer.transparency': '透明性について：一部のリンクにはアフィリエイトリンクが含まれますが、技術的評価の中立性に影響を与えることはありません。',
+    'footer.keyCategories': '主要カテゴリー',
+    'footer.platform': 'プラットフォーム',
+    'footer.monitoringActive': '● 24時間365日AIレーダー稼働中',
+    'footer.rights': 'All rights reserved.',
+    'footer.network': 'Cloudflare Pagesによるグローバル配信 • EU AI法対応',
+
+    // Categories
+    'cat.codeDev': '開発・エンジニアリング',
+    'cat.supportClient': 'カスタマーサポート',
+    'cat.prospectionB2B': 'B2B営業・インサイドセールス',
+    'cat.productiviteAssistant': '業務効率化・アシスタント',
+    'cat.comptabiliteFinance': '財務・会計',
+    'cat.conformiteJuridique': '法務・コンプライアンス',
+    'cat.marketingContenu': 'マーケティング',
+  }
+};
+
+export function useTranslations(lang: SupportedLang = defaultLang) {
+  return function t(key: string): string {
+    return translations[lang]?.[key] || translations[defaultLang]?.[key] || key;
+  };
+}
