@@ -63,18 +63,74 @@ const navLinks = [
       ))}
     </nav>
 
-    <!-- Right Actions: Mobile Compare pill + Command Palette search trigger + Language Picker -->
-    <div class="flex items-center gap-2 sm:gap-3">
+    <!-- Right Actions: Mobile Compare pill + Command Palette search trigger + Theme Toggle + Language Picker -->
+    <div class="flex items-center gap-2 sm:gap-2.5">
       <a
         href={localizedHref('/compare')}
-        class="lg:hidden flex items-center gap-1 px-2 py-1.5 rounded-lg bg-dark-900 border border-dark-800 text-xs font-bold text-radar-400 hover:border-radar-500/40 transition"
+        class="lg:hidden flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-750 text-xs font-bold text-radar-400 hover:border-radar-500/40 transition"
         title="Compare Agents"
         aria-label="Compare Agents"
       >
         <span>VS</span>
       </a>
       <CommandPalette lang={lang} />
+      <button
+        type="button"
+        id="themeToggleBtn"
+        class="flex items-center justify-center w-9 h-9 rounded-xl bg-dark-900/90 hover:bg-dark-850 border border-dark-750 hover:border-radar-500/40 text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm"
+        title="Basculer Mode Clair / Sombre (Light / Dark Mode)"
+        aria-label="Toggle Light or Dark Theme"
+      >
+        <!-- Sun icon (shown in Dark mode to switch to Light) -->
+        <svg id="themeIconSun" class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+        <!-- Moon icon (shown in Light mode to switch to Dark) -->
+        <svg id="themeIconMoon" class="w-4 h-4 text-slate-700 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+      </button>
       <LanguagePicker currentLang={lang} />
     </div>
   </div>
 </header>
+
+<script is:inline>
+  (function() {
+    var btn = document.getElementById('themeToggleBtn');
+    var sun = document.getElementById('themeIconSun');
+    var moon = document.getElementById('themeIconMoon');
+
+    function syncIcons() {
+      var isLight = document.documentElement.classList.contains('light');
+      if (sun && moon) {
+        if (isLight) {
+          sun.classList.add('hidden');
+          moon.classList.remove('hidden');
+        } else {
+          sun.classList.remove('hidden');
+          moon.classList.add('hidden');
+        }
+      }
+    }
+
+    syncIcons();
+
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var html = document.documentElement;
+        var isLight = html.classList.contains('light');
+        if (isLight) {
+          html.classList.remove('light');
+          html.classList.add('dark');
+          try { localStorage.setItem('ar_theme', 'dark'); } catch (e) {}
+        } else {
+          html.classList.remove('dark');
+          html.classList.add('light');
+          try { localStorage.setItem('ar_theme', 'light'); } catch (e) {}
+        }
+        syncIcons();
+      });
+    }
+  })();
+</script>
