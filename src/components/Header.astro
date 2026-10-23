@@ -21,7 +21,6 @@ const navLinks = [
   { name: t('nav.customerSupport'), href: localizedHref('/categories/support-client') },
   { name: t('nav.salesOutreach'), href: localizedHref('/categories/prospection-b2b') },
   { name: t('nav.codeDev'), href: localizedHref('/categories/code-dev') },
-  { name: t('nav.submit'), href: localizedHref('/submit'), highlight: true },
 ];
 ---
 
@@ -46,32 +45,20 @@ const navLinks = [
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="hidden lg:flex items-center gap-6">
+    <nav class="hidden md:flex items-center gap-6">
       {navLinks.map((link) => (
         <a
           href={link.href}
-          class={`text-sm font-medium transition-colors ${
-            link.highlight
-              ? 'px-3.5 py-1.5 rounded-lg bg-radar-500/10 text-radar-400 border border-radar-500/30 hover:bg-radar-500/20'
-              : 'text-slate-300 hover:text-white'
-          }`}
+          class="text-sm font-medium text-slate-300 hover:text-white transition-colors"
         >
           {link.name}
         </a>
       ))}
     </nav>
 
-    <!-- Right Actions: Language Switcher + Mobile Submit -->
+    <!-- Right Actions: Language Switcher -->
     <div class="flex items-center gap-3">
-      <!-- Language Picker -->
       <LanguagePicker currentLang={lang} />
-
-      <a
-        href={localizedHref('/submit')}
-        class="inline-flex lg:hidden text-xs font-semibold px-3 py-1.5 rounded-lg bg-radar-500 text-black hover:bg-radar-400 transition"
-      >
-        + Add
-      </a>
     </div>
   </div>
 </header>
