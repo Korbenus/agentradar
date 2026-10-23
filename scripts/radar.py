@@ -20,8 +20,8 @@ AGENTS_DIR = ROOT_DIR / "src" / "content" / "agents"
 
 # Gemini API endpoint (Generative Language API v1beta)
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.8-flash")
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key="
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
 
 VALID_CATEGORIES = [
     "Code & Dev",
@@ -65,12 +65,12 @@ def pick_next_candidate(existing_slugs):
 
 
 def call_gemini(prompt: str) -> dict:
-    """Calls Gemini API with JSON mode enabled."""
+    """Calls Gemini API with JSON mode enabled using X-goog-api-key header."""
     if not GEMINI_API_KEY or len(GEMINI_API_KEY) < 15:
         print("[INFO] GEMINI_API_KEY manquant ou trop court.")
         return None
 
-    url = GEMINI_API_URL + GEMINI_API_KEY
+    url = GEMINI_API_URL
     payload = {
         "contents": [
             {
@@ -88,12 +88,15 @@ def call_gemini(prompt: str) -> dict:
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "X-goog-api-key": GEMINI_API_KEY
+        },
         method="POST"
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with urllib.request.urlopen(req, timeout=25) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             candidate_text = data["candidates"][0]["content"]["parts"][0]["text"]
             return json.loads(candidate_text)
