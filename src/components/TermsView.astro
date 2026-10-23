@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLang;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Layout
+  lang={lang}
+  title={`${t('footer.terms')} | AgentRadar`}
+  description="AgentRadar Terms of Service, Legal Notice, and Affiliate Disclosure."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="mb-12 border-b border-dark-800 pb-8">
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">Legal Notice & Terms</span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        {t('footer.terms')}
+      </h1>
+      <p class="mt-4 text-sm text-slate-400">
+        In compliance with EU e-Commerce Directives, French LCEN Art. 6-III, and FTC guidelines.
+      </p>
+    </div>
+
+    <div class="prose prose-invert prose-emerald max-w-none space-y-8 text-sm text-slate-300 leading-relaxed">
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">1. Web Hosting Provider</h2>
+        <p>
+          This website is statically deployed and globally distributed on:
+        </p>
+        <div class="p-4 rounded-xl bg-dark-900 border border-dark-800 text-xs text-slate-400 space-y-1">
+          <p class="font-bold text-white">Cloudflare, Inc.</p>
+          <p>101 Townsend St, San Francisco, CA 94107, USA</p>
+          <p>Website: <a href="https://www.cloudflare.com" target="_blank" rel="noopener noreferrer" class="text-radar-400">cloudflare.com</a></p>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">2. Affiliate Transparency Disclosure (FTC & EU Guidelines)</h2>
+        <p>
+          AgentRadar participates in various affiliate marketing programs. This means that when you click on certain links to third-party software products and subsequently make a purchase or subscribe, we may earn a referral commission.
+        </p>
+        <p>
+          <strong>This occurs at zero additional cost to you.</strong> In many cases, our partner agreements provide our readers with exclusive discount codes or extended free trials. Our editorial independence remains strictly preserved: reviews, pros, and cons reflect technical benchmarking standards regardless of commercial partnerships.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">3. EU AI Act Transparency Notice (Regulation EU 2024/1689)</h2>
+        <p>
+          In accordance with Article 50 of the European Artificial Intelligence Act (EU AI Act), users are informed that editorial data mining, feature summarization, and trend detection on AgentRadar are partially automated and generated using generative artificial intelligence models (including Google Gemini 3.8 Flash), under human editorial guidelines.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">4. Intellectual Property & Disclaimer of Warranties</h2>
+        <p>
+          All trademarks, logos, and brand names quoted on this platform belong to their respective copyright holders. Product prices, features, and availability change frequently; while we strive for daily accuracy via our autonomous crawlers, visitors are advised to verify pricing and terms directly on the official software vendor's website.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>

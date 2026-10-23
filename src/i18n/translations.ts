@@ -91,6 +91,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● 24/7 AI Radar Active',
     'footer.rights': 'All rights reserved.',
     'footer.network': 'Global CDN deployment • EU AI Act Compliant',
+    'footer.privacy': 'Privacy Policy (GDPR)',
+    'footer.terms': 'Terms & Legal Notice',
 
     // Categories
     'cat.codeDev': 'Code & Dev',
@@ -181,6 +183,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● Veille IA 24/7 Active',
     'footer.rights': 'Tous droits réservés.',
     'footer.network': 'Déployé mondialement sur Cloudflare Pages • Conforme AI Act UE',
+    'footer.privacy': 'Politique de Confidentialité (RGPD)',
+    'footer.terms': 'Mentions Légales & Conditions',
 
     // Categories
     'cat.codeDev': 'Code & Dev',
@@ -271,6 +275,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● Radar IA Activo 24/7',
     'footer.rights': 'Todos los derechos reservados.',
     'footer.network': 'Desplegado en Cloudflare Pages • Conforme EU AI Act',
+    'footer.privacy': 'Política de Privacidad (RGPD)',
+    'footer.terms': 'Aviso Legal y Condiciones',
 
     // Categories
     'cat.codeDev': 'Código y Dev',
@@ -361,6 +367,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● 24/7 KI-Radar Aktiv',
     'footer.rights': 'Alle Rechte vorbehalten.',
     'footer.network': 'Bereitgestellt auf Cloudflare Pages • EU AI Act Konform',
+    'footer.privacy': 'Datenschutzerklärung (DSGVO)',
+    'footer.terms': 'Impressum & AGB',
 
     // Categories
     'cat.codeDev': 'Code & Dev',
@@ -451,6 +459,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● Radar IA Attivo 24/7',
     'footer.rights': 'Tutti i diritti riservati.',
     'footer.network': 'Distribuito su Cloudflare Pages • Conforme EU AI Act',
+    'footer.privacy': 'Informativa sulla Privacy (GDPR)',
+    'footer.terms': 'Note Legali e Termini',
 
     // Categories
     'cat.codeDev': 'Codice e Sviluppo',
@@ -541,6 +551,8 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'footer.monitoringActive': '● 24時間365日AIレーダー稼働中',
     'footer.rights': 'All rights reserved.',
     'footer.network': 'Cloudflare Pagesによるグローバル配信 • EU AI法対応',
+    'footer.privacy': 'プライバシーポリシー (GDPR)',
+    'footer.terms': '利用規約・特定商取引法に基づく表記',
 
     // Categories
     'cat.codeDev': '開発・エンジニアリング',

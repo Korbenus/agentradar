@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Directives pour moteurs de recherche
+Sitemap: https://agentradar.pages.dev/rss.xml

@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLang;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<Layout
+  lang={lang}
+  title={`${t('footer.privacy')} | AgentRadar`}
+  description="AgentRadar Privacy Policy and GDPR Compliance. Cookie-free, privacy-by-design architecture."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+    <div class="mb-12 border-b border-dark-800 pb-8">
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">GDPR / RGPD Compliance</span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        {t('footer.privacy')}
+      </h1>
+      <p class="mt-4 text-sm text-slate-400">
+        Last updated: October 2026 • Effective immediately
+      </p>
+    </div>
+
+    <div class="prose prose-invert prose-emerald max-w-none space-y-8 text-sm text-slate-300 leading-relaxed">
+      <section class="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30">
+        <h3 class="text-emerald-400 font-bold text-base mt-0 mb-2">🛡️ 100% Cookie-Free & Privacy by Design</h3>
+        <p class="text-slate-200 text-xs sm:text-sm m-0">
+          AgentRadar does <strong>not use any tracking cookies</strong>, advertising pixels, or invasive behavioral monitoring tools. No cookie consent banner is legally required because we do not deposit any non-essential trackers on your device.
+        </p>
+      </section>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">1. Data Controller</h2>
+        <p>
+          AgentRadar operates as an independent digital publication and observatory. For any privacy-related inquiry or to exercise your GDPR rights, you may reach us at:
+          <code class="text-radar-400">privacy@agentradar.pages.dev</code>.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">2. Data We Collect & Legal Basis</h2>
+        <p>We believe in minimal data footprint. The only personal data we process includes:</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+          <li><strong>Direct Submissions (/submit)</strong>: When a software founder submits a tool for review, we collect their name, professional email address, and product details on the legal basis of legitimate interest and explicit consent (GDPR Art. 6.1.a/f).</li>
+          <li><strong>Standard Server Logs</strong>: Cloudflare Edge network collects minimal, aggregated connection telemetry (IP address, user-agent) strictly for DDoS mitigation, security auditing, and performance caching.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">3. Affiliate Links & External Websites</h2>
+        <p>
+          Our pages feature outbound links to third-party AI software vendors (often via affiliate partnerships). Once you click an external link and leave AgentRadar, the privacy policies of the destination site govern your interactions. We do not transmit any personal profiling data to these partners.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-white mb-3">4. Your Rights Under GDPR (Articles 15-22)</h2>
+        <p>As a European citizen or visitor, you have the right to:</p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+          <li>Access the personal data we hold about you.</li>
+          <li>Request rectification of inaccurate data.</li>
+          <li>Request deletion (the "Right to be Forgotten").</li>
+          <li>Lodge a complaint with your national supervisory authority (e.g. CNIL in France, AEPD in Spain, BfDI in Germany).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</Layout>

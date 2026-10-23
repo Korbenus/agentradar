@@ -1,0 +1,15 @@
+---
+import PrivacyView from '../../components/PrivacyView.astro';
+import { type SupportedLang } from '../../i18n/translations';
+
+export async function getStaticPaths() {
+  const nonDefaultLangs: SupportedLang[] = ['fr', 'es', 'de', 'it', 'ja'];
+  return nonDefaultLangs.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: SupportedLang };
+---
+
+<PrivacyView lang={lang} />
