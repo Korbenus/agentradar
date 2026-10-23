@@ -66,8 +66,8 @@ def pick_next_candidate(existing_slugs):
 
 def call_gemini(prompt: str) -> dict:
     """Calls Gemini API with JSON mode enabled."""
-    if not GEMINI_API_KEY or not GEMINI_API_KEY.startswith("AIza"):
-        print("[INFO] GEMINI_API_KEY manquant ou invalide (une clé Google AI Studio valide commence par 'AIzaSy...').")
+    if not GEMINI_API_KEY or len(GEMINI_API_KEY) < 15:
+        print("[INFO] GEMINI_API_KEY manquant ou trop court.")
         return None
 
     url = GEMINI_API_URL + GEMINI_API_KEY
