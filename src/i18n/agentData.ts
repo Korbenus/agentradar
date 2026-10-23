@@ -14,6 +14,69 @@ export interface LocalizedAgentFields {
 
 export const agentTranslations: Record<string, Partial<Record<SupportedLang, LocalizedAgentFields>>> = {
   'devin': {
+    de: {
+      "tagline": "Der weltweit erste autonome KI-Softwareingenieur, der vollständige Anwendungen von Grund auf codiert, debuggt und deployt.",
+      "badge": "F&E-Pionier",
+      "pros": [
+            "Vollständige Autonomie in einer sicheren Sandbox (Terminal, Browser, Editor)",
+            "Löst echte GitHub-Issues und erstellt saubere Pull Requests",
+            "Liest Dokumentationen selbstständig, um neue Bibliotheken zu lernen"
+      ],
+      "cons": [
+            "Enterprise-Preismodell für Teams mit hohem Technologiebudget",
+            "Erfordert bei sicherheitskritischem Code gelegentlich menschliche Überprüfung"
+      ],
+      "keyFeatures": [
+            "Dedizierte virtuelle Maschine mit Shell-Zugriff",
+            "Autonome Fehlerbehebung und Unit-Tests",
+            "Direkte Integration in GitHub, GitLab und Slack",
+            "Live-Visualisierung der gedanklichen Schritte"
+      ],
+      "targetAudience": "Engineering-Teams, CTOs und Technologieunternehmen, die ihre Sprint-Kapazität vervielfachen wollen.",
+      "overviewSummary": "Devin übernimmt vollständige Entwicklungsaufgaben. Mit eigener virtueller Maschine, Terminal und Browser kompiliert er Projekte, behebt Fehler und reicht fertige Pull Requests ein."
+},
+    ja: {
+      "tagline": "コード記述、デバッグ、本番デプロイまでを自律的に完結させる、世界初の完全自律型AIソフトウェアエンジニア。",
+      "badge": "技術の先駆者",
+      "pros": [
+            "専用サンドボックス（シェル、ブラウザ、エディタ）での完全自律実行",
+            "実際のGitHub Issueを自律的に解決し、クリーンなPRを提出",
+            "未知のライブラリも公式ドキュメントを読み解いて即座に習得"
+      ],
+      "cons": [
+            "大企業や高い開発予算を持つテックチーム向けの価格設定",
+            "セキュリティ重要箇所では人間のコードレビューを推奨"
+      ],
+      "keyFeatures": [
+            "シェルアクセスを備えた専用セキュア仮想マシン",
+            "バグの自動修正および単体テストの自律実行",
+            "GitHub、GitLab、Slackとのシームレスな統合",
+            "思考プロセスをリアルタイムで追跡できるダッシュボード"
+      ],
+      "targetAudience": "開発チーム、CTO、開発ベロシティを劇的に加速させたいテクノロジー企業。",
+      "overviewSummary": "Devinは単なるコード補完ではなく、Jiraチケットを丸ごと自律実行する新時代のエンジニアAIです。仮想環境上でテストを行い、完成したPull Requestを即座に納品します。"
+},
+    es: {
+      "tagline": "El primer ingeniero de software IA autónomo capaz de programar, depurar y desplegar aplicaciones completas de principio a fin.",
+      "badge": "Pionero I+D",
+      "pros": [
+            "Autonomía total en un entorno aislado con terminal, navegador y editor",
+            "Resuelve incidencias reales de GitHub y genera pull requests limpias",
+            "Aprende nuevas bibliotecas leyendo la documentación técnica oficial"
+      ],
+      "cons": [
+            "Tarifa orientada a grandes cuentas y presupuestos técnicos altos",
+            "Requiere supervisión humana en código crítico de seguridad"
+      ],
+      "keyFeatures": [
+            "Máquina virtual dedicada con acceso completo a terminal shell",
+            "Resolución autónoma de bugs y pruebas unitarias",
+            "Integración nativa con GitHub, GitLab y Slack",
+            "Informe en vivo paso a paso del razonamiento lógico"
+      ],
+      "targetAudience": "Equipos de ingeniería, directores de tecnología (CTO) y empresas tecnológicas.",
+      "overviewSummary": "Devin inaugura una nueva era donde la IA no solo completa líneas de código, sino que resuelve tickets técnicos completos de principio a fin."
+},
     fr: {
       tagline: "Le premier ingénieur logiciel IA autonome capable de coder, déboguer et déployer des applications entières de bout en bout.",
       badge: "Pionnier R&D",
@@ -52,6 +115,69 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'cursor-agent': {
+    de: {
+      "tagline": "KI-Code-Editor der nächsten Generation für autonome Multi-Datei-Refaktorisierungen und sofortiges Debugging.",
+      "badge": "Entwickler-Favorit",
+      "pros": [
+            "Versteht den globalen Code-Kontext über tausende Dateien hinweg",
+            "Direkte Terminal- und Compiler-Integration für sekundenschnelles Debugging",
+            "Reibungsloser Umstieg von VS Code mit vollständiger Extension-Kompatibilität"
+      ],
+      "cons": [
+            "Hohe RAM-Auslastung bei riesigen Monorepos",
+            "Schnelle Abfragekontingente erfordern den Pro-Plan für Power-User"
+      ],
+      "keyFeatures": [
+            "Vektorbasierte Indexierung der gesamten Codebasis",
+            "Composer-Modus für autonome End-to-End-Features",
+            "Direkte Git-Diff-Erstellung und Branch-Vorbereitung",
+            "Datenschutz-Modus ohne Speicherung des Codes zum Modelltraining"
+      ],
+      "targetAudience": "Softwareentwickler, Tech-Leads und Ingenieurteams, die ihre Entwicklungsgeschwindigkeit verdoppeln wollen.",
+      "overviewSummary": "Cursor hat die Softwareentwicklung revolutioniert. Statt passiver Autovervollständigung fungiert Cursor als aktiver Pair-Programmer, der Modelle, Controller und Tests synchron anpasst."
+},
+    ja: {
+      "tagline": "複数ファイルの自律的なリファクタリングとバグ修正を瞬時に実行する、次世代のAI統合開発環境。",
+      "badge": "開発者人気No.1",
+      "pros": [
+            "数千ファイルにおよぶリポジトリ全体のコンテキストを正確に把握",
+            "ターミナルやコンパイラと直接連携した高速な自律デバッグ",
+            "VS Codeからの完全移行が可能で既存の拡張機能をそのまま利用可能"
+      ],
+      "cons": [
+            "大規模なモノレポではメモリ消費が大きくなる場合がある",
+            "ヘビーユーザーはProプランの高速クエリ枠が必要"
+      ],
+      "keyFeatures": [
+            "コードベース全体のベクトルインデックス検索",
+            "複数ファイルにまたがる機能を一括構築するComposerモード",
+            "GitのDiff生成とブランチステージング",
+            "コードを学習に使用させないプライバシーモード搭載"
+      ],
+      "targetAudience": "エンジニア、テックリード、開発効率を劇的に向上させたいソフトウェア開発チーム。",
+      "overviewSummary": "Cursorは従来のインライン補完を超え、リポジトリ全体を理解する自律型ペアプログラマーとして世界中の開発現場に革新をもたらしています。"
+},
+    es: {
+      "tagline": "Entorno de desarrollo IA de nueva generación capaz de refactorizar proyectos multi-archivo y resolver errores de forma autónoma.",
+      "badge": "Favorito Desarrolladores",
+      "pros": [
+            "Comprende el contexto global de proyectos con miles de archivos",
+            "Integración directa con terminal y compilador para depuración instantánea",
+            "Transición transparente desde VS Code con compatibilidad total de extensiones"
+      ],
+      "cons": [
+            "Consumo elevado de memoria en monorepos muy grandes",
+            "Límites de peticiones rápidas en el plan gratuito"
+      ],
+      "keyFeatures": [
+            "Indexación vectorial de toda la base de código",
+            "Modo Composer para crear funcionalidades completas",
+            "Generación automática de diffs de Git",
+            "Modo de privacidad que no entrena modelos con tu código"
+      ],
+      "targetAudience": "Desarrolladores, líderes técnicos y equipos de ingeniería de software.",
+      "overviewSummary": "Cursor es el editor de código asistido por IA más avanzado, permitiendo programar a la velocidad del pensamiento."
+},
     fr: {
       tagline: "L'environnement de code IA nouvelle génération capable de refactoriser des projets multi-fichiers et de résoudre des bugs de manière autonome.",
       badge: "Favori Développeurs",
@@ -90,6 +216,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'replit-agent': {
+    de: {
+      "tagline": "Autonomer Cloud-Softwareentwicklungs-Agent, der vollständige Full-Stack-Apps aus natürlicher Sprache baut, testet und deployt.",
+      "badge": "Schneller Prototyp",
+      "pros": [
+            "Stellt funktionierende Full-Stack-Apps in unter 10 Minuten bereit",
+            "Richtet PostgreSQL-Datenbanken und Authentifizierung automatisch ein",
+            "Behebt Compiler- und Laufzeitfehler selbstständig in Echtzeit"
+      ],
+      "cons": [
+            "Weniger geeignet für hochspezifische verteilte Systeme",
+            "Erfordert Replit Core für uneingeschränkte Nutzung"
+      ],
+      "keyFeatures": [
+            "Full-Stack-Generierung (React, Node, Python, Postgres)",
+            "1-Klick-Cloud-Deployment mit sofortiger öffentlicher URL",
+            "Autonome Selbstkorrektur bei Serverfehlern",
+            "Kollaborativer Echtzeit-Code-Editor"
+      ],
+      "targetAudience": "Startup-Gründer, Produktmanager und Entwickler, die MVPs in Rekordzeit live bringen wollen.",
+      "overviewSummary": "Replit Agent nimmt Ihnen das DevOps-Setup ab: Aus einer einfachen Idee entsteht eine voll funktionsfähige Web-App mit Datenbank und öffentlicher URL."
+},
+    ja: {
+      "tagline": "自然言語の指示からフルスタックWebアプリを構築、テスト、クラウド公開まで自律完結するAI開発エージェント。",
+      "badge": "高速アプリ構築",
+      "pros": [
+            "10分以内に実際に動作するフルスタックWebアプリをクラウド上に自動デプロイ",
+            "PostgreSQLデータベースとユーザー認証を全自動でセットアップ",
+            "ビルドエラーやランタイムエラーを自律的に検知して自動修正"
+      ],
+      "cons": [
+            "極めて複雑なオンプレミス専用アーキテクチャには不向き",
+            "無制限利用にはReplit Coreサブスクリプションが必要"
+      ],
+      "keyFeatures": [
+            "モダンスタック対応（TypeScript, React, Node.js, Python, PostgreSQL）",
+            "ワンクリックで本番URLを発行するインスタントクラウド公開",
+            "サーバー障害時の自律的な自己修復ループ",
+            "リアルタイムでAIと並行編集できる共同開発エディタ"
+      ],
+      "targetAudience": "MVPを最速で検証したい新規事業開発者、プロダクトマネージャー、スタートアップ創業者。",
+      "overviewSummary": "Replit Agentは環境構築のストレスをゼロにします。作りたいWebサービスを日本語で伝えるだけで、データベース付きのアプリが本番環境へ即時デプロイされます。"
+},
     fr: {
       tagline: "L'agent autonome de développement cloud qui conçoit, teste et déploie des applications full-stack complètes à partir d'un simple prompt.",
       badge: "Création Rapide",
@@ -128,6 +296,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'make-ai-agents': {
+    de: {
+      "tagline": "Die visuelle Automatisierungsplattform für komplexe Multi-App-KI-Agenten mit Verzweigungen und Webhooks.",
+      "badge": "No-Code Standard",
+      "pros": [
+            "Intuitive visuelle Oberfläche zur Verbindung von 1.500+ Cloud-Apps",
+            "Fortschrittliche Fehlerbehandlung und konditionale Router",
+            "Attraktive Preise mit lebenslangem kostenlosem Tarif"
+      ],
+      "cons": [
+            "Lernkurve bei komplexen Daten-Mappings und Arrays",
+            "Ausführungsdauer in Basis-Tarifen limitiert"
+      ],
+      "keyFeatures": [
+            "Visueller Drag-and-Drop-Workflow-Builder",
+            "Native OpenAI-, Anthropic- und Gemini-Module",
+            "Konditionale Router und Array-Iteratoren",
+            "Sofortige Webhook-Verarbeitung"
+      ],
+      "targetAudience": "RevOps, Automatisierungsagenturen und Unternehmen, die Workflows ohne Code verbinden wollen.",
+      "overviewSummary": "Make.com macht aus bestehenden SaaS-Tools autonome Workflows. Mit 1.500+ Integrationen lassen sich Lead-Enrichment und Rechnungsstellung komplett automatisieren."
+},
+    ja: {
+      "tagline": "条件分岐やWebhookを自在に組み合わせ、複数SaaSを横断する自律型AIエージェントを構築するNo.1ビジュアル自動化キャンバス。",
+      "badge": "ノーコード標準",
+      "pros": [
+            "1,500以上の主要クラウドアプリを直感的に繋ぐ優れたUI",
+            "高度なエラー処理、条件分岐ルーター、配列データ処理機能",
+            "ずっと無料で使えるフリープランとリーズナブルな料金設計"
+      ],
+      "cons": [
+            "複雑なデータマッピングを行うには一定の学習が必要",
+            "エントリープランでは実行時間の制限あり"
+      ],
+      "keyFeatures": [
+            "ドラッグ＆ドロップで設計できる無制限のビジュアルキャンバス",
+            "OpenAI、Anthropic、Google Geminiの公式連携モジュール",
+            "条件分岐ルーターおよび配列イテレーター",
+            "即時トリガーを実現するインバウンド/アウトバウンドWebhook"
+      ],
+      "targetAudience": "業務効率化担当者、RevOps、ノーコード開発者、複数アプリをシームレスに自動連携させたいチーム。",
+      "overviewSummary": "Make.comは業務プロセスの自動化を最も素早く実現するビジュアルツールです。AIモジュールと組み合わせることで、リード調査から社内通知までを自動実行します。"
+},
     fr: {
       tagline: "Le canevas visuel d'automatisation n°1 permettant de concevoir des agents IA multi-applications avec logique conditionnelle et webhooks.",
       badge: "Leader No-Code",
@@ -166,6 +376,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'n8n-ai': {
+    de: {
+      "tagline": "Die führende Open-Source-Plattform zur Erstellung souveräner, selbst gehosteter und maßgeschneiderter KI-Agenten.",
+      "badge": "Open-Source-Souveränität",
+      "pros": [
+            "Kostenloses Self-Hosting auf eigenen Servern mit 100% Datenkontrolle",
+            "Native LangChain-Knoten zur Orchestrierung von KI-Modellen und Tools",
+            "Vollständig auditierbarer Open-Source-Code für maximale EU-Compliance"
+      ],
+      "cons": [
+            "Erfordert Server-Administration für das Self-Hosting",
+            "Weniger schlüsselfertige Standard-Integrationen als bei reinen Cloud-Tools"
+      ],
+      "keyFeatures": [
+            "LangChain-Architektur (Agenten, Memory, Tools, Vektordatenbanken)",
+            "Vollständige JavaScript- und Python-Unterstützung in Knoten",
+            "Docker-Deployment mit einem Befehl",
+            "Keine Weitergabe von Unternehmensdaten an Dritte"
+      ],
+      "targetAudience": "CIOs, Daten-Ingenieure, Banken, Gesundheitswesen und Unternehmen mit strengen Datenschutzvorgaben.",
+      "overviewSummary": "n8n ist die bevorzugte Plattform für europäische Unternehmen, die Datensouveränität fordern. Ermöglicht mächtige KI-Agenten im eigenen Rechenzentrum."
+},
+    ja: {
+      "tagline": "自社サーバーで完全運用可能な、データ主権と柔軟性を両立する世界No.1オープンソースAIオーケストレーション基盤。",
+      "badge": "オープンソースの旗手",
+      "pros": [
+            "自社サーバーでの完全セルフホストが可能でデータ流出リスクをゼロ化",
+            "LangChainノードを標準搭載し、AIモデル・メモリ・ツールを自在に構成",
+            "監査可能なオープンソース設計でEU AI法や個人情報保護基準に完全適合"
+      ],
+      "cons": [
+            "セルフホスト環境の構築・運用にはインフラ知識が必要",
+            "Makeなどの商用SaaSに比べると事前定義コネクタの導入に工夫が必要"
+      ],
+      "keyFeatures": [
+            "LangChainノード群（AIエージェント、プロンプトチェーン、ベクトルDB）",
+            "各ノード内でのJavaScriptおよびPythonコードの自由な実行",
+            "Dockerコマンド1行での迅速なデプロイ",
+            "第三者へのデータ送信を完全に遮断するオンプレミス対応"
+      ],
+      "targetAudience": "情報システム部門、データエンジニア、金融・医療・自治体など機密データの外部送信が禁止されている組織。",
+      "overviewSummary": "n8nは機密データをクラウドに預けられない企業のための最良の選択肢です。自社インフラ内でセキュアに独自のAIエージェントを稼働させることができます。"
+},
     fr: {
       tagline: "La plateforme d'orchestration open-source n°1 pour construire des agents IA sur-mesure, souverains et auto-hébergés.",
       badge: "Souveraineté Open-Source",
@@ -204,6 +456,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'sierra-ai': {
+    de: {
+      "tagline": "Unternehmensplattform für konversationelle KI-Agenten, die bis zu 80% komplexer Kundenservice-Anfragen autonom lösen.",
+      "badge": "Enterprise-Standard",
+      "pros": [
+            "Führt echte Transaktionen in Ihren Systemen aus (Rückerstattungen, Buchungen)",
+            "Garantierte Halluzinationsfreiheit durch strenge Governance-Regeln",
+            "Von Weltkonzernen wie Sonos und SiriusXM im Live-Einsatz bewährt"
+      ],
+      "cons": [
+            "Enterprise-Preismodell auf Anfrage für hohe Ticket-Volumina",
+            "Erfordert anfängliche technische Systemintegration"
+      ],
+      "keyFeatures": [
+            "Überwachte KI-Reasoning-Engine ohne Spekulation",
+            "Sichere Schnittstellen zu ERP- und CRM-Systemen",
+            "Reibungslose Übergabe an menschliche Servicemitarbeiter",
+            "Echtzeit-CSAT- und Qualitätsanalysen"
+      ],
+      "targetAudience": "Große E-Commerce-Unternehmen, Banken und Dienstleister mit hunderttausenden Kundenanfragen.",
+      "overviewSummary": "Sierra revolutioniert den Kundenservice: Statt oberflächlicher Chatbots greifen die Agenten direkt auf Unternehmens-APIs zu und lösen Anliegen eigenständig."
+},
+    ja: {
+      "tagline": "最大80%の複雑な顧客問い合わせを自律解決する、大企業向け対話型AIエージェントプラットフォーム。",
+      "badge": "エンタープライズ標準",
+      "pros": [
+            "返金や予約変更など、社内システムと連携した実トランザクションを実行",
+            "厳格な安全基準によるゼロ・ハルシネーション（誤答防止）設計",
+            "SonosやSiriusXMなど世界的なグローバル企業での導入実績"
+      ],
+      "cons": [
+            "大量の問い合わせを処理する大企業向けの個別見積もり価格",
+            "初期導入時に社内システムとのAPI連携が必要"
+      ],
+      "keyFeatures": [
+            "社内規定と公式ドキュメントに厳密準拠する推論エンジン",
+            "ERPやCRMでの安全なトランザクション自動実行",
+            "人間のサポート担当者へのシームレスなエスカレーション",
+            "顧客満足度（CSAT）のリアルタイム分析"
+      ],
+      "targetAudience": "月間数万件以上のサポート対応を行うEC、金融、旅行、通信業界の大手企業。",
+      "overviewSummary": "Sierraは単にFAQを返す従来のチャットボットとは異なり、社内APIを通じて注文状況の変更や返金処理まで自律実行する次世代の顧客対応エージェントです。"
+},
     fr: {
       tagline: "La plateforme d'agents d'IA conversationnels d'entreprise capables de résoudre jusqu'à 80% des demandes de support client complexes.",
       badge: "Excellence Entreprise",
@@ -242,6 +536,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'fin-ai-intercom': {
+    de: {
+      "tagline": "Autonomer Kundenservice-Agent für Unternehmen, der bis zu 82% der Support-Anfragen präzise löst.",
+      "badge": "Support-Leader",
+      "pros": [
+            "Erfolgsbasiertes Preismodell: Nur 0,99 $ pro bestätigter Lösung",
+            "Nahtlose Integration in Intercom und bestehende Hilfecenter",
+            "Zitiert transparent alle genutzten internen Quellen"
+      ],
+      "cons": [
+            "Erfordert ein aktives Intercom-Basis-Abonnement",
+            "Benötigt eine strukturierte interne Dokumentation"
+      ],
+      "keyFeatures": [
+            "Abrechnung nur bei erfolgreicher Kundenlösung",
+            "Sofortige Anbindung an Notion, Zendesk und Salesforce",
+            "Intelligente Dringlichkeitserkennung im Chat",
+            "Automatische Berichte über Dokumentationslücken"
+      ],
+      "targetAudience": "Kundenserviceteams, CSMs und wachsende SaaS-Unternehmen, die 24/7-Support ohne Personalengpässe bieten wollen.",
+      "overviewSummary": "Fin AI von Intercom ist der pragmatischste Support-Agent: Er durchsucht Ihre Wissensdatenbank und beantwortet Kundenfragen zuverlässig, ohne zu spekulieren."
+},
+    ja: {
+      "tagline": "企業のカスタマーサポートリクエストの最大82%を高精度に自律解決するIntercomのAIエージェント。",
+      "badge": "サポートリーダー",
+      "pros": [
+            "解決1件あたり0.99ドルという明快で無駄のない成果報酬型プライシング",
+            "既存のIntercomやヘルプセンター資産に即時導入可能",
+            "回答の根拠となった社内ドキュメントを明示する高い信頼性"
+      ],
+      "cons": [
+            "Intercomの基本プラットフォーム利用契約が必要",
+            "高い解決率を達成するには一定のドキュメント整備が推奨される"
+      ],
+      "keyFeatures": [
+            "解決が確認されたセッションのみ課金される安心設計",
+            "Notion、Zendesk、Salesforceとのワンクリック連携",
+            "緊急度に応じた自動トリアージと有人エスカレーション",
+            "ナレッジベースの不足点を可視化するAIレポート機能"
+      ],
+      "targetAudience": "急成長中のSaaS企業、24時間365日のサポート体制を少人数で実現したいカスタマーサポート部門。",
+      "overviewSummary": "Fin AIは社内ドキュメントを瞬時に学習し、推測ではなく正確な事実のみを顧客に回答。解決できなかった場合は料金が発生せず有人対応へ引き継ぎます。"
+},
     fr: {
       tagline: "L'agent de support client autonome pour entreprises résolvant jusqu'à 82% des demandes avec une précision irréprochable.",
       badge: "Leader Support",
@@ -280,6 +616,48 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'elevenlabs-agents': {
+    de: {
+      "tagline": "Konversationelle Sprach-KI mit extrem niedriger Latenz für Telefongespräche, die von Menschen kaum zu unterscheiden sind.",
+      "badge": "Sprach-KI Pionier",
+      "pros": [
+            "Ultra-niedrige Latenz (< 400 ms) für natürliche Dialoge",
+            "Realistische Emotionalität und menschliche Intonation",
+            "Unterstützung von über 30 Sprachen mit authentischen Akzenten"
+      ],
+      "cons": [
+            "Minutenbasierte Abrechnung bei massiven Call-Center-Volumina",
+            "Erfordert präzise Konfiguration der Leitplanken für komplexe Telefonate"
+      ],
+      "keyFeatures": [
+            "Fortschrittlichste KI-Sprachsynthese in Echtzeit",
+            "Direkte SIP- und WebRTC-Telefonintegration",
+            "Natürliche Unterbrechbarkeit beim Sprechen",
+            "Echtzeit-API-Abfragen während des Telefonats"
+      ],
+      "targetAudience": "Kundenzentren, Kliniken, Hotels und Unternehmen mit hohem Telefonaufkommen.",
+      "overviewSummary": "ElevenLabs bringt menschliche Stimmen in den Kundendialog. Die Agenten führen Telefonate flüssig, verstehen Unterbrechungen und vereinbaren eigenständig Termine."
+},
+    ja: {
+      "tagline": "人間と区別がつかない超低遅延の自然な音声対話を実現する、次世代の自律型対話音声AIエージェント。",
+      "badge": "音声AIの革新",
+      "pros": [
+            "400ミリ秒未満の超低遅延による極めて自然な会話テンポ",
+            "感情やニュアンスを繊細に表現する圧倒的な肉声クオリティ",
+            "30以上の言語および地域ごとの自然なアクセントに対応"
+      ],
+      "cons": [
+            "大規模コールセンターでの大量通話時には分単位のコスト管理が必要",
+            "専門的な法規を含む電話対応では詳細なプロンプト設計が必要"
+      ],
+      "keyFeatures": [
+            "世界最高水準のリアルタイム音声合成エンジン",
+            "SIPおよびWebRTCによる既存電話網との直接連携",
+            "会話の途中割り込み（バージイン）に自然に対応",
+            "通話中のリアルタイムCRMデータ照会"
+      ],
+      "targetAudience": "コンタクトセンター、医療機関、予約受付窓口、電話対応を自動化したい企業。",
+      "overviewSummary": "ElevenLabsは音声対話AIの限界を塗り替えました。遅延なくスムーズに相槌を打ち、相手の発言を遮ることなく自然な電話予約やサポート業務を代行します。"
+},
     fr: {
       tagline: "Les agents vocaux conversationnels à ultra-faible latence offrant des interactions téléphoniques impossibles à distinguer d'une voix humaine.",
       badge: "Pionnier Vocal",
@@ -318,6 +696,69 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'apollo-ai': {
+    de: {
+      "tagline": "Vollständige B2B-Sales-Intelligence und Sequenz-Automatisierung basierend auf über 275 Mio. verifizierten Kontakten.",
+      "badge": "Top-Vertriebsdaten",
+      "pros": [
+            "Riesige Datenbank von 275M+ verifizierten B2B-E-Mails und Direktwahlnummern",
+            "Integrierte Multichannel-Outreach-Engine (E-Mail, LinkedIn, Dialer)",
+            "Großzügiger kostenloser Tarif mit monatlicher Auffüllung der Credits"
+      ],
+      "cons": [
+            "Datenqualität erfordert bei Nischenmärkten gelegentliche Prüfung",
+            "Umfangreiche Oberfläche mit anfänglicher Einarbeitungszeit"
+      ],
+      "keyFeatures": [
+            "KI-Vertriebsassistent für personalisierte E-Mail-Sequenzen",
+            "Automatisierter Telefon-Dialer mit lokaler Vorwahl",
+            "Echtzeit-Kaufsignale durch Bombora-Intent-Daten",
+            "Nahtlose Synchronisation mit HubSpot und Salesforce"
+      ],
+      "targetAudience": "B2B-Vertriebsteams, Gründer und RevOps, die ihre Lead-Generierung skalieren wollen.",
+      "overviewSummary": "Apollo.io kombiniert eine der weltweit umfangreichsten Kontaktdatenbanken mit einem autonomen Outreach-Agenten. Ideal für B2B-Teams, die planbar qualifizierte Termine generieren möchten."
+},
+    ja: {
+      "tagline": "2億7500万件以上の検証済みコンタクトデータベースを活用した、エンドツーエンドのB2B営業インテリジェンスと自動アプローチ。",
+      "badge": "営業データNo.1",
+      "pros": [
+            "2億7500万件を超える世界最大級のB2Bメール・直通電話データベース",
+            "メール、LinkedIn、電話を統合したマルチチャネル自動シーケンス",
+            "毎月クレジットが付与される充実した無料プラン"
+      ],
+      "cons": [
+            "特定のニッチな市場では連絡先の精査が必要な場合あり",
+            "多機能なため初期の操作習得に若干の時間を要する"
+      ],
+      "keyFeatures": [
+            "パーソナライズされた営業メールを生成するAIアシスタント",
+            "ローカル番号での自動ダイヤラー機能",
+            "Bombora連携によるリアルタイムの購買シグナル検知",
+            "HubSpotおよびSalesforceとの双方向同期"
+      ],
+      "targetAudience": "B2B企業の営業責任者、スタートアップ創業者、インサイドセールスチーム。",
+      "overviewSummary": "Apollo.ioは高精度な法人連絡先データと自律型アプローチを融合させた業界標準のセールスプラットフォームです。見込み客の抽出から日程調整までを自動化します。"
+},
+    es: {
+      "tagline": "Inteligencia comercial B2B y automatización de prospección impulsada por una base de datos de más de 275 millones de contactos.",
+      "badge": "Top Ventas B2B",
+      "pros": [
+            "Base de datos de más de 275M de contactos B2B verificados",
+            "Secuencias de prospección multicanal automatizadas (email, LinkedIn, llamadas)",
+            "Plan gratuito generoso con créditos mensuales renovables"
+      ],
+      "cons": [
+            "Precisión variable en algunos mercados locales específicos",
+            "Curva de aprendizaje inicial debido a la gran cantidad de funciones"
+      ],
+      "keyFeatures": [
+            "Redacción con IA de correos comerciales altamente personalizados",
+            "Marcador telefónico automático integrado",
+            "Detección de intención de compra con datos Bombora",
+            "Integración bidireccional con HubSpot y Salesforce"
+      ],
+      "targetAudience": "Equipos comerciales B2B, fundadores y agencias de ventas.",
+      "overviewSummary": "Apollo.io reúne la mayor base de datos de contactos corporativos con un potente motor de automatización de ventas."
+},
     fr: {
       tagline: "La plateforme complète d'intelligence commerciale et de prospection B2B propulsée par une base de données de plus de 275 millions de contacts vérifiés.",
       badge: "Standard Prospection",
@@ -356,6 +797,69 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
     }
   },
   'artisan-ai-ava': {
+    de: {
+      "tagline": "Autonomer KI-BDR-Agent, der Leads recherchiert, hyper-personalisierte E-Mails verfasst und die Zustellbarkeit optimiert.",
+      "badge": "Autonomer AI BDR",
+      "pros": [
+            "Schlüsselfertiger digitaler Vertriebsmitarbeiter: Recherche, Verfassen und Versand ohne Eingriff",
+            "Tiefgehende Recherche auf LinkedIn und aktuellen Unternehmensnachrichten",
+            "Integrierte Zustellbarkeits-Infrastruktur mit Domain-Warmup"
+      ],
+      "cons": [
+            "Höhere monatliche Investition als bei herkömmlichen E-Mail-Tools",
+            "Benötigt 1 bis 2 Wochen Anwärmzeit für optimale Domain-Reputation"
+      ],
+      "keyFeatures": [
+            "Ava-Agent: autonome Suche qualifizierter B2B-Leads",
+            "Hyper-personalisierte Kontaktaufnahme basierend auf Aktivitätsdaten",
+            "Automatisches E-Mail-Warmup zur Vermeidung von Spam-Ordnern",
+            "Echtzeit-Pipeline-Dashboard mit gebuchten Meetings"
+      ],
+      "targetAudience": "Startup-Gründer, Agenturen und Vertriebsleiter, die Termine ohne juniorige SDR-Teams buchen wollen.",
+      "overviewSummary": "Artisan hat Ava geschaffen: die digitale Vertriebsmitarbeiterin, die den gesamten Akquise-Prozess von der Recherche bis zur Terminbuchung eigenständig abwickelt."
+},
+    ja: {
+      "tagline": "見込み客のリサーチから超高精度な個別メール作成、ドメインのウォームアップまで自律実行するAI BDRエージェント（Ava）。",
+      "badge": "自律型AI BDR",
+      "pros": [
+            "リサーチ、執筆、送信まで人間の介入なしで完結するデジタル営業員",
+            "LinkedInや企業ニュースを分析した深い個別パーソナライズ",
+            "送信ドメインの自動ウォームアップと高い到達率の維持"
+      ],
+      "cons": [
+            "一般的なメール配信ツールに比べて高価格帯の投資が必要",
+            "ドメインの評価を安定させるため運用開始時に一定の助走期間が必要"
+      ],
+      "keyFeatures": [
+            "AIエージェントAvaによる有望見込み客の自動スクリーニング",
+            "ターゲット企業の動向に合わせたコンテキスト重視の文面生成",
+            "迷惑メール判定を防ぐ自動ドメインウォームアップ",
+            "カレンダー連携による商談獲得ダッシュボード"
+      ],
+      "targetAudience": "スタートアップ創業者、B2B営業責任者、商談数を劇的に増やしたい営業組織。",
+      "overviewSummary": "ArtisanのAvaは、ジュニアSDRチームを雇うことなく、確度の高い商談を自動でカレンダーに登録してくれる次世代のデジタル営業担当者です。"
+},
+    es: {
+      "tagline": "Agente BDR autónomo que investiga clientes potenciales, redacta correos hiperpersonalizados y gestiona la entregabilidad.",
+      "badge": "AI BDR Autónomo",
+      "pros": [
+            "Empleado digital llave en mano: prospección y envío 100% automatizado",
+            "Investigación contextual en LinkedIn y noticias corporativas",
+            "Infraestructura completa de warmup de dominios incluida"
+      ],
+      "cons": [
+            "Inversión mensual superior a herramientas tradicionales",
+            "Requiere período de precalentamiento inicial de buzones"
+      ],
+      "keyFeatures": [
+            "Agente Ava para investigación autónoma de leads",
+            "Personalización contextual de alta conversión",
+            "Calentamiento de dominios contra filtros de spam",
+            "Sincronización con calendarios para reuniones confirmadas"
+      ],
+      "targetAudience": "Fundadores, agencias y directores de ventas B2B.",
+      "overviewSummary": "Artisan automatiza la generación de reuniones cualificadas sin necesidad de contratar un equipo de SDRs humanos."
+},
     fr: {
       tagline: "L'agent autonome de prospection (AI BDR) qui recherche vos prospects, rédige des emails ultra-personnalisés et gère le préchauffage de vos domaines.",
       badge: "AI BDR Autonome",
@@ -965,21 +1469,131 @@ export const agentTranslations: Record<string, Partial<Record<SupportedLang, Loc
   }
 };
 
+
+export function translatePricingModel(model: string, lang: SupportedLang): string {
+  const m = (model || '').toLowerCase();
+  const isFree = (m.includes('free') && !m.includes('freemium')) || m.includes('gratuit') || m.includes('kostenlos') || m.includes('無料') || m.includes('gratis') || m.includes('gratuito');
+  const isFreemium = m.includes('freemium') || m.includes('フリーミアム');
+  const isUsage = m.includes('usage') || m.includes('à la demande') || m.includes('l\'usage') || m.includes('nutzung') || m.includes('consumo') || m.includes('従量') || m.includes('uso');
+  const isQuote = m.includes('quote') || m.includes('devis') || m.includes('custom') || m.includes('enterprise') || m.includes('anfrage') || m.includes('preventivo') || m.includes('問い合わせ') || m.includes('presupuesto');
+
+  if (lang === 'fr') {
+    if (isFree) return 'Gratuit';
+    if (isFreemium) return 'Freemium';
+    if (isUsage) return 'À l\'usage';
+    if (isQuote) return 'Sur devis';
+    return 'Payant';
+  }
+  if (lang === 'de') {
+    if (isFree) return 'Kostenlos';
+    if (isFreemium) return 'Freemium';
+    if (isUsage) return 'Nutzungsbasiert';
+    if (isQuote) return 'Auf Anfrage';
+    return 'Kostenpflichtig';
+  }
+  if (lang === 'es') {
+    if (isFree) return 'Gratis';
+    if (isFreemium) return 'Freemium';
+    if (isUsage) return 'Por uso';
+    if (isQuote) return 'Bajo presupuesto';
+    return 'De pago';
+  }
+  if (lang === 'it') {
+    if (isFree) return 'Gratuito';
+    if (isFreemium) return 'Freemium';
+    if (isUsage) return 'A consumo';
+    if (isQuote) return 'Su preventivo';
+    return 'A pagamento';
+  }
+  if (lang === 'ja') {
+    if (isFree) return '無料';
+    if (isFreemium) return 'フリーミアム';
+    if (isUsage) return '従量課金制';
+    if (isQuote) return '要問い合わせ';
+    return '有料プラン';
+  }
+  if (isFree) return 'Free';
+  if (isFreemium) return 'Freemium';
+  if (isUsage) return 'Usage-based';
+  if (isQuote) return 'Custom Quote';
+  return 'Paid';
+}
+
+export function translateBadge(badge: string | undefined, lang: SupportedLang): string | undefined {
+  if (!badge) return undefined;
+  const b = badge.toLowerCase();
+
+  if (b.includes('sales agent') || b.includes('top vente')) {
+    if (lang === 'fr') return 'Top Vente';
+    if (lang === 'de') return 'Top-Vertrieb';
+    if (lang === 'ja') return '営業トップ';
+    if (lang === 'es') return 'Top Ventas';
+    if (lang === 'it') return 'Top Vendite';
+    return 'Top Sales Agent';
+  }
+  if (b.includes('sales data') || b.includes('données vente') || b.includes('vertriebsdaten')) {
+    if (lang === 'fr') return 'Standard Prospection';
+    if (lang === 'de') return 'Top-Vertriebsdaten';
+    if (lang === 'ja') return '営業データNo.1';
+    if (lang === 'es') return 'Datos de Ventas';
+    if (lang === 'it') return 'Dati Vendite';
+    return 'Top Sales Data';
+  }
+  if (b.includes('developer') || b.includes('développeur') || b.includes('entwickler')) {
+    if (lang === 'fr') return 'Favori Développeurs';
+    if (lang === 'de') return 'Entwickler-Favorit';
+    if (lang === 'ja') return '開発者人気No.1';
+    if (lang === 'es') return 'Favorito Desarrolladores';
+    if (lang === 'it') return 'Preferito Sviluppatori';
+    return 'Developer Favorite';
+  }
+  if (b.includes('pionnier') || b.includes('pioneer') || b.includes('r&d') || b.includes('f&e')) {
+    if (lang === 'fr') return 'Pionnier R&D';
+    if (lang === 'de') return 'F&E-Pionier';
+    if (lang === 'ja') return '技術の先駆者';
+    if (lang === 'es') return 'Pionero I+D';
+    if (lang === 'it') return 'Pioniere R&S';
+    return 'R&D Pioneer';
+  }
+  if (b.includes('enterprise') || b.includes('entreprise') || b.includes('unternehmen')) {
+    if (lang === 'fr') return 'Standard Entreprise';
+    if (lang === 'de') return 'Unternehmensstandard';
+    if (lang === 'ja') return 'エンタープライズ標準';
+    if (lang === 'es') return 'Estándar Empresa';
+    if (lang === 'it') return 'Standard Aziendale';
+    return 'Enterprise Standard';
+  }
+  if (b.includes('voice') || b.includes('vocal') || b.includes('sprach')) {
+    if (lang === 'fr') return 'Pionnier Vocal';
+    if (lang === 'de') return 'Sprach-KI Pionier';
+    if (lang === 'ja') return '音声AIの革新';
+    if (lang === 'es') return 'Pionero de Voz';
+    if (lang === 'it') return 'Pioniere Vocale';
+    return 'Voice Breakthrough';
+  }
+  if (b.includes('no-code') || b.includes('workflow')) {
+    if (lang === 'fr') return 'Leader No-Code';
+    if (lang === 'de') return 'No-Code Standard';
+    if (lang === 'ja') return 'ノーコード標準';
+    if (lang === 'es') return 'Líder No-Code';
+    if (lang === 'it') return 'Leader No-Code';
+    return 'No-Code Standard';
+  }
+  if (b.includes('builder') || b.includes('création') || b.includes('prototyp')) {
+    if (lang === 'fr') return 'Création Rapide';
+    if (lang === 'de') return 'Schneller Prototyp';
+    if (lang === 'ja') return '高速アプリ構築';
+    if (lang === 'es') return 'Despliegue Rápido';
+    if (lang === 'it') return 'Sviluppo Rapido';
+    return 'Breakthrough Builder';
+  }
+  return badge;
+}
+
+
 export function getLocalizedAgent(agent: any, lang: SupportedLang) {
   const slug = (agent.id || agent.slug || '').replace(/\.md$/, '');
   const agentTrans = agentTranslations[slug]?.[lang];
-
-  // Helper to translate pricing model to French if lang is fr
-  function translatePricingModel(model: string): string {
-    if (lang !== 'fr') return model;
-    const m = (model || '').toLowerCase();
-    if (m.includes('freemium')) return 'Freemium';
-    if (m.includes('free') || m.includes('gratuit')) return 'Gratuit';
-    if (m.includes('usage')) return 'À l\'usage';
-    if (m.includes('quote') || m.includes('devis') || m.includes('custom') || m.includes('enterprise')) return 'Sur devis';
-    if (m.includes('paid') || m.includes('subscription') || m.includes('payant')) return 'Payant';
-    return model;
-  }
 
   return {
     ...agent.data,
@@ -994,14 +1608,14 @@ export function getLocalizedAgent(agent: any, lang: SupportedLang) {
     aiActCompliant: agent.data.aiActCompliant,
     dateAdded: agent.data.dateAdded,
     // Localized fields:
-    tagline: (lang === 'fr' && agentTrans?.tagline) ? agentTrans.tagline : agent.data.tagline,
-    badge: (lang === 'fr' && agentTrans?.badge) ? agentTrans.badge : agent.data.badge,
-    pricingModel: (lang === 'fr' && agentTrans?.pricingModel) ? agentTrans.pricingModel : translatePricingModel(agent.data.pricingModel),
-    pros: (lang === 'fr' && agentTrans?.pros) ? agentTrans.pros : agent.data.pros,
-    cons: (lang === 'fr' && agentTrans?.cons) ? agentTrans.cons : agent.data.cons,
-    keyFeatures: (lang === 'fr' && agentTrans?.keyFeatures) ? agentTrans.keyFeatures : agent.data.keyFeatures,
-    targetAudience: (lang === 'fr' && agentTrans?.targetAudience) ? agentTrans.targetAudience : agent.data.targetAudience,
-    overviewSummary: (lang === 'fr' && agentTrans?.overviewSummary) ? agentTrans.overviewSummary : null,
-    faqs: (lang === 'fr' && agentTrans?.faqs) ? agentTrans.faqs : null,
+    tagline: agentTrans?.tagline || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.tagline : agent.data.tagline) || agent.data.tagline,
+    badge: translateBadge(agentTrans?.badge || agent.data.badge, lang),
+    pricingModel: translatePricingModel(agentTrans?.pricingModel || agent.data.pricingModel, lang),
+    pros: agentTrans?.pros || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.pros : agent.data.pros) || agent.data.pros,
+    cons: agentTrans?.cons || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.cons : agent.data.cons) || agent.data.cons,
+    keyFeatures: agentTrans?.keyFeatures || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.keyFeatures : agent.data.keyFeatures) || agent.data.keyFeatures,
+    targetAudience: agentTrans?.targetAudience || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.targetAudience : agent.data.targetAudience) || agent.data.targetAudience,
+    overviewSummary: agentTrans?.overviewSummary || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.overviewSummary : null),
+    faqs: agentTrans?.faqs || (lang === 'fr' ? agentTranslations[slug]?.['fr']?.faqs : null),
   };
 }

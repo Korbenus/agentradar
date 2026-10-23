@@ -105,4 +105,14 @@ const cleanPath = getCleanPath();
   code, pre {
     font-family: 'JetBrains Mono', monospace;
   }
+  /* Hide scrollbar on all browsers */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 </style>

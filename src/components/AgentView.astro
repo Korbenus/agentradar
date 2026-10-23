@@ -5,6 +5,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
 import { getLocalizedAgent } from '../i18n/agentData';
 import { getCategorySlug } from '../utils/categories';
+import { getLocalizedCategoryName } from '../utils/localizedCategories';
 
 interface Props {
   agent: CollectionEntry<'agents'>;
@@ -149,19 +150,35 @@ const jsonLd = {
       <nav class="flex items-center gap-2 text-xs text-slate-400">
         <a href={localizedHref('/')} class="hover:text-white transition">AgentRadar</a>
         <span>/</span>
-        <a href={localizedHref(`/categories/${categorySlug}`)} class="hover:text-white transition">{category}</a>
+        <a href={localizedHref(`/categories/${categorySlug}`)} class="hover:text-white transition">{getLocalizedCategoryName(category, lang)}</a>
         <span>/</span>
         <span class="text-slate-200">{name}</span>
       </nav>
 
       <!-- Mini Table of Contents Quick Nav -->
-      <div class="flex items-center gap-2 overflow-x-auto text-[11px] font-semibold text-slate-400">
-        <span class="text-slate-600 uppercase text-[10px] tracking-wider hidden md:inline">Jump to:</span>
-        <a href="#overview" class="px-2.5 py-1 rounded bg-dark-900 border border-dark-800 hover:text-radar-400 transition">{t('toc.overview')}</a>
-        <a href="#pros-cons" class="px-2.5 py-1 rounded bg-dark-900 border border-dark-800 hover:text-radar-400 transition">{t('toc.prosCons')}</a>
-        <a href="#features" class="px-2.5 py-1 rounded bg-dark-900 border border-dark-800 hover:text-radar-400 transition">{t('toc.features')}</a>
-        <a href="#alternative" class="px-2.5 py-1 rounded bg-dark-900 border border-dark-800 hover:text-radar-400 transition">Alternative</a>
-        <a href="#faq" class="px-2.5 py-1 rounded bg-dark-900 border border-dark-800 hover:text-radar-400 transition">{t('toc.faq')}</a>
+      <div class="flex items-center gap-1.5 overflow-x-auto text-[11px] font-semibold text-slate-300 scrollbar-none py-1">
+        <a href="#overview" class="px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-800 hover:border-slate-700 hover:text-radar-400 transition flex items-center gap-1">
+          <span>📌</span>
+          <span>{t('toc.overview')}</span>
+        </a>
+        <a href="#pros-cons" class="px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-800 hover:border-slate-700 hover:text-radar-400 transition flex items-center gap-1">
+          <span>⚖️</span>
+          <span>{t('toc.prosCons')}</span>
+        </a>
+        <a href="#features" class="px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-800 hover:border-slate-700 hover:text-radar-400 transition flex items-center gap-1">
+          <span>⚙️</span>
+          <span>{t('toc.features')}</span>
+        </a>
+        {topAlternative && (
+          <a href="#alternative" class="px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-800 hover:border-slate-700 hover:text-radar-400 transition flex items-center gap-1">
+            <span>⚡</span>
+            <span>{t('alt.heading')}</span>
+          </a>
+        )}
+        <a href="#faq" class="px-2.5 py-1.5 rounded-lg bg-dark-900 border border-dark-800 hover:border-slate-700 hover:text-radar-400 transition flex items-center gap-1">
+          <span>❓</span>
+          <span>{t('toc.faq')}</span>
+        </a>
       </div>
     </div>
 
@@ -169,8 +186,8 @@ const jsonLd = {
     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-8 border-b border-dark-800">
       <div class="space-y-3">
         <div class="flex flex-wrap items-center gap-2">
-          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-            {category}
+          <span class="text-xs font-semibold px-3 py-1 rounded-lg bg-dark-800/90 text-slate-200 border border-dark-700">
+            {getLocalizedCategoryName(category, lang)}
           </span>
           {badge && (
             <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -218,36 +235,32 @@ const jsonLd = {
         <!-- Pros and Cons Grid -->
         <div id="pros-cons" class="grid grid-cols-1 md:grid-cols-2 gap-6 scroll-mt-24">
           <!-- Pros -->
-          <div class="p-6 rounded-2xl bg-dark-900/60 border border-emerald-500/20">
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-950/25 via-dark-900 to-dark-950 border border-emerald-500/30 shadow-xl shadow-emerald-950/15">
             <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              {t('card.pros')}
+              <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 text-xs">👍</span>
+              <span>{t('card.pros')}</span>
             </h3>
-            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-200">
               {pros.map((pro) => (
-                <li class="flex items-start gap-2">
-                  <span class="text-emerald-400 font-bold shrink-0">+</span>
-                  <span>{pro}</span>
+                <li class="flex items-start gap-2.5">
+                  <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs shrink-0 mt-0.5">✓</span>
+                  <span class="leading-relaxed">{pro}</span>
                 </li>
               ))}
             </ul>
           </div>
 
           <!-- Cons -->
-          <div class="p-6 rounded-2xl bg-dark-900/60 border border-rose-500/20">
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-rose-950/25 via-dark-900 to-dark-950 border border-rose-500/30 shadow-xl shadow-rose-950/15">
             <h3 class="text-sm font-bold text-rose-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <svg class="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-              </svg>
-              {t('card.cons')}
+              <span class="flex h-6 w-6 items-center justify-center rounded-lg bg-rose-500/20 text-rose-400 text-xs">⚠️</span>
+              <span>{t('card.cons')}</span>
             </h3>
-            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-3 text-xs sm:text-sm text-slate-200">
               {cons.map((con) => (
-                <li class="flex items-start gap-2">
-                  <span class="text-rose-400 font-bold shrink-0">-</span>
-                  <span>{con}</span>
+                <li class="flex items-start gap-2.5">
+                  <span class="flex h-4 w-4 items-center justify-center rounded-full bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0 mt-0.5">-</span>
+                  <span class="leading-relaxed">{con}</span>
                 </li>
               ))}
             </ul>
@@ -255,12 +268,15 @@ const jsonLd = {
         </div>
 
         <!-- Key features checklist -->
-        <div id="features" class="p-6 rounded-2xl bg-dark-900/40 border border-dark-800 scroll-mt-24">
-          <h3 class="text-base font-bold text-white mb-4">{t('card.features')}</h3>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
+        <div id="features" class="p-6 rounded-2xl bg-gradient-to-br from-dark-900/90 to-dark-950/90 border border-dark-800 scroll-mt-24 shadow-lg">
+          <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+            <span>⚙️</span>
+            <span>{t('card.features')}</span>
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-200">
             {keyFeatures.map((feat) => (
-              <div class="flex items-center gap-2">
-                <span class="text-radar-400">✓</span>
+              <div class="flex items-center gap-2.5 p-2 rounded-xl bg-dark-950/60 border border-dark-800/60">
+                <span class="text-radar-400 font-bold text-xs">✓</span>
                 <span>{feat}</span>
               </div>
             ))}

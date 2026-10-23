@@ -1,0 +1,58 @@
+---
+import type { SupportedLang } from '../i18n/translations';
+
+interface Props {
+  lang: SupportedLang;
+  class?: string;
+}
+
+const { lang, class: className = "w-4 h-4 rounded-full overflow-hidden shadow-sm ring-1 ring-white/20 shrink-0" } = Astro.props;
+---
+
+{lang === 'en' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="English">
+    <path fill="#012169" d="M0 0h640v480H0z"/>
+    <path fill="#fff" d="m75 0 244 181L562 0h78v62L436 224l204 151v105h-75L320 298 75 480H0v-62l204-151L0 116V0z"/>
+    <path fill="#c8102e" d="m424 288 216 159v33h-44L380 321zm-208-96L0 33V0h44l216 159zm-44 96L0 447v33h44l172-129zm252-96L640 33V0h-44L424 159z"/>
+    <path fill="#fff" d="M256 0h128v480H256zM0 176h640v128H0z"/>
+    <path fill="#c8102e" d="M280 0h80v480h-80zM0 200h640v80H0z"/>
+  </svg>
+)}
+
+{lang === 'fr' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="Français">
+    <path fill="#fff" d="M0 0h640v480H0z"/>
+    <path fill="#00267f" d="M0 0h213.3v480H0z"/>
+    <path fill="#f31830" d="M426.7 0H640v480H426.7z"/>
+  </svg>
+)}
+
+{lang === 'de' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="Deutsch">
+    <path fill="#ffce00" d="M0 320h640v160H0z"/>
+    <path fill="#000" d="M0 0h640v160H0z"/>
+    <path fill="#d00" d="M0 160h640v160H0z"/>
+  </svg>
+)}
+
+{lang === 'es' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="Español">
+    <path fill="#c60b1e" d="M0 0h640v480H0z"/>
+    <path fill="#ffc400" d="M0 120h640v240H0z"/>
+  </svg>
+)}
+
+{lang === 'it' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="Italiano">
+    <path fill="#fff" d="M0 0h640v480H0z"/>
+    <path fill="#009246" d="M0 0h213.3v480H0z"/>
+    <path fill="#ce2b37" d="M426.7 0H640v480H426.7z"/>
+  </svg>
+)}
+
+{lang === 'ja' && (
+  <svg class={className} viewBox="0 0 640 480" aria-label="日本語">
+    <path fill="#fff" d="M0 0h640v480H0z"/>
+    <circle fill="#bc002d" cx="320" cy="240" r="144"/>
+  </svg>
+)}

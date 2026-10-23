@@ -20,6 +20,17 @@ const sortedAgents = allAgents.sort((a, b) =>
 
 const featuredAgents = sortedAgents.filter(a => a.data.featured);
 
+const categoryIcons: Record<string, string> = {
+  'ALL': '⚡',
+  'Code & Dev': '💻',
+  'Support Client': '🎧',
+  'Prospection B2B': '🎯',
+  'Productivité & Assistant': '🤖',
+  'Conformité & Juridique': '⚖️',
+  'Comptabilité & Finance': '📊',
+  'Marketing & Contenu': '🚀',
+};
+
 const categories = [
   { key: 'filter.all', label: t('filter.all'), val: 'ALL' },
   { key: 'cat.codeDev', label: t('cat.codeDev'), val: 'Code & Dev' },
@@ -92,14 +103,15 @@ function localizedHref(path: string): string {
     <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none">
       {categories.map((cat, idx) => (
         <button
-          class={`filter-btn whitespace-nowrap text-xs sm:text-sm font-medium px-4 py-2 rounded-xl transition-all cursor-pointer ${
+          class={`filter-btn whitespace-nowrap text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
             idx === 0
-              ? 'active bg-radar-500 text-black font-semibold shadow-md shadow-radar-500/20'
-              : 'bg-dark-900 border border-dark-800 text-slate-300 hover:text-white hover:border-slate-700'
+              ? 'active bg-radar-500 text-black font-bold shadow-lg shadow-radar-500/25 ring-1 ring-radar-400'
+              : 'bg-dark-900 border border-dark-800 text-slate-300 hover:text-white hover:border-slate-700 hover:bg-dark-850'
           }`}
           data-category={cat.val}
         >
-          {cat.label}
+          <span class="text-sm">{categoryIcons[cat.val] || '⚡'}</span>
+          <span>{cat.label}</span>
         </button>
       ))}
     </div>
