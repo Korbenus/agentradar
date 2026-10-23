@@ -117,16 +117,16 @@ function localizedHref(path: string): string {
     </div>
 
     <!-- Secondary Faceted Filters: Budget & AI Act Badge -->
-    <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-dark-900/60 border border-dark-800/80 mb-8">
+    <div class="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-dark-900 border border-dark-800 mb-8 shadow-sm">
       <!-- Pricing Filter Pills -->
-      <div class="flex items-center gap-1.5 overflow-x-auto">
-        <span class="text-[11px] uppercase font-bold text-slate-500 mr-2 tracking-wider">Budget:</span>
+      <div class="flex items-center gap-2 overflow-x-auto">
+        <span class="text-xs uppercase font-extrabold text-slate-400 mr-1 tracking-wider">Budget :</span>
         {pricingFilters.map((pf, idx) => (
           <button
-            class={`pricing-btn text-xs font-medium px-3 py-1.5 rounded-lg transition cursor-pointer ${
+            class={`pricing-btn text-xs sm:text-sm px-3.5 py-1.5 rounded-xl transition cursor-pointer ${
               idx === 0 
-                ? 'active bg-slate-800 text-white font-semibold' 
-                : 'text-slate-400 hover:text-white hover:bg-dark-800'
+                ? 'active bg-radar-500 text-slate-950 font-extrabold shadow-sm' 
+                : 'bg-dark-800 text-slate-200 border border-dark-700 hover:border-radar-500/40 font-semibold'
             }`}
             data-pricing={pf.val}
           >
@@ -136,8 +136,8 @@ function localizedHref(path: string): string {
       </div>
 
       <!-- AI Act Checkbox Toggle -->
-      <label class="inline-flex items-center gap-2 cursor-pointer select-none text-xs text-slate-300 hover:text-white transition">
-        <input type="checkbox" id="aiActToggle" class="rounded bg-dark-950 border-slate-700 text-radar-500 focus:ring-radar-500/40 w-3.5 h-3.5" />
+      <label class="inline-flex items-center gap-2 cursor-pointer select-none text-xs sm:text-sm font-semibold text-slate-200 hover:text-radar-400 transition px-3 py-1.5 rounded-xl bg-dark-800 border border-dark-700">
+        <input type="checkbox" id="aiActToggle" class="rounded bg-dark-950 border-slate-500 text-radar-500 focus:ring-radar-500/40 w-4 h-4" />
         <span>{t('filter.aiActOnly')}</span>
       </label>
     </div>
@@ -275,12 +275,12 @@ function localizedHref(path: string): string {
   pricingButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
       pricingButtons.forEach((b) => {
-        b.classList.remove('active', 'bg-slate-800', 'text-white', 'font-semibold');
-        b.classList.add('text-slate-400');
+        b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'font-extrabold', 'shadow-sm');
+        b.classList.add('bg-dark-800', 'text-slate-200', 'border', 'border-dark-700', 'font-semibold');
       });
 
-      btn.classList.add('active', 'bg-slate-800', 'text-white', 'font-semibold');
-      btn.classList.remove('text-slate-400');
+      btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'font-extrabold', 'shadow-sm');
+      btn.classList.remove('bg-dark-800', 'text-slate-200', 'border', 'border-dark-700', 'font-semibold');
 
       activePricing = btn.getAttribute('data-pricing') || 'ALL';
       updateList();
