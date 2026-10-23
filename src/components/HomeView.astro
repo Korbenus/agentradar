@@ -30,6 +30,12 @@ const categories = [
   { key: 'cat.comptabiliteFinance', label: t('cat.comptabiliteFinance'), val: 'Comptabilité & Finance' },
 ];
 
+const pricingFilters = [
+  { label: t('filter.pricingAll'), val: 'ALL' },
+  { label: t('filter.free'), val: 'FREE' },
+  { label: t('filter.paid'), val: 'PAID' },
+];
+
 function localizedHref(path: string): string {
   if (lang === defaultLang) return path;
   if (path === '/') return `/${lang}`;
@@ -61,16 +67,19 @@ function localizedHref(path: string): string {
 
       <!-- Search & quick filters -->
       <div class="mt-8 max-w-xl mx-auto">
-        <div class="relative">
+        <div class="relative group">
           <input
             type="text"
             id="searchInput"
             placeholder={t('hero.searchPlaceholder')}
-            class="w-full px-5 py-3.5 pl-12 rounded-xl bg-dark-900 border border-slate-700/80 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-radar-500 focus:ring-2 focus:ring-radar-500/20 transition-all shadow-lg"
+            class="w-full px-5 py-3.5 pl-12 pr-20 rounded-xl bg-dark-900 border border-slate-700/80 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-radar-500 focus:ring-2 focus:ring-radar-500/20 transition-all shadow-lg"
           />
           <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          <kbd class="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 text-[10px] font-mono rounded bg-dark-800 border border-dark-700 text-slate-400">
+            {t('search.cmdShortcut')}
+          </kbd>
         </div>
       </div>
     </div>
@@ -78,8 +87,8 @@ function localizedHref(path: string): string {
 
   <!-- Main Explore Section -->
   <section id="explore" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <!-- Categories Filter Tabs -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+    <!-- Categories Filter Tabs (Primary) -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none">
       {categories.map((cat, idx) => (
         <button
           class={`filter-btn whitespace-nowrap text-xs sm:text-sm font-medium px-4 py-2 rounded-xl transition-all cursor-pointer ${
@@ -92,6 +101,32 @@ function localizedHref(path: string): string {
           {cat.label}
         </button>
       ))}
+    </div>
+
+    <!-- Secondary Faceted Filters: Budget & AI Act Badge -->
+    <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-dark-900/60 border border-dark-800/80 mb-8">
+      <!-- Pricing Filter Pills -->
+      <div class="flex items-center gap-1.5 overflow-x-auto">
+        <span class="text-[11px] uppercase font-bold text-slate-500 mr-2 tracking-wider">Budget:</span>
+        {pricingFilters.map((pf, idx) => (
+          <button
+            class={`pricing-btn text-xs font-medium px-3 py-1.5 rounded-lg transition cursor-pointer ${
+              idx === 0 
+                ? 'active bg-slate-800 text-white font-semibold' 
+                : 'text-slate-400 hover:text-white hover:bg-dark-800'
+            }`}
+            data-pricing={pf.val}
+          >
+            {pf.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- AI Act Checkbox Toggle -->
+      <label class="inline-flex items-center gap-2 cursor-pointer select-none text-xs text-slate-300 hover:text-white transition">
+        <input type="checkbox" id="aiActToggle" class="rounded bg-dark-950 border-slate-700 text-radar-500 focus:ring-radar-500/40 w-3.5 h-3.5" />
+        <span>{t('filter.aiActOnly')}</span>
+      </label>
     </div>
 
     <!-- Featured Section (shown if "ALL" active) -->
@@ -121,7 +156,14 @@ function localizedHref(path: string): string {
 
       <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {sortedAgents.map((agent) => (
-          <div class="agent-item" data-category={agent.data.category} data-name={agent.data.name.toLowerCase()} data-tagline={agent.data.tagline.toLowerCase()}>
+          <div 
+            class="agent-item" 
+            data-category={agent.data.category} 
+            data-name={agent.data.name.toLowerCase()} 
+            data-tagline={agent.data.tagline.toLowerCase()}
+            data-pricing-model={agent.data.pricingModel.toLowerCase()}
+            data-ai-act={agent.data.aiActCompliant ? 'true' : 'false'}
+          >
             <AgentCard agent={agent} lang={lang} />
           </div>
         ))}
@@ -141,6 +183,8 @@ function localizedHref(path: string): string {
 <script>
   const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
   const filterButtons = document.querySelectorAll('.filter-btn');
+  const pricingButtons = document.querySelectorAll('.pricing-btn');
+  const aiActToggle = document.getElementById('aiActToggle') as HTMLInputElement | null;
   const agentItems = document.querySelectorAll('.agent-item');
   const featuredContainer = document.getElementById('featuredContainer');
   const noResults = document.getElementById('noResults');
@@ -148,6 +192,8 @@ function localizedHref(path: string): string {
   const resetSearch = document.getElementById('resetSearch');
 
   let activeCategory = 'ALL';
+  let activePricing = 'ALL';
+  let aiActOnly = false;
   let searchTerm = '';
 
   function updateList() {
@@ -158,11 +204,22 @@ function localizedHref(path: string): string {
       const cat = item.dataset.category || '';
       const name = item.dataset.name || '';
       const tagline = item.dataset.tagline || '';
+      const pricingModel = (item.dataset.pricingModel || '').toLowerCase();
+      const isAiAct = item.dataset.aiAct === 'true';
 
       const matchCategory = activeCategory === 'ALL' || cat === activeCategory;
       const matchSearch = searchTerm === '' || name.includes(searchTerm) || tagline.includes(searchTerm);
+      
+      let matchPricing = true;
+      if (activePricing === 'FREE') {
+        matchPricing = pricingModel.includes('freemium') || pricingModel.includes('gratuit') || pricingModel.includes('open-source');
+      } else if (activePricing === 'PAID') {
+        matchPricing = pricingModel.includes('payant') || pricingModel.includes('sur devis');
+      }
 
-      if (matchCategory && matchSearch) {
+      const matchAiAct = !aiActOnly || isAiAct;
+
+      if (matchCategory && matchSearch && matchPricing && matchAiAct) {
         item.style.display = 'block';
         visibleCount++;
       } else {
@@ -171,7 +228,7 @@ function localizedHref(path: string): string {
     });
 
     if (featuredContainer) {
-      if (activeCategory !== 'ALL' || searchTerm !== '') {
+      if (activeCategory !== 'ALL' || searchTerm !== '' || activePricing !== 'ALL' || aiActOnly) {
         featuredContainer.style.display = 'none';
       } else {
         featuredContainer.style.display = 'block';
@@ -202,6 +259,28 @@ function localizedHref(path: string): string {
     });
   });
 
+  pricingButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      pricingButtons.forEach((b) => {
+        b.classList.remove('active', 'bg-slate-800', 'text-white', 'font-semibold');
+        b.classList.add('text-slate-400');
+      });
+
+      btn.classList.add('active', 'bg-slate-800', 'text-white', 'font-semibold');
+      btn.classList.remove('text-slate-400');
+
+      activePricing = btn.getAttribute('data-pricing') || 'ALL';
+      updateList();
+    });
+  });
+
+  if (aiActToggle) {
+    aiActToggle.addEventListener('change', () => {
+      aiActOnly = aiActToggle.checked;
+      updateList();
+    });
+  }
+
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       searchTerm = (e.target as HTMLInputElement).value.toLowerCase().trim();
@@ -209,12 +288,17 @@ function localizedHref(path: string): string {
     });
   }
 
-  if (resetSearch && searchInput) {
+  if (resetSearch) {
     resetSearch.addEventListener('click', () => {
-      searchInput.value = '';
+      if (searchInput) searchInput.value = '';
       searchTerm = '';
       activeCategory = 'ALL';
+      activePricing = 'ALL';
+      aiActOnly = false;
+      if (aiActToggle) aiActToggle.checked = false;
+
       filterButtons[0]?.dispatchEvent(new Event('click'));
+      pricingButtons[0]?.dispatchEvent(new Event('click'));
       updateList();
     });
   }

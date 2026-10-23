@@ -1,0 +1,219 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+
+interface Props {
+  lang?: SupportedLang;
+}
+
+const { lang = defaultLang } = Astro.props;
+const t = useTranslations(lang);
+
+const allAgents = await getCollection('agents');
+
+// Sort alphabetically for clean selector dropdowns
+const sortedAgents = allAgents.sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const agentsMap = Object.fromEntries(
+  sortedAgents.map(a => [a.id.replace(/\.md$/, ''), {
+    name: a.data.name,
+    tagline: a.data.tagline,
+    category: a.data.category,
+    rating: a.data.rating,
+    price: a.data.priceStartingAt,
+    model: a.data.pricingModel,
+    aiAct: a.data.aiActCompliant,
+    pros: a.data.pros,
+    cons: a.data.cons,
+    features: a.data.keyFeatures,
+    target: a.data.targetAudience,
+    url: a.data.affiliateUrl || a.data.websiteUrl,
+    reviewUrl: lang === defaultLang ? `/agents/${a.id.replace(/\.md$/, '')}` : `/${lang}/agents/${a.id.replace(/\.md$/, '')}`
+  }])
+);
+
+// Presets
+const presets = [
+  { name: 'Devin vs Cursor Agent', a: 'devin', b: 'cursor-agent' },
+  { name: 'Apollo.io vs Artisan (Ava)', a: 'apollo-ai', b: 'artisan-ai-ava' },
+  { name: 'Sierra vs Fin AI (Intercom)', a: 'sierra-ai', b: 'fin-ai-intercom' },
+  { name: 'Make.com vs n8n AI', a: 'make-ai-agents', b: 'n8n-ai' },
+];
+---
+
+<Layout
+  lang={lang}
+  title={`${t('compare.pageTitle')} | AgentRadar`}
+  description={t('compare.pageDesc')}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">⚡ Benchmark Arena</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+        {t('compare.pageTitle')}
+      </h1>
+      <p class="mt-4 text-base text-slate-300 leading-relaxed">
+        {t('compare.pageDesc')}
+      </p>
+
+      <!-- Preset Pills -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
+        <span class="text-xs text-slate-500 font-semibold mr-1">Popular Duels:</span>
+        {presets.map((p) => (
+          <button
+            type="button"
+            class="preset-btn px-3 py-1.5 rounded-lg bg-dark-900 border border-dark-800 text-xs text-slate-300 hover:text-white hover:border-radar-500/40 transition cursor-pointer"
+            data-a={p.a}
+            data-b={p.b}
+          >
+            {p.name}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Dropdown Selector Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-dark-900 border border-dark-800 shadow-xl mb-12">
+      <div>
+        <label class="block text-xs font-bold text-radar-400 uppercase tracking-wider mb-2">Select Agent A</label>
+        <select id="selectAgentA" class="w-full px-4 py-3 rounded-xl bg-dark-950 border border-dark-700 text-white text-sm focus:outline-none focus:border-radar-500 cursor-pointer">
+          {sortedAgents.map((a, idx) => (
+            <option value={a.id.replace(/\.md$/, '')} selected={idx === 0}>{a.data.name} ({a.data.category})</option>
+          ))}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-radar-400 uppercase tracking-wider mb-2">Select Agent B</label>
+        <select id="selectAgentB" class="w-full px-4 py-3 rounded-xl bg-dark-950 border border-dark-700 text-white text-sm focus:outline-none focus:border-radar-500 cursor-pointer">
+          {sortedAgents.map((a, idx) => (
+            <option value={a.id.replace(/\.md$/, '')} selected={idx === 1}>{a.data.name} ({a.data.category})</option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+    <!-- Comparison Table / Cards Container -->
+    <div id="comparisonContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Agent A Card -->
+      <div id="colA" class="p-8 rounded-3xl bg-dark-900/80 border border-dark-800 shadow-2xl flex flex-col justify-between space-y-8">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Agent B Card -->
+      <div id="colB" class="p-8 rounded-3xl bg-dark-900/80 border border-dark-800 shadow-2xl flex flex-col justify-between space-y-8">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ agentsMap }}>
+  const selectA = document.getElementById('selectAgentA');
+  const selectB = document.getElementById('selectAgentB');
+  const colA = document.getElementById('colA');
+  const colB = document.getElementById('colB');
+  const presetButtons = document.querySelectorAll('.preset-btn');
+
+  function renderAgentCard(container, data) {
+    if (!container || !data) return;
+
+    container.innerHTML = `
+      <div class="space-y-6">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+            ${data.category}
+          </span>
+          <div class="flex items-center gap-1 text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-md">
+            <span>★ ${data.rating.toFixed(1)} / 5</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">${data.name}</h3>
+          <p class="mt-2 text-xs sm:text-sm text-slate-400 leading-relaxed">${data.tagline}</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-dark-950 border border-dark-800 space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-slate-400">Starting Price:</span>
+            <span class="font-bold text-radar-400">${data.price}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">Pricing Model:</span>
+            <span class="text-slate-200 font-semibold">${data.model}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-400">EU AI Act:</span>
+            <span class="text-emerald-400 font-semibold">${data.aiAct ? '🇪🇺 Compliant' : 'Standard'}</span>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Strengths</h4>
+          <ul class="space-y-1.5 text-xs text-slate-300">
+            ${data.pros.map(p => `<li class="flex items-start gap-2"><span class="text-emerald-400 font-bold">+</span><span>${p}</span></li>`).join('')}
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider mb-2">Limitations</h4>
+          <ul class="space-y-1.5 text-xs text-slate-300">
+            ${data.cons.map(c => `<li class="flex items-start gap-2"><span class="text-rose-400 font-bold">-</span><span>${c}</span></li>`).join('')}
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Ideal For</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">${data.target}</p>
+        </div>
+      </div>
+
+      <div class="pt-6 border-t border-dark-800 space-y-3">
+        <a
+          href="${data.url}"
+          target="_blank"
+          rel="sponsored noopener noreferrer"
+          class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-radar-500 hover:bg-radar-400 text-black font-bold text-xs transition-all shadow-lg shadow-radar-500/20 text-center"
+        >
+          <span>Try ${data.name} Now</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
+        </a>
+        <a
+          href="${data.reviewUrl}"
+          class="block text-center text-xs font-medium text-slate-400 hover:text-white transition"
+        >
+          Read In-Depth Review →
+        </a>
+      </div>
+    `;
+  }
+
+  function updateComparison() {
+    const keyA = selectA ? selectA.value : '';
+    const keyB = selectB ? selectB.value : '';
+    renderAgentCard(colA, agentsMap[keyA]);
+    renderAgentCard(colB, agentsMap[keyB]);
+  }
+
+  if (selectA) selectA.addEventListener('change', updateComparison);
+  if (selectB) selectB.addEventListener('change', updateComparison);
+
+  presetButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const a = btn.getAttribute('data-a');
+      const b = btn.getAttribute('data-b');
+      if (selectA && a) selectA.value = a;
+      if (selectB && b) selectB.value = b;
+      updateComparison();
+    });
+  });
+
+  // Initial render with preset default Devin vs Cursor
+  if (selectA && agentsMap['devin']) selectA.value = 'devin';
+  if (selectB && agentsMap['cursor-agent']) selectB.value = 'cursor-agent';
+  updateComparison();
+</script>

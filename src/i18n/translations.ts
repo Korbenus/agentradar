@@ -15,11 +15,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   en: {
     // Nav
     'nav.allAgents': 'All Agents',
+    'nav.compare': 'Compare (Vs)',
     'nav.customerSupport': 'Customer Support',
     'nav.salesOutreach': 'B2B Sales',
     'nav.codeDev': 'Code & Dev',
     'nav.submit': 'Submit an Agent',
     'nav.radarSubtitle': 'B2B Observatory 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Ctrl + K',
+    'filter.pricingAll': 'All Budgets',
+    'filter.free': 'Free & Freemium',
+    'filter.paid': 'Paid Only',
+    'filter.aiActOnly': '🇪🇺 AI Act Verified',
+    'faq.heading': 'Frequently Asked Questions',
+    'toc.overview': 'Overview',
+    'toc.prosCons': 'Pros & Cons',
+    'toc.features': 'Capabilities',
+    'toc.pricing': 'Pricing',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'Top Recommended Alternative',
+    'alt.subtitle': 'Compare another top-tier agent in this space',
+    'compare.pageTitle': 'Side-by-Side Agent Comparison',
+    'compare.pageDesc': 'Compare 2 autonomous AI agents head-to-head on pricing, capabilities, rating, and AI Act compliance.',
 
     // Hero
     'hero.badge': '2026 Observatory • Autonomous Real-Time Monitoring',
@@ -107,11 +125,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   fr: {
     // Nav
     'nav.allAgents': 'Tous les Agents',
+    'nav.compare': 'Comparateur (Vs)',
     'nav.customerSupport': 'Support Client',
     'nav.salesOutreach': 'Prospection B2B',
     'nav.codeDev': 'Code & Dev',
     'nav.submit': 'Soumettre un Agent',
     'nav.radarSubtitle': 'Veille B2B 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Ctrl + K',
+    'filter.pricingAll': 'Tous les budgets',
+    'filter.free': 'Gratuit & Freemium',
+    'filter.paid': 'Payant',
+    'filter.aiActOnly': '🇪🇺 Conformes AI Act',
+    'faq.heading': 'Questions Fréquentes',
+    'toc.overview': 'Présentation',
+    'toc.prosCons': 'Points Forts / Faibles',
+    'toc.features': 'Fonctionnalités',
+    'toc.pricing': 'Tarifs',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'Alternative Recommandée',
+    'alt.subtitle': 'Découvrez une alternative performante dans la même catégorie',
+    'compare.pageTitle': 'Comparateur Face-à-Face',
+    'compare.pageDesc': 'Comparez 2 agents IA autonomes côte à côte : tarifs, fonctionnalités, avis technique et conformité EU AI Act.',
 
     // Hero
     'hero.badge': 'Observatoire 2026 • Veille Autonome Active',
@@ -199,11 +235,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   es: {
     // Nav
     'nav.allAgents': 'Todos los Agentes',
+    'nav.compare': 'Comparador (Vs)',
     'nav.customerSupport': 'Atención al Cliente',
     'nav.salesOutreach': 'Ventas B2B',
     'nav.codeDev': 'Código y Dev',
     'nav.submit': 'Publicar un Agente',
     'nav.radarSubtitle': 'Observatorio B2B 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Ctrl + K',
+    'filter.pricingAll': 'Todos los presupuestos',
+    'filter.free': 'Gratis y Freemium',
+    'filter.paid': 'De pago',
+    'filter.aiActOnly': '🇪🇺 Conforme con AI Act',
+    'faq.heading': 'Preguntas Frecuentes',
+    'toc.overview': 'Visión General',
+    'toc.prosCons': 'Pros y Contras',
+    'toc.features': 'Capacidades',
+    'toc.pricing': 'Precios',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'Alternativa Recomendada',
+    'alt.subtitle': 'Compara con otro agente destacado en esta categoría',
+    'compare.pageTitle': 'Comparativa Cara a Cara',
+    'compare.pageDesc': 'Compara 2 agentes de IA cara a cara: precios, notas técnicas, pros y contras.',
 
     // Hero
     'hero.badge': 'Observatorio 2026 • Monitorización Autónoma en Tiempo Real',
@@ -291,11 +345,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   de: {
     // Nav
     'nav.allAgents': 'Alle KI-Agenten',
+    'nav.compare': 'Vergleich (Vs)',
     'nav.customerSupport': 'Kundensupport',
     'nav.salesOutreach': 'B2B-Vertrieb',
     'nav.codeDev': 'Code & Dev',
     'nav.submit': 'Agent Einreichen',
     'nav.radarSubtitle': 'B2B-Radar 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Strg + K',
+    'filter.pricingAll': 'Alle Budgets',
+    'filter.free': 'Kostenlos & Freemium',
+    'filter.paid': 'Kostenpflichtig',
+    'filter.aiActOnly': '🇪🇺 AI Act Konform',
+    'faq.heading': 'Häufig gestellte Fragen (FAQ)',
+    'toc.overview': 'Überblick',
+    'toc.prosCons': 'Vor- und Nachteile',
+    'toc.features': 'Funktionen',
+    'toc.pricing': 'Preise',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'Empfohlene Alternative',
+    'alt.subtitle': 'Vergleichen Sie eine Top-Alternative in diesem Bereich',
+    'compare.pageTitle': 'Direkter KI-Agenten-Vergleich',
+    'compare.pageDesc': 'Vergleichen Sie 2 KI-Agenten Seite an Seite bezüglich Preisen, Score und Konformität.',
 
     // Hero
     'hero.badge': 'Observatorium 2026 • Autonome Echtzeit-Überwachung',
@@ -383,11 +455,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   it: {
     // Nav
     'nav.allAgents': 'Tutti gli Agenti',
+    'nav.compare': 'Confronta (Vs)',
     'nav.customerSupport': 'Supporto Clienti',
     'nav.salesOutreach': 'Vendite B2B',
     'nav.codeDev': 'Codice e Sviluppo',
     'nav.submit': 'Invia un Agente',
     'nav.radarSubtitle': 'Osservatorio B2B 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Ctrl + K',
+    'filter.pricingAll': 'Tutti i budget',
+    'filter.free': 'Gratis e Freemium',
+    'filter.paid': 'A pagamento',
+    'filter.aiActOnly': '🇪🇺 Conforme AI Act',
+    'faq.heading': 'Domande Frequenti (FAQ)',
+    'toc.overview': 'Panoramica',
+    'toc.prosCons': 'Punti di Forza e Debolezza',
+    'toc.features': 'Caratteristiche',
+    'toc.pricing': 'Prezzi',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'Alternativa Consigliata',
+    'alt.subtitle': 'Confronta un altro agente leader in questa categoria',
+    'compare.pageTitle': 'Confronto Testa a Testa',
+    'compare.pageDesc': 'Confronta 2 agenti IA fianco a fianco: prezzi, note tecniche e conformità.',
 
     // Hero
     'hero.badge': 'Osservatorio 2026 • Monitoraggio Autonomo in Tempo Reale',
@@ -475,11 +565,29 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
   ja: {
     // Nav
     'nav.allAgents': 'すべてのAIエージェント',
+    'nav.compare': '徹底比較 (Vs)',
     'nav.customerSupport': 'カスタマーサポート',
     'nav.salesOutreach': 'B2B営業・インサイドセールス',
     'nav.codeDev': '開発・エンジニアリング',
     'nav.submit': 'エージェントを登録',
     'nav.radarSubtitle': 'B2B AI動向 2026',
+
+    // New UX elements
+    'search.cmdShortcut': 'Ctrl + K',
+    'filter.pricingAll': 'すべての料金',
+    'filter.free': '無料・フリーミアム',
+    'filter.paid': '有料プラン',
+    'filter.aiActOnly': '🇪🇺 EU AI規制準拠',
+    'faq.heading': 'よくある質問 (FAQ)',
+    'toc.overview': '概要・特徴',
+    'toc.prosCons': 'メリット・デメリット',
+    'toc.features': '主要機能一覧',
+    'toc.pricing': '料金プラン',
+    'toc.faq': 'FAQ',
+    'alt.heading': 'おすすめの代替エージェント',
+    'alt.subtitle': '同カテゴリーの他の有力エージェントと比較',
+    'compare.pageTitle': 'AIエージェント直接対決・比較',
+    'compare.pageDesc': '2つの自律型AIエージェントの料金、機能、技術評価、EU AI規制対応を直接比較。',
 
     // Hero
     'hero.badge': '2026年最新動向 • 自律型AI常時モニタリング',
