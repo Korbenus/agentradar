@@ -35,16 +35,26 @@ VALID_CATEGORIES = [
 
 # Discovery targets to explore (curated queue of trending high-potential AI agents in 2026)
 DISCOVERY_QUEUE = [
-    {"name": "Manus AI", "hint": "General autonomous agent executing multi-step complex tasks in browser"},
-    {"name": "Cognosys", "hint": "Autonomous web research and enterprise workflow agent"},
-    {"name": "Decagon", "hint": "Enterprise AI agent for customer support and complex issue resolution"},
-    {"name": "11x.ai (Alice / Jordan)", "hint": "Autonomous AI SDR (Sales Development Representative) for B2B pipeline"},
-    {"name": "Artisan AI (Ava)", "hint": "AI BDR agent doing automated lead research and multi-channel outreach"},
-    {"name": "Cursor Agent", "hint": "Multi-file terminal and composer autonomous coding agent"},
-    {"name": "Fin AI (Intercom)", "hint": "Autonomous customer support agent solving tickets in Intercom"},
-    {"name": "Klap AI", "hint": "Autonomous video repurposing agent generating viral shorts from long-form content"},
-    {"name": "Pennylane AI", "hint": "Autonomous accounting and invoice reconciliation agent for European companies"},
-    {"name": "CoCounsel", "hint": "Casetext GPT-4 powered autonomous legal research and deposition prep agent"}
+    {"name": "Clay AI", "hint": "Autonomous 100+ provider data enrichment and lead waterfall prospecting agent"},
+    {"name": "Bland AI", "hint": "Autonomous conversational phone calling agent handling inbound and outbound sales"},
+    {"name": "Lovable dev", "hint": "Autonomous full-stack web application development and rapid prototyping agent"},
+    {"name": "Bolt new", "hint": "In-browser autonomous full-stack development sandbox with container execution"},
+    {"name": "Windsurf", "hint": "Codeium Cascade autonomous flow-state developer agent and terminal orchestrator"},
+    {"name": "Granola AI", "hint": "Intelligent meeting notepad and autonomous executive assistant for founders"},
+    {"name": "HeyGen AI", "hint": "Autonomous interactive digital avatar video production and voice translation agent"},
+    {"name": "Gamma App", "hint": "Autonomous presentation, document, and webpage creation agent from single prompt"},
+    {"name": "Fireflies ai", "hint": "Autonomous meeting transcription, action-item tracking, and CRM voice logger"},
+    {"name": "Browse AI", "hint": "Autonomous zero-code web scraper and competitive intelligence monitoring agent"},
+    {"name": "Perplexity Enterprise", "hint": "Autonomous web intelligence search engine and enterprise research workspace"},
+    {"name": "Factory AI Droids", "hint": "Autonomous software engineering droids automating code migrations and PR reviews"},
+    {"name": "Ema AI", "hint": "Universal enterprise AI employee operating across Zendesk, Salesforce, and Workday"},
+    {"name": "Synthesia", "hint": "Enterprise video communication studio with generative AI avatars and multi-language lip sync"},
+    {"name": "Descript", "hint": "Text-based video and audio podcast editing agent with automated studio sound"},
+    {"name": "Folk CRM", "hint": "All-in-one relationship intelligence and automated outreach CRM for teams"},
+    {"name": "Tavily AI", "hint": "Autonomous search and factual retrieval engine designed specifically for AI agents"},
+    {"name": "Superhuman AI", "hint": "High-velocity email triage, auto-drafting, and inbox zero orchestration agent"},
+    {"name": "Rows AI", "hint": "Next-gen spreadsheet agent automating web scraping, SQL queries, and financial models"},
+    {"name": "Mem ai", "hint": "Self-organizing personal knowledge base and contextual note synthesis agent"}
 ]
 
 
@@ -55,13 +65,16 @@ def get_existing_slugs():
     return {f.stem.lower() for f in AGENTS_DIR.glob("*.md")}
 
 
-def pick_next_candidate(existing_slugs):
-    """Picks the first candidate from the queue that does not exist yet."""
+def pick_candidates(existing_slugs, limit=3):
+    """Picks up to `limit` candidates from the queue that do not exist yet."""
+    candidates = []
     for item in DISCOVERY_QUEUE:
         slug = re.sub(r'[^a-z0-9]+', '-', item['name'].lower()).strip('-')
-        if slug not in existing_slugs:
-            return item, slug
-    return None, None
+        if slug not in existing_slugs and not (AGENTS_DIR / f"{slug}.md").exists():
+            candidates.append((item, slug))
+            if len(candidates) >= limit:
+                break
+    return candidates
 
 
 def call_gemini(prompt: str) -> dict:
@@ -225,33 +238,36 @@ def main():
     existing_slugs = get_existing_slugs()
     print(f"[INFO] {len(existing_slugs)} agents actuellement répertoriés dans la base.")
 
-    candidate, slug = pick_next_candidate(existing_slugs)
-    if not candidate:
+    candidates = pick_candidates(existing_slugs, limit=3)
+    if not candidates:
         print("[INFO] Tous les agents de la file prioritaire sont déjà publiés. Rien à ajouter aujourd'hui.")
         return 0
 
-    print(f"[RADAR] Nouvel agent détecté à auditer : {candidate['name']} ({slug})")
+    print(f"[RADAR] {len(candidates)} nouveau(x) agent(s) à auditer aujourd'hui.")
 
-    agent_data = None
-    if GEMINI_API_KEY:
-        print(f"[AI] Interrogation de Google Gemini ({GEMINI_MODEL}) pour l'audit...")
-        prompt = build_prompt(candidate, slug)
-        agent_data = call_gemini(prompt)
-
-    if not agent_data:
+    added_count = 0
+    for candidate, slug in candidates:
+        print(f"\n--> Traitement de : {candidate['name']} ({slug})...")
+        agent_data = None
         if GEMINI_API_KEY:
-            print("[WARN] Échec de l'appel Gemini, utilisation du fallback sécurisé.")
-        else:
-            print("[INFO] Mode démo / test sans clé : génération de la fiche structurée.")
-        agent_data = generate_mock_agent(candidate, slug)
+            print(f"[AI] Interrogation de Google Gemini ({GEMINI_MODEL}) pour l'audit...")
+            prompt = build_prompt(candidate, slug)
+            agent_data = call_gemini(prompt)
 
-    target_file = AGENTS_DIR / f"{slug}.md"
-    save_agent_markdown(agent_data, target_file)
+        if not agent_data:
+            if GEMINI_API_KEY:
+                print("[WARN] Échec de l'appel Gemini, utilisation du fallback sécurisé.")
+            else:
+                print("[INFO] Mode démo / test sans clé : génération de la fiche structurée.")
+            agent_data = generate_mock_agent(candidate, slug)
 
-    print(f"[SUCCESS] Nouvelle fiche créée avec succès : {target_file}")
-    print(f"          Nom      : {agent_data['name']}")
-    print(f"          Catégorie: {agent_data['category']}")
-    print(f"          Tarif    : {agent_data['priceStartingAt']}")
+        target_file = AGENTS_DIR / f"{slug}.md"
+        save_agent_markdown(agent_data, target_file)
+        added_count += 1
+        print(f"[SUCCESS] Fiche créée : {target_file.name}")
+
+    print("\n" + "=" * 60)
+    print(f"[TERMINE] {added_count} nouveau(x) agent(s) ajouté(s) avec succès.")
     print("=" * 60)
     return 0
 
