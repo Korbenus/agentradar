@@ -46,9 +46,10 @@ function getTargetUrl(targetLang: SupportedLang): string {
   <button
     type="button"
     id="langPickerToggle"
-    class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-900/90 hover:bg-dark-850 border border-dark-700/80 hover:border-slate-600 text-xs font-semibold text-slate-200 hover:text-white transition-all shadow-sm cursor-pointer"
+    class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-900/90 hover:bg-dark-850 border border-dark-700/80 hover:border-slate-600 text-xs font-semibold text-slate-200 hover:text-white transition-all shadow-sm cursor-pointer select-none"
     aria-label="Change language"
     aria-haspopup="true"
+    aria-expanded="false"
   >
     <FlagIcon lang={currentLang} class="w-4 h-4 rounded-full overflow-hidden shadow ring-1 ring-white/25 shrink-0" />
     <span class="uppercase font-mono tracking-wider text-[11px] font-bold text-slate-200">{languages[currentLang]?.label}</span>
@@ -57,33 +58,37 @@ function getTargetUrl(targetLang: SupportedLang): string {
     </svg>
   </button>
 
-  <!-- Dropdown Menu -->
+  <!-- Dropdown Menu Wrapper (starts directly below button, pt-1.5 eliminates any gap) -->
   <div
     id="langPickerMenu"
-    class="absolute right-0 mt-2 w-44 rounded-2xl bg-dark-900/95 border border-dark-700 shadow-2xl py-2 hidden z-50 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150"
+    class="absolute right-0 top-full pt-1.5 w-48 hidden z-50"
   >
-    <div class="px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-slate-500 border-b border-dark-800/80 mb-1">
-      Select Language
+    <!-- Styled Card -->
+    <div class="rounded-2xl bg-dark-900/98 border border-dark-700 shadow-2xl py-2 backdrop-blur-xl">
+      <div class="px-3 py-1 text-[10px] font-bold tracking-wider uppercase text-slate-500 border-b border-dark-800/80 mb-1 flex items-center justify-between">
+        <span>Select Language</span>
+        <span class="text-[9px] text-slate-600 font-mono">6 locales</span>
+      </div>
+      {(Object.entries(languages) as [SupportedLang, { name: string; flag: string; label: string }][]).map(([key, info]) => {
+        const active = key === currentLang;
+        return (
+          <a
+            href={getTargetUrl(key)}
+            class={`flex items-center justify-between px-3.5 py-2 text-xs rounded-xl mx-1 transition-all ${
+              active 
+                ? 'bg-radar-500/15 text-radar-400 font-bold border border-radar-500/30' 
+                : 'text-slate-300 hover:bg-dark-800 hover:text-white hover:translate-x-0.5'
+            }`}
+          >
+            <span class="flex items-center gap-2.5">
+              <FlagIcon lang={key} class="w-4 h-4 rounded-full overflow-hidden shadow ring-1 ring-white/20 shrink-0" />
+              <span class="font-medium">{info.name}</span>
+            </span>
+            {active && <span class="text-[11px] text-radar-400 font-bold font-mono">✓</span>}
+          </a>
+        );
+      })}
     </div>
-    {(Object.entries(languages) as [SupportedLang, { name: string; flag: string; label: string }][]).map(([key, info]) => {
-      const active = key === currentLang;
-      return (
-        <a
-          href={getTargetUrl(key)}
-          class={`flex items-center justify-between px-3.5 py-2 text-xs rounded-lg mx-1 transition-all ${
-            active 
-              ? 'bg-radar-500/15 text-radar-400 font-bold border border-radar-500/30' 
-              : 'text-slate-300 hover:bg-dark-800 hover:text-white'
-          }`}
-        >
-          <span class="flex items-center gap-2.5">
-            <FlagIcon lang={key} class="w-4 h-4 rounded-full overflow-hidden shadow ring-1 ring-white/20 shrink-0" />
-            <span class="font-medium">{info.name}</span>
-          </span>
-          {active && <span class="text-[11px] text-radar-400 font-bold font-mono">✓</span>}
-        </a>
-      );
-    })}
   </div>
 </div>
 
@@ -96,34 +101,65 @@ function getTargetUrl(targetLang: SupportedLang): string {
 
     if (!container || !toggle || !menu) return;
 
+    let isOpen = false;
+    let leaveTimer = null;
+
     function openMenu() {
+      if (leaveTimer) {
+        clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }
       menu.classList.remove('hidden');
       if (chevron) chevron.style.transform = 'rotate(180deg)';
+      toggle.setAttribute('aria-expanded', 'true');
+      isOpen = true;
     }
 
     function closeMenu() {
+      if (leaveTimer) {
+        clearTimeout(leaveTimer);
+        leaveTimer = null;
+      }
       menu.classList.add('hidden');
       if (chevron) chevron.style.transform = 'rotate(0deg)';
+      toggle.setAttribute('aria-expanded', 'false');
+      isOpen = false;
     }
 
+    // Toggle on button click (locks open until clicked again, clicked outside, or item selected)
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (menu.classList.contains('hidden')) {
-        openMenu();
-      } else {
+      if (isOpen) {
         closeMenu();
+      } else {
+        openMenu();
       }
     });
 
-    // Close on click outside
+    // Close when clicking anywhere outside
     document.addEventListener('click', (e) => {
       if (!container.contains(e.target)) {
         closeMenu();
       }
     });
 
-    // Also support hover for desktop mice
-    container.addEventListener('mouseenter', openMenu);
-    container.addEventListener('mouseleave', closeMenu);
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeMenu();
+      }
+    });
+
+    // Hover with 300ms grace period so moving cursor across edges NEVER closes prematurely
+    container.addEventListener('mouseenter', () => {
+      openMenu();
+    });
+
+    container.addEventListener('mouseleave', () => {
+      // 300ms grace timeout: if the user quickly moves cursor back, it remains open
+      leaveTimer = setTimeout(() => {
+        closeMenu();
+      }, 300);
+    });
   })();
 </script>
