@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+import { getLocalizedAgent } from '../i18n/agentData';
 
 interface Props {
   lang?: SupportedLang;
@@ -10,15 +11,18 @@ const { lang = defaultLang } = Astro.props;
 const t = useTranslations(lang);
 
 const allAgents = await getCollection('agents');
-const agentsData = allAgents.map((a) => ({
-  slug: a.id.replace(/\.md$/, ''),
-  name: a.data.name,
-  tagline: a.data.tagline,
-  category: a.data.category,
-  rating: a.data.rating,
-  pricingModel: a.data.pricingModel,
-  url: lang === defaultLang ? `/agents/${a.id.replace(/\.md$/, '')}` : `/${lang}/agents/${a.id.replace(/\.md$/, '')}`,
-}));
+const agentsData = allAgents.map((a) => {
+  const loc = getLocalizedAgent(a, lang);
+  return {
+    slug: a.id.replace(/\.md$/, ''),
+    name: loc.name,
+    tagline: loc.tagline,
+    category: loc.category,
+    rating: loc.rating,
+    pricingModel: loc.pricingModel,
+    url: lang === defaultLang ? `/agents/${a.id.replace(/\.md$/, '')}` : `/${lang}/agents/${a.id.replace(/\.md$/, '')}`,
+  };
+});
 ---
 
 <!-- Trigger button for Header -->

@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import AgentCard from './AgentCard.astro';
 import { render, type CollectionEntry } from 'astro:content';
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+import { getLocalizedAgent } from '../i18n/agentData';
+import { getCategorySlug } from '../utils/categories';
 
 interface Props {
   agent: CollectionEntry<'agents'>;
@@ -21,6 +23,9 @@ const sameCategoryAgents = allAgents.filter(
 const topAlternative = sameCategoryAgents[0] || allAgents.find(a => a.id !== agent.id);
 const relatedAgents = sameCategoryAgents.slice(0, 3);
 
+const loc = getLocalizedAgent(agent, lang);
+const altLoc = topAlternative ? getLocalizedAgent(topAlternative, lang) : null;
+
 const {
   name,
   tagline,
@@ -37,7 +42,9 @@ const {
   cons,
   keyFeatures,
   targetAudience,
-} = agent.data;
+  overviewSummary,
+  faqs: customFaqs,
+} = loc;
 
 const targetUrl = affiliateUrl || websiteUrl;
 
@@ -47,12 +54,31 @@ function localizedHref(path: string): string {
   return `/${lang}${path}`;
 }
 
-const categorySlug = category.toLowerCase().replace(/ & /g, '-').replace(/\s+/g, '-');
+const categorySlug = getCategorySlug(category);
 const altSlug = topAlternative ? topAlternative.id.replace(/\.md$/, '') : '';
 const altUrl = topAlternative ? localizedHref(`/agents/${altSlug}`) : '';
 
 // 3 Custom FAQs for the agent
-const faqs = [
+const faqs = customFaqs || (lang === 'fr' ? [
+  {
+    q: `Est-ce que ${name} propose un essai gratuit ou une version freemium ?`,
+    a: pricingModel.toLowerCase().includes('freemium') || pricingModel.toLowerCase().includes('gratuit')
+      ? `Oui ! ${name} propose une formule ${pricingModel}, permettant d'évaluer ses capacités avant tout engagement.`
+      : `${name} fonctionne sur un modèle ${pricingModel} avec des forfaits débutant à ${priceStartingAt}. Consultez leur site officiel pour connaître les conditions d'essai.`
+  },
+  {
+    q: `Est-ce que ${name} est conforme au RGPD et à l'EU AI Act ?`,
+    a: aiActCompliant
+      ? `Oui. ${name} intègre des mécanismes stricts de traçabilité et de sécurité des données conformes aux normes européennes.`
+      : `${name} applique les protocoles de sécurité cloud standards. Consultez leur politique de confidentialité pour les garanties d'hébergement européen.`
+  },
+  {
+    q: `Quelle est la meilleure alternative à ${name} ?`,
+    a: topAlternative 
+      ? `Une excellente alternative dans la catégorie "${category}" est ${topAlternative.data.name} (à partir de ${topAlternative.data.priceStartingAt}, noté ★ ${topAlternative.data.rating.toFixed(1)}).`
+      : `Explorez notre répertoire "${category}" pour comparer les solutions alternatives.`
+  }
+] : [
   {
     q: `Does ${name} offer a free trial or free tier?`,
     a: pricingModel.toLowerCase().includes('freemium') || pricingModel.toLowerCase().includes('gratuit')
@@ -71,7 +97,7 @@ const faqs = [
       ? `A highly-rated alternative in the "${category}" space is ${topAlternative.data.name} (starting at ${topAlternative.data.priceStartingAt}, rated ★ ${topAlternative.data.rating.toFixed(1)}).`
       : `Explore our "${category}" directory to compare alternative autonomous solutions.`
   }
-];
+]);
 
 // Schema.org Structured Data: Product + FAQPage
 const jsonLd = {
@@ -243,6 +269,16 @@ const jsonLd = {
 
         <!-- Rendered Markdown Body -->
         <div id="overview" class="prose prose-invert prose-emerald max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-radar-400 prose-p:text-slate-300 prose-p:leading-relaxed scroll-mt-24">
+          {overviewSummary && (
+            <div class="not-prose mb-8 p-6 rounded-2xl bg-gradient-to-br from-dark-900 to-dark-950 border border-radar-500/20 shadow-xl space-y-3">
+              <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block">
+                {lang === 'fr' ? 'Synthèse de l\'Observatoire' : 'Observatory Synthesis'}
+              </span>
+              <p class="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
+                {overviewSummary}
+              </p>
+            </div>
+          )}
           <Content />
         </div>
 
@@ -252,7 +288,7 @@ const jsonLd = {
             <div class="space-y-2">
               <span class="text-[11px] font-bold text-radar-400 uppercase tracking-wider">{t('alt.heading')}</span>
               <h4 class="text-lg font-bold text-white">{topAlternative.data.name}</h4>
-              <p class="text-xs text-slate-400 max-w-lg leading-relaxed">{topAlternative.data.tagline}</p>
+              <p class="text-xs text-slate-400 max-w-lg leading-relaxed">{altLoc ? altLoc.tagline : topAlternative.data.tagline}</p>
               <div class="flex items-center gap-3 text-xs pt-1">
                 <span class="text-amber-400 font-semibold">★ {topAlternative.data.rating.toFixed(1)}</span>
                 <span class="text-slate-500">•</span>
@@ -264,13 +300,13 @@ const jsonLd = {
                 href={altUrl}
                 class="px-4 py-2 rounded-xl bg-dark-800 hover:bg-dark-700 text-white font-semibold text-xs transition border border-dark-700"
               >
-                Read Review →
+                {t('card.fullReview')} →
               </a>
               <a
                 href={localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}&b=${altSlug}`)}
                 class="px-4 py-2 rounded-xl bg-radar-500/10 hover:bg-radar-500/20 text-radar-400 font-semibold text-xs transition border border-radar-500/30 flex items-center gap-1.5"
               >
-                <span>Duel in Arena ⚡</span>
+                <span>{t('compare.pageTitle')} ⚡</span>
               </a>
             </div>
           </div>
@@ -360,7 +396,7 @@ const jsonLd = {
               href={topAlternative ? localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}&b=${altSlug}`) : localizedHref(`/compare?a=${agent.id.replace(/\.md$/, '')}`)}
               class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-dark-950 hover:bg-dark-800 text-slate-300 hover:text-white font-medium text-xs transition border border-dark-800 text-center"
             >
-              <span>⚡ Duel in Compare Arena</span>
+              <span>⚡ {t('compare.pageTitle')}</span>
             </a>
 
             <p class="text-[10px] text-center text-slate-500">

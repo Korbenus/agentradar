@@ -1,32 +1,30 @@
 ---
 import CategoryView from '../../../components/CategoryView.astro';
-import { type SupportedLang } from '../../../i18n/translations';
+import { languages, type SupportedLang, defaultLang } from '../../../i18n/translations';
 
 export async function getStaticPaths() {
+  const langs = Object.keys(languages).filter((l) => l !== defaultLang) as SupportedLang[];
   const slugs = [
     'code-dev',
     'support-client',
     'prospection-b2b',
     'productivite-assistant',
+    'productivité-assistant',
     'comptabilite-finance',
+    'comptabilité-finance',
     'conformite-juridique',
+    'conformité-juridique',
     'marketing-contenu'
   ];
-  const nonDefaultLangs: SupportedLang[] = ['fr', 'es', 'de', 'it', 'ja'];
 
-  const paths = [];
-  for (const lang of nonDefaultLangs) {
-    for (const category of slugs) {
-      paths.push({
-        params: { lang, category },
-      });
-    }
-  }
-
-  return paths;
+  return langs.flatMap((lang) =>
+    slugs.map((category) => ({
+      params: { lang, category },
+    }))
+  );
 }
 
-const { lang, category } = Astro.params as { lang: SupportedLang; category: string };
+const { lang, category } = Astro.params;
 ---
 
-<CategoryView category={category} lang={lang} />
+<CategoryView category={category!} lang={lang as SupportedLang} />

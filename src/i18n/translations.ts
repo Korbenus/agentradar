@@ -38,6 +38,14 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'alt.subtitle': 'Compare another top-tier agent in this space',
     'compare.pageTitle': 'Side-by-Side Agent Comparison',
     'compare.pageDesc': 'Compare 2 autonomous AI agents head-to-head on pricing, capabilities, rating, and AI Act compliance.',
+    'compare.selectAgentA': 'Select Agent A',
+    'compare.selectAgentB': 'Select Agent B',
+    'compare.popularDuels': 'Popular Duels:',
+    'compare.strengths': 'Strengths & Advantages',
+    'compare.limitations': 'Limitations & Watchouts',
+    'compare.idealFor': 'Ideal For',
+    'compare.tryNow': 'Try',
+    'compare.readReview': 'Read In-Depth Review →',
 
     // Hero
     'hero.badge': '2026 Observatory • Autonomous Real-Time Monitoring',
@@ -120,6 +128,15 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'cat.comptabiliteFinance': 'Finance & Accounting',
     'cat.conformiteJuridique': 'Legal & Compliance',
     'cat.marketingContenu': 'Marketing & Content',
+
+    // Category Descriptions
+    'catDesc.codeDev': 'Autonomous engineering agents capable of full codebase refactoring, terminal execution, and CI/CD operations.',
+    'catDesc.supportClient': 'Enterprise customer care agents resolving complex inquiries, issuing refunds, and updating ERP systems autonomously.',
+    'catDesc.prospectionB2B': 'Autonomous sales agents (AI SDRs) prospecting, enriching leads, and scheduling qualification calls.',
+    'catDesc.productiviteAssistant': 'Executive and team assistants handling email triage, calendar coordination, and workflow orchestration.',
+    'catDesc.comptabiliteFinance': 'Financial agents for bank reconciliation, invoice verification, tax compliance, and automated reporting.',
+    'catDesc.conformiteJuridique': 'Legal research and compliance auditing agents for contract review, GDPR, and EU AI Act alignment.',
+    'catDesc.marketingContenu': 'Multi-channel marketing agents executing programmatic SEO, content repurposing, and ad optimization.',
   },
 
   fr: {
@@ -148,6 +165,14 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'alt.subtitle': 'Découvrez une alternative performante dans la même catégorie',
     'compare.pageTitle': 'Comparateur Face-à-Face',
     'compare.pageDesc': 'Comparez 2 agents IA autonomes côte à côte : tarifs, fonctionnalités, avis technique et conformité EU AI Act.',
+    'compare.selectAgentA': 'Sélectionner l\'Agent A',
+    'compare.selectAgentB': 'Sélectionner l\'Agent B',
+    'compare.popularDuels': 'Duels populaires :',
+    'compare.strengths': 'Forces & Atouts',
+    'compare.limitations': 'Limites & Points d\'attention',
+    'compare.idealFor': 'Idéal pour',
+    'compare.tryNow': 'Essayer',
+    'compare.readReview': 'Lire notre avis complet →',
 
     // Hero
     'hero.badge': 'Observatoire 2026 • Veille Autonome Active',
@@ -230,6 +255,15 @@ export const translations: Record<SupportedLang, Record<string, string>> = {
     'cat.comptabiliteFinance': 'Comptabilité & Finance',
     'cat.conformiteJuridique': 'Conformité & Juridique',
     'cat.marketingContenu': 'Marketing & Contenu',
+
+    // Category Descriptions
+    'catDesc.codeDev': 'Agents d\'ingénierie logicielle autonomes capables de refactoriser des bases de code entières, d\'exécuter des commandes dans un terminal et de gérer le cycle CI/CD.',
+    'catDesc.supportClient': 'Agents de service client d\'entreprise résolvant les tickets complexes, déclenchant des remboursements et synchronisant les CRM de manière autonome.',
+    'catDesc.prospectionB2B': 'Agents commerciaux autonomes (AI SDR) qui prospectent, enrichissent les bases de données et qualifient des rendez-vous en continu.',
+    'catDesc.productiviteAssistant': 'Assistants de direction et d\'équipe gérant le tri des emails, la synchronisation des calendriers et l\'orchestration des flux de travail.',
+    'catDesc.comptabiliteFinance': 'Agents financiers pour le rapprochement bancaire, la vérification des factures fournisseurs, la conformité fiscale et le reporting automatisé.',
+    'catDesc.conformiteJuridique': 'Agents de recherche juridique et d\'audit de conformité pour la revue contractuelle, le RGPD et l\'alignement sur l\'EU AI Act.',
+    'catDesc.marketingContenu': 'Agents marketing multicanaux exécutant le SEO programmatique, le recyclage de contenus et l\'optimisation des campagnes publicitaires.',
   },
 
   es: {

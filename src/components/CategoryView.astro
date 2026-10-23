@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import AgentCard from './AgentCard.astro';
 import { getCollection } from 'astro:content';
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+import { getCategorySlug } from '../utils/categories';
 
 interface Props {
   category: string;
@@ -12,52 +13,54 @@ interface Props {
 const { category, lang = defaultLang } = Astro.props;
 const t = useTranslations(lang);
 
+const normalizedSlug = getCategorySlug(category);
+
 const categoryInfo: Record<string, { enTitle: string; titleKey: string; descKey: string }> = {
   'code-dev': {
     enTitle: 'Code & Dev',
     titleKey: 'cat.codeDev',
-    descKey: 'Autonomous engineering agents capable of full codebase refactoring, terminal execution, and CI/CD operations.'
+    descKey: 'catDesc.codeDev'
   },
   'support-client': {
     enTitle: 'Support Client',
     titleKey: 'cat.supportClient',
-    descKey: 'Enterprise customer care agents resolving complex inquiries, issuing refunds, and updating ERP systems autonomously.'
+    descKey: 'catDesc.supportClient'
   },
   'prospection-b2b': {
     enTitle: 'Prospection B2B',
     titleKey: 'cat.prospectionB2B',
-    descKey: 'Autonomous sales agents (AI SDRs) prospecting, enriching leads, and scheduling qualification calls.'
+    descKey: 'catDesc.prospectionB2B'
   },
   'productivite-assistant': {
     enTitle: 'Productivité & Assistant',
     titleKey: 'cat.productiviteAssistant',
-    descKey: 'Executive and team assistants handling email triage, calendar coordination, and workflow orchestration.'
+    descKey: 'catDesc.productiviteAssistant'
   },
   'comptabilite-finance': {
     enTitle: 'Comptabilité & Finance',
     titleKey: 'cat.comptabiliteFinance',
-    descKey: 'Financial agents for bank reconciliation, invoice verification, tax compliance, and automated reporting.'
+    descKey: 'catDesc.comptabiliteFinance'
   },
   'conformite-juridique': {
     enTitle: 'Conformité & Juridique',
     titleKey: 'cat.conformiteJuridique',
-    descKey: 'Legal research and compliance auditing agents for contract review, GDPR, and EU AI Act alignment.'
+    descKey: 'catDesc.conformiteJuridique'
   },
   'marketing-contenu': {
     enTitle: 'Marketing & Contenu',
     titleKey: 'cat.marketingContenu',
-    descKey: 'Multi-channel marketing agents executing programmatic SEO, content repurposing, and ad optimization.'
+    descKey: 'catDesc.marketingContenu'
   }
 };
 
-const info = categoryInfo[category] || {
+const info = categoryInfo[normalizedSlug] || {
   enTitle: category,
   titleKey: category,
   descKey: 'Curated list of high-performance autonomous AI solutions in this category.'
 };
 
 const title = t(info.titleKey);
-const desc = info.descKey;
+const desc = info.descKey.startsWith('catDesc.') ? t(info.descKey) : info.descKey;
 
 const allAgents = await getCollection('agents');
 const filteredAgents = allAgents.filter(a => a.data.category === info.enTitle);

@@ -1,35 +1,20 @@
 ---
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+import { getLocalizedAgent } from '../i18n/agentData';
 
 interface Props {
-  agent: {
-    id: string;
-    data: {
-      name: string;
-      tagline: string;
-      category: string;
-      rating: number;
-      pricingModel: string;
-      priceStartingAt: string;
-      websiteUrl: string;
-      affiliateUrl?: string;
-      badge?: string;
-      featured?: boolean;
-      aiActCompliant?: boolean;
-      pros: string[];
-      cons: string[];
-    };
-  };
+  agent: any;
   lang?: SupportedLang;
 }
 
 const { agent, lang = defaultLang } = Astro.props;
 const t = useTranslations(lang);
 
-const { name, tagline, category, rating, pricingModel, priceStartingAt, affiliateUrl, websiteUrl, badge, featured, aiActCompliant } = agent.data;
+const localized = getLocalizedAgent(agent, lang);
+const { name, tagline, category, rating, pricingModel, priceStartingAt, affiliateUrl, websiteUrl, badge, featured, aiActCompliant } = localized;
 const targetUrl = affiliateUrl || websiteUrl;
 
-const cleanSlug = agent.id.replace(/\.md$/, '');
+const cleanSlug = (agent.id || agent.slug || '').replace(/\.md$/, '');
 const detailUrl = lang === defaultLang ? `/agents/${cleanSlug}` : `/${lang}/agents/${cleanSlug}`;
 ---
 
