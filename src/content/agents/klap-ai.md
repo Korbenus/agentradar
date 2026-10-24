@@ -1,31 +1,20 @@
 ---
-name: "Klap AI"
-tagline: "Autonomous video repurposing agent extracting viral short clips with auto-captions from long YouTube videos."
+name: "Klap"
+tagline: "Video repurposing tool that turns longer recordings into short clips."
 category: "Marketing & Contenu"
-rating: 4.8
-pricingModel: "Freemium"
-priceStartingAt: "$29 / month"
-websiteUrl: "https://klap.app"
-affiliateUrl: "https://klap.app?ref=agentradar"
-badge: "Viral Growth"
-featured: false
-aiActCompliant: true
-dateAdded: "2026-10-23"
-pros:
-  - "Identifies highest-engagement hooks in long podcasts and webinars"
-  - "Automated facial tracking keeps speakers centered in 9:16 vertical format"
-  - "Generates 10 viral TikToks/Shorts from a single YouTube URL in 2 minutes"
-cons:
-  - "Requires clear source video with good audio quality for best clip selection"
-  - "Custom branding templates available only on higher tier plans"
-keyFeatures:
-  - "AI Virality Score prediction for each generated clip"
-  - "Trendy dynamic auto-captions with emojis and color styling"
-  - "Smart silence removal and pacing optimization"
-  - "Direct 4K vertical rendering and scheduling"
-targetAudience: "Podcasters, YouTubers, media agencies, coaches, and corporate communication teams."
+websiteUrl: "https://klap.app/"
+pricingUrl: "https://klap.app/"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product and plan information", "url": "https://klap.app/"}]
+keyFeatures: ["Short clip extraction", "Automatic reframing", "Caption generation"]
+considerations: ["Review selected passages for context and transcription errors.", "Check current upload, duration and export allowances before subscribing."]
+targetAudience: "Creators and marketing teams repurposing existing long-form video."
 ---
 
-## Klap AI: Turn 1 Hour of Video into 10 Viral Shorts
+## Evaluation scenario
 
-Klap analyzes video transcripts and pacing to detect key insights, punchlines, and emotional peaks in long-form recordings. It automatically reframes wide shots to vertical video, tracks speakers, and generates trendy animated captions.
+Choose a recording with a clear subject, then compare the selected clips with the surrounding discussion. A short segment must remain understandable on its own. Treat any predicted virality score as a publisher feature, not as a forecast of actual audience growth.
+
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

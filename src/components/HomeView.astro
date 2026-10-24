@@ -2,337 +2,76 @@
 import Layout from '../layouts/Layout.astro';
 import AgentCard from './AgentCard.astro';
 import { getCollection } from 'astro:content';
-import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
-
-interface Props {
-  lang?: SupportedLang;
-}
-
+import { useTranslations, defaultLang, type SupportedLang } from '../i18n/translations';
+import { getLocalizedAgent } from '../i18n/agentData';
+import { getLocalizedCategoryName } from '../utils/localizedCategories';
+import { editorialCopy } from '../lib/editorial';
+interface Props { lang?: SupportedLang }
 const { lang = defaultLang } = Astro.props;
 const t = useTranslations(lang);
-
-const allAgents = await getCollection('agents');
-
-// Sort by date added desc
-const sortedAgents = allAgents.sort((a, b) => 
-  new Date(b.data.dateAdded).getTime() - new Date(a.data.dateAdded).getTime()
-);
-
-const featuredAgents = sortedAgents.filter(a => a.data.featured);
-
-const categoryIcons: Record<string, string> = {
-  'ALL': '⚡',
-  'Code & Dev': '💻',
-  'Support Client': '🎧',
-  'Prospection B2B': '🎯',
-  'Productivité & Assistant': '🤖',
-  'Conformité & Juridique': '⚖️',
-  'Comptabilité & Finance': '📊',
-  'Marketing & Contenu': '🚀',
-};
-
-const categories = [
-  { key: 'filter.all', label: t('filter.all'), val: 'ALL' },
-  { key: 'cat.codeDev', label: t('cat.codeDev'), val: 'Code & Dev' },
-  { key: 'cat.supportClient', label: t('cat.supportClient'), val: 'Support Client' },
-  { key: 'cat.prospectionB2B', label: t('cat.prospectionB2B'), val: 'Prospection B2B' },
-  { key: 'cat.productiviteAssistant', label: t('cat.productiviteAssistant'), val: 'Productivité & Assistant' },
-  { key: 'cat.conformiteJuridique', label: t('cat.conformiteJuridique'), val: 'Conformité & Juridique' },
-  { key: 'cat.comptabiliteFinance', label: t('cat.comptabiliteFinance'), val: 'Comptabilité & Finance' },
-  { key: 'cat.marketingContenu', label: t('cat.marketingContenu'), val: 'Marketing & Contenu' },
-];
-
-const pricingFilters = [
-  { label: t('filter.pricingAll'), val: 'ALL' },
-  { label: t('filter.free'), val: 'FREE' },
-  { label: t('filter.paid'), val: 'PAID' },
-];
-
-function localizedHref(path: string): string {
-  if (lang === defaultLang) return path;
-  if (path === '/') return `/${lang}`;
-  return `/${lang}${path}`;
-}
+const copy = editorialCopy(lang);
+const agents = (await getCollection('agents')).sort((a,b) => a.data.name.localeCompare(b.data.name));
+const categories = [...new Set(agents.map(a => a.data.category))];
+const prefix = lang === defaultLang ? '' : `/${lang}`;
 ---
-
 <Layout lang={lang}>
-  <!-- Hero Section -->
-  <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden text-center">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Live Badge -->
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-radar-500/10 border border-radar-500/30 text-radar-400 text-xs font-semibold mb-6">
-        <span class="w-2 h-2 rounded-full bg-radar-400 animate-pulse"></span>
-        <span>{t('hero.badge')}</span>
-      </div>
-
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-        {t('hero.title')}{' '}
-        <span class="bg-gradient-to-r from-emerald-400 to-radar-400 bg-clip-text text-transparent">
-          {t('hero.titleHighlight')}
-        </span>{' '}
-        {t('hero.titleEnd')}
-      </h1>
-
-      <p class="mt-6 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-        {t('hero.subtitle')}
-      </p>
-
-      <!-- Search & quick filters -->
-      <div class="mt-8 max-w-xl mx-auto">
-        <div class="relative group">
-          <input
-            type="text"
-            id="searchInput"
-            placeholder={t('hero.searchPlaceholder')}
-            class="w-full px-5 py-3.5 pl-12 pr-20 rounded-xl bg-dark-900 border border-slate-700/80 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-radar-500 focus:ring-2 focus:ring-radar-500/20 transition-all shadow-lg"
-          />
-          <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <kbd class="hidden sm:inline-block absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 text-[10px] font-mono rounded bg-dark-800 border border-dark-700 text-slate-400">
-            {t('search.cmdShortcut')}
-          </kbd>
-        </div>
-      </div>
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 pt-12 pb-10 md:pt-20 text-center space-y-6">
+    <p class="text-radar-400 text-sm font-bold">{t('hero.badge')}</p>
+    <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">{t('hero.title')} <span class="text-radar-400">{t('hero.titleHighlight')}</span> {t('hero.titleEnd')}</h1>
+    <p class="text-lg text-slate-200 leading-relaxed">{t('hero.subtitle')}</p>
+    <div class="p-4 rounded-2xl bg-dark-900 border border-dark-800 text-sm text-slate-300 space-y-2">
+      <p>{copy.notice}</p>
+      <div class="flex flex-wrap justify-center gap-5"><a href={`${prefix}/methodology`} class="underline text-radar-400">{copy.methodology}</a><a href={`${prefix}/about`} class="underline text-radar-400">{copy.about}</a></div>
     </div>
   </section>
-
-  <!-- Main Explore Section -->
-  <section id="explore" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-    <!-- Unified Filter Hub: Aligned & Symmetrical (4 columns on desktop/tablet, 2 on mobile) -->
-    <div class="p-4 sm:p-6 rounded-3xl bg-dark-900 border border-dark-800 shadow-xl mb-10 space-y-5">
-      <!-- Top: 8 Balanced Category Buttons (2 clean rows of 4) -->
-      <div>
-        <div class="flex items-center justify-between mb-3 px-1">
-          <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">
-            {lang === 'fr' ? '📂 Catégories d\'agents IA' : '📂 AI Agent Categories'}
-          </span>
-          <span class="text-xs text-slate-400 font-medium">8 {lang === 'fr' ? 'domaines d\'expertise' : 'domains'}</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          {categories.map((cat, idx) => (
-            <button
-              type="button"
-              class={`filter-btn text-xs sm:text-sm font-bold px-3 sm:px-4 py-3 rounded-2xl transition-all cursor-pointer flex items-center justify-center gap-2 border text-center ${
-                idx === 0
-                  ? 'active bg-radar-500 text-slate-950 border-radar-400 shadow-md shadow-radar-500/20'
-                  : 'bg-dark-950 border-dark-750 text-slate-200 hover:border-radar-500/40'
-              }`}
-              data-category={cat.val}
-            >
-              <span class="text-base shrink-0 leading-none">{categoryIcons[cat.val] || '⚡'}</span>
-              <span class="truncate">{cat.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <!-- Divider -->
-      <div class="h-[1px] bg-dark-800"></div>
-
-      <!-- Bottom: Faceted Filters (Budget Segmented Control + EU AI Act Toggle) -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
-        <!-- Budget segmented selector -->
-        <div class="flex items-center gap-2.5">
-          <span class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">
-            Budget :
-          </span>
-          <div class="inline-flex p-1 rounded-2xl bg-dark-950 border border-dark-750 gap-1">
-            {pricingFilters.map((pf, idx) => (
-              <button
-                type="button"
-                class={`pricing-btn text-xs font-bold px-3.5 py-1.5 rounded-xl transition cursor-pointer ${
-                  idx === 0 
-                    ? 'active bg-radar-500 text-slate-950 shadow-sm' 
-                    : 'text-slate-300 hover:text-white'
-                }`}
-                data-pricing={pf.val}
-              >
-                {pf.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <!-- EU AI Act compliance toggle -->
-        <label class="inline-flex items-center gap-2.5 cursor-pointer select-none text-xs font-bold text-slate-200 hover:text-radar-400 transition px-3.5 py-2 rounded-2xl bg-dark-950 border border-dark-750 shrink-0">
-          <input type="checkbox" id="aiActToggle" class="rounded bg-dark-900 border-slate-600 text-radar-500 focus:ring-radar-500/40 w-4 h-4 cursor-pointer" />
-          <span>🇪🇺 {t('filter.aiActOnly')}</span>
-        </label>
+  <section id="explore" class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 space-y-6">
+    <div class="p-5 rounded-3xl bg-dark-900 border border-dark-800 space-y-4">
+      <label for="searchInput" class="sr-only">{t('hero.searchPlaceholder')}</label>
+      <input type="search" id="searchInput" placeholder={t('hero.searchPlaceholder')} class="w-full px-4 py-3 rounded-xl bg-dark-950 border border-dark-700 text-white placeholder-slate-400" />
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {[{value:'ALL',label:t('filter.all')}, ...categories.map(value => ({value,label:getLocalizedCategoryName(value,lang)}))].map((category,index) => <button type="button" aria-pressed={index===0 ? 'true' : 'false'} data-category={category.value} class={`filter-btn rounded-xl px-3 py-3 font-bold text-sm border ${index===0 ? 'active bg-radar-500 text-slate-950 border-radar-400' : 'bg-dark-950 text-slate-200 border-dark-700'}`}>{category.label}</button>)}
       </div>
     </div>
-
-    <!-- Featured Section (shown if "ALL" active) -->
-    <div id="featuredContainer" class="mb-12">
-      <div class="flex items-center gap-2 mb-6">
-        <span class="text-radar-400 font-bold text-sm">{t('section.editorialPick')}</span>
-        <div class="flex-grow h-[1px] bg-dark-800"></div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredAgents.map((agent) => (
-          <AgentCard agent={agent} lang={lang} />
-        ))}
-      </div>
+    <div class="flex gap-3 items-center"><h2 class="text-2xl font-bold text-white">{t('section.allAgents')}</h2><span id="agentCount" class="text-sm text-slate-400" aria-live="polite">{agents.length}</span></div>
+    <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {agents.map(agent => <div class="agent-item" data-category={agent.data.category} data-search={`${agent.data.name} ${getLocalizedAgent(agent,lang).tagline} ${getLocalizedCategoryName(agent.data.category,lang)}`.toLocaleLowerCase()}><AgentCard agent={agent} lang={lang} /></div>)}
     </div>
-
-    <!-- All Agents Grid -->
-    <div>
-      <div class="flex items-center justify-between gap-2 mb-6">
-        <div class="flex items-center gap-2">
-          <h2 id="gridTitle" class="text-lg font-bold text-white">{t('section.allAgents')}</h2>
-          <span id="agentCount" class="text-xs text-slate-400 bg-dark-900 px-2.5 py-1 rounded-full border border-dark-800">
-            {sortedAgents.length} {t('section.available')}
-          </span>
-        </div>
-        <div class="flex-grow h-[1px] bg-dark-800 ml-4 hidden sm:block"></div>
-      </div>
-
-      <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sortedAgents.map((agent) => (
-          <div 
-            class="agent-item" 
-            data-category={agent.data.category} 
-            data-name={agent.data.name.toLowerCase()} 
-            data-tagline={agent.data.tagline.toLowerCase()}
-            data-pricing-model={agent.data.pricingModel.toLowerCase()}
-            data-ai-act={agent.data.aiActCompliant ? 'true' : 'false'}
-          >
-            <AgentCard agent={agent} lang={lang} />
-          </div>
-        ))}
-      </div>
-
-      <!-- No result state -->
-      <div id="noResults" class="hidden text-center py-16 bg-dark-900/40 rounded-2xl border border-dark-800">
-        <p class="text-slate-400 text-sm">{t('section.noResults')}</p>
-        <button id="resetSearch" class="mt-4 text-xs font-semibold text-radar-400 hover:underline">
-          {t('section.resetSearch')}
-        </button>
-      </div>
-    </div>
+    <div id="noResults" class="hidden text-center text-slate-300 py-8"><p>{t('section.noResults')}</p><button type="button" id="resetSearch" class="mt-4 text-radar-400 underline">{t('section.resetSearch')}</button></div>
   </section>
 </Layout>
-
 <script>
-  const searchInput = document.getElementById('searchInput') as HTMLInputElement | null;
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const pricingButtons = document.querySelectorAll('.pricing-btn');
-  const aiActToggle = document.getElementById('aiActToggle') as HTMLInputElement | null;
-  const agentItems = document.querySelectorAll('.agent-item');
-  const featuredContainer = document.getElementById('featuredContainer');
-  const noResults = document.getElementById('noResults');
-  const agentCount = document.getElementById('agentCount');
-  const resetSearch = document.getElementById('resetSearch');
-
-  let activeCategory = 'ALL';
-  let activePricing = 'ALL';
-  let aiActOnly = false;
-  let searchTerm = '';
-
-  function updateList() {
-    let visibleCount = 0;
-
-    agentItems.forEach((el) => {
-      const item = el as HTMLElement;
-      const cat = item.dataset.category || '';
-      const name = item.dataset.name || '';
-      const tagline = item.dataset.tagline || '';
-      const pricingModel = (item.dataset.pricingModel || '').toLowerCase();
-      const isAiAct = item.dataset.aiAct === 'true';
-
-      const matchCategory = activeCategory === 'ALL' || cat === activeCategory;
-      const matchSearch = searchTerm === '' || name.includes(searchTerm) || tagline.includes(searchTerm);
-      
-      let matchPricing = true;
-      if (activePricing === 'FREE') {
-        matchPricing = pricingModel.includes('freemium') || pricingModel.includes('gratuit') || pricingModel.includes('open-source');
-      } else if (activePricing === 'PAID') {
-        matchPricing = pricingModel.includes('payant') || pricingModel.includes('sur devis');
-      }
-
-      const matchAiAct = !aiActOnly || isAiAct;
-
-      if (matchCategory && matchSearch && matchPricing && matchAiAct) {
-        item.style.display = 'block';
-        visibleCount++;
-      } else {
-        item.style.display = 'none';
-      }
+  const input = document.querySelector<HTMLInputElement>('#searchInput');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const items = document.querySelectorAll<HTMLElement>('.agent-item');
+  let category = 'ALL';
+  function update() {
+    const query = (input?.value || '').trim().toLocaleLowerCase();
+    let count = 0;
+    items.forEach(item => {
+      const visible = (category === 'ALL' || item.dataset.category === category) && (!query || item.dataset.search?.includes(query));
+      item.hidden = !visible;
+      if (visible) count++;
     });
-
-    if (featuredContainer) {
-      if (activeCategory !== 'ALL' || searchTerm !== '' || activePricing !== 'ALL' || aiActOnly) {
-        featuredContainer.style.display = 'none';
-      } else {
-        featuredContainer.style.display = 'block';
-      }
-    }
-
-    if (noResults) {
-      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-    }
-
-    if (agentCount) {
-      agentCount.textContent = `${visibleCount}`;
-    }
+    const counter = document.getElementById('agentCount');
+    if (counter) counter.textContent = String(count);
+    document.getElementById('noResults')?.classList.toggle('hidden', count !== 0);
   }
-
-  filterButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach((b) => {
-        b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-md', 'shadow-radar-500/20');
-        b.classList.add('bg-dark-950', 'border-dark-750', 'text-slate-200');
-      });
-
-      btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'border-radar-400', 'shadow-md', 'shadow-radar-500/20');
-      btn.classList.remove('bg-dark-950', 'border-dark-750', 'text-slate-200');
-
-      activeCategory = btn.getAttribute('data-category') || 'ALL';
-      updateList();
+  buttons.forEach(button => button.addEventListener('click', () => {
+    category = button.dataset.category || 'ALL';
+    buttons.forEach(item => {
+      const active = item === button;
+      item.setAttribute('aria-pressed', String(active));
+      item.classList.toggle('active', active);
+      item.classList.toggle('bg-radar-500', active);
+      item.classList.toggle('text-slate-950', active);
+      item.classList.toggle('bg-dark-950', !active);
+      item.classList.toggle('text-slate-200', !active);
     });
+    update();
+  }));
+  input?.addEventListener('input', update);
+  document.getElementById('resetSearch')?.addEventListener('click', () => {
+    if (input) input.value = '';
+    buttons[0]?.click();
   });
-
-  pricingButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      pricingButtons.forEach((b) => {
-        b.classList.remove('active', 'bg-radar-500', 'text-slate-950', 'shadow-sm');
-        b.classList.add('text-slate-300');
-      });
-
-      btn.classList.add('active', 'bg-radar-500', 'text-slate-950', 'shadow-sm');
-      btn.classList.remove('text-slate-300');
-
-      activePricing = btn.getAttribute('data-pricing') || 'ALL';
-      updateList();
-    });
-  });
-
-  if (aiActToggle) {
-    aiActToggle.addEventListener('change', () => {
-      aiActOnly = aiActToggle.checked;
-      updateList();
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchTerm = (e.target as HTMLInputElement).value.toLowerCase().trim();
-      updateList();
-    });
-  }
-
-  if (resetSearch) {
-    resetSearch.addEventListener('click', () => {
-      if (searchInput) searchInput.value = '';
-      searchTerm = '';
-      activeCategory = 'ALL';
-      activePricing = 'ALL';
-      aiActOnly = false;
-      if (aiActToggle) aiActToggle.checked = false;
-
-      filterButtons[0]?.dispatchEvent(new Event('click'));
-      pricingButtons[0]?.dispatchEvent(new Event('click'));
-      updateList();
-    });
-  }
 </script>

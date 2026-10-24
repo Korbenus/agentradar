@@ -1,34 +1,20 @@
 ---
-name: "Cursor Agent"
-tagline: "Next-generation AI coding environment capable of autonomous multi-file refactoring and bug resolution."
+name: "Cursor"
+tagline: "AI coding environment for delegating software development tasks."
 category: "Code & Dev"
-rating: 4.9
-pricingModel: "Freemium"
-priceStartingAt: "$20 / month"
-websiteUrl: "https://cursor.com"
-affiliateUrl: "https://cursor.com?ref=agentradar"
-badge: "Developer Favorite"
-featured: true
-aiActCompliant: true
-dateAdded: "2026-10-23"
-pros:
-  - "Understands complete codebase context across thousands of files"
-  - "Direct terminal and compiler integration for instant debugging"
-  - "Frictionless migration from VS Code with full extension support"
-cons:
-  - "Heavy local resource usage on massive monolithic codebases"
-  - "Fast-tier token limits require pro tier for power developers"
-keyFeatures:
-  - "Multi-file codebase indexing with vector search"
-  - "Composer mode for autonomous end-to-end feature creation"
-  - "Direct git diff generation and branch staging"
-  - "Privacy mode with zero code retention for training"
-targetAudience: "Software engineers, tech leads, and development teams aiming to multiply their sprint delivery speed."
+websiteUrl: "https://cursor.com/"
+pricingUrl: "https://cursor.com/pricing"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product information", "url": "https://cursor.com/"}, {"title": "Publisher pricing and plan information", "url": "https://cursor.com/pricing"}]
+keyFeatures: ["Coding agent", "Desktop and command-line workflows", "Code change review"]
+considerations: ["Review generated changes and run the project’s own checks.", "Check current usage allowances and code handling policies before adopting."]
+targetAudience: "Developers assessing AI assistance within an existing software project."
 ---
 
-## Cursor Agent Review: The Evolution of Code Intelligence
+## Evaluation scenario
 
-Cursor has fundamentally redefined software development by transitioning from passive inline autocompletion to an active pair programming agent.
+Use a small, reproducible bug as a trial task. Record the initial failing case, inspect the proposed changes and rerun checks. Measure review time as well as generation time; a fast proposal is not sufficient evidence of a productivity gain.
 
-### Core Architecture
-Cursor builds a local semantic index of your entire git repository. When you prompt Composer to "refactor our authentication to OAuth 2.0 PKCE", Cursor inspects your models, controllers, and tests simultaneously, proposing atomic, multi-file diffs.
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

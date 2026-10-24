@@ -19,3 +19,9 @@ pnpm-debug.log*
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Local verification output
+__pycache__/
+*.pyc
+tests/.runtime/
+/debug.log

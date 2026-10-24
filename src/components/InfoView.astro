@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { defaultLang, type SupportedLang } from '../i18n/translations';
+interface Props { kind: 'about' | 'methodology' | 'terms' | 'privacy'; lang?: SupportedLang }
+const { kind, lang = defaultLang } = Astro.props;
+const fr = lang === 'fr';
+const prefix = lang === defaultLang ? '' : `/${lang}`;
+const pages = {
+  about: fr ? {
+    title: 'À propos d’AgentRadar et contact',
+    intro: 'AgentRadar est un projet indépendant en phase de lancement. Il aide les indépendants et les petites équipes à explorer les outils IA utilisés pour le développement, les automatisations, le support et le contenu.',
+    sections: [
+      ['Ce que vous trouverez ici', 'Des synthèses documentaires fondées sur les informations publiques des éditeurs et des questions pour préparer votre propre évaluation. Une présence dans le répertoire ne signifie pas que nous avons testé le produit ou conclu un partenariat.'],
+      ['Qui maintient le projet ?', 'Le projet est maintenu via le dépôt public Korbenus/agentradar. Aucune équipe d’experts, audience chiffrée ou identité d’entreprise n’est revendiquée.'],
+      ['Signaler une correction', 'Vous pouvez proposer une correction via les discussions de développement du dépôt GitHub. Ce canal est public : ne publiez aucune donnée personnelle, information confidentielle ou demande privée.'],
+      ['Financement', 'Les fiches actuelles utilisent des liens directs vers les éditeurs et ne déclarent aucune affiliation active. Si un programme accepte AgentRadar, les liens concernés seront identifiés individuellement. La présence dans le répertoire ne s’achète pas et aucune mise en avant payante n’est proposée.'],
+    ],
+  } : {
+    title: 'About AgentRadar and contact',
+    intro: 'AgentRadar is an independent project at launch stage. It helps freelancers and small teams explore AI tools for development, automation, customer support and content.',
+    sections: [
+      ['What you will find', 'Documentary summaries of public publisher information and questions for planning your own evaluation. A listing does not imply hands-on testing or a commercial partnership.'],
+      ['Who maintains the project?', 'The project is maintained through the public Korbenus/agentradar repository. No expert team, audience figures or corporate identity are claimed.'],
+      ['Suggest a correction', 'Corrections can be proposed through the GitHub development repository. This is a public channel: do not post personal data, confidential information or private requests.'],
+      ['Funding', 'Current profiles use direct publisher links and declare no active affiliate relationships. If a program approves AgentRadar, affected links will be labeled individually. Listings cannot be purchased and no paid promotion is offered.'],
+    ],
+  },
+  methodology: fr ? {
+    title: 'Notre méthode éditoriale',
+    intro: 'Les fiches actuelles sont des synthèses documentaires, et non des tests pratiques. Nous distinguons les fonctionnalités annoncées par un éditeur, les questions de sélection et les résultats mesurés : aucun résultat mesuré n’est revendiqué dans cette sélection.',
+    sections: [
+      ['Sources et dates', 'Chaque fiche cite les pages officielles consultées et leur date de consultation. Cette date signifie que ces sources ont été examinées ; elle ne correspond pas à un audit indépendant. Les tarifs et les conditions peuvent évoluer : le lien tarifaire renvoie vers l’éditeur.'],
+      ['Critères de sélection', 'Nous recherchons un besoin professionnel identifiable, un site officiel et des informations publiques permettant de comprendre le produit. La sélection couvre plusieurs usages ; elle ne constitue pas un classement et ne prétend pas être exhaustive.'],
+      ['Comment comparer', 'Vérifiez le besoin traité, les intégrations nécessaires, le mode d’hébergement, les quotas et le coût complet. Les scénarios proposés servent à préparer un essai : ils ne décrivent pas une expérience réalisée par AgentRadar et ne garantissent aucun gain de temps ou retour sur investissement.'],
+      ['IA et validation', 'Des outils d’IA peuvent aider à rédiger et traduire les synthèses. Leurs sorties ne constituent pas des preuves. Les nouvelles propositions restent hors publication jusqu’à la consultation des sources et leur validation éditoriale. Si les sources sont insuffisantes, la fiche reste en attente.'],
+      ['Notes et conformité', 'Nous ne publions ni notes de performance ni nombre d’avis utilisateurs sans données correspondantes. Aucun badge de conformité AI Act ou RGPD n’est attribué. Les garanties d’un logiciel doivent être examinées avec son éditeur selon votre usage.'],
+      ['Affiliation et indépendance', 'Une rémunération éventuelle doit être divulguée près du lien concerné. Elle ne doit modifier ni les fonctionnalités documentées ni les points à vérifier. Une affiliation n’est affichée qu’après approbation du programme et ajout du lien effectivement attribué.'],
+      ['Corrections et anciennes fiches', 'Les anciennes fiches insuffisamment étayées sont conservées dans une archive du dépôt, hors du site et du flux RSS. Elles ne sont pas des références éditoriales validées. Les erreurs peuvent être signalées via le dépôt public.'],
+    ],
+  } : {
+    title: 'Editorial methodology',
+    intro: 'Current profiles are documentary summaries, not hands-on reviews. We separate publisher claims, selection questions and measured results. No measured performance results are claimed for this selection.',
+    sections: [
+      ['Sources and dates', 'Every profile links to official pages and states when they were consulted. This date is a source review date, not an independent audit. Prices and terms may change; pricing links go to the publisher.'],
+      ['Selection criteria', 'We look for an identifiable business use case, an official website and public product information. The selection covers several uses, is not a ranking and is not exhaustive.'],
+      ['How to compare', 'Check the job to be done, integrations, hosting, allowances and total cost. Suggested evaluation scenarios help you plan a trial; they are not experiences reported by AgentRadar and do not guarantee savings or return on investment.'],
+      ['AI assistance and review', 'AI tools may assist drafting and translation. Their output is not evidence. New proposals remain unpublished until sources have been consulted and the content has been editorially reviewed. Profiles with insufficient evidence stay on hold.'],
+      ['Ratings and compliance', 'We do not publish performance ratings or user-review counts without supporting data. We do not award AI Act or GDPR compliance badges. Check the publisher’s guarantees against your own use case.'],
+      ['Affiliation and independence', 'Any potential commission must be disclosed beside the affected link. It must not change the documented capabilities or evaluation questions. An affiliate link is added only after program approval and receipt of the actual referral link.'],
+      ['Corrections and earlier profiles', 'Insufficiently supported earlier profiles are preserved in a repository archive, outside the public site and RSS feed. They are not validated editorial references. Corrections can be proposed through the public repository.'],
+    ],
+  },
+  terms: fr ? {
+    title: 'Informations sur le site et conditions d’utilisation',
+    intro: 'AgentRadar est un répertoire documentaire indépendant. Les informations servent à préparer une comparaison et doivent être confirmées auprès des éditeurs avant toute décision d’achat.',
+    sections: [
+      ['Projet et publication', 'Le dépôt public Korbenus/agentradar permet d’identifier le projet et ses contributions. Les informations personnelles ou professionnelles de l’éditeur ne sont pas encore publiées. Cette page ne revendique pas une conformité juridique complète.'],
+      ['Hébergement', 'Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis. Site : cloudflare.com. Cloudflare héberge le site ; les logiciels présentés sont fournis par leurs éditeurs respectifs.'],
+      ['Portée des informations', 'Les fiches synthétisent des informations d’éditeurs. Aucun résultat de test, audit de sécurité, certification ou conseil juridique personnalisé n’est fourni. Les noms de produits et marques appartiennent à leurs titulaires.'],
+      ['Liens et affiliation', 'Les liens actuels des fiches sont des liens directs vers les éditeurs sans affiliation déclarée. Les éventuels liens rémunérés futurs seront identifiés près du lien et soumis aux conditions du programme correspondant. Aucun code de réduction ni essai exclusif n’est promis.'],
+      ['Signaler une erreur', 'Utilisez le dépôt public pour les corrections de contenu. Ce canal ne convient pas aux données confidentielles ni aux demandes privées.'],
+    ],
+  } : {
+    title: 'Site information and terms of use',
+    intro: 'AgentRadar is an independent documentary directory. Its information helps prepare comparisons and should be confirmed with publishers before purchasing.',
+    sections: [
+      ['Project and publication', 'The public Korbenus/agentradar repository identifies the project and its contributions. Personal or business publisher details have not yet been published. This page does not claim complete legal compliance.'],
+      ['Hosting', 'Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, United States. Website: cloudflare.com. Cloudflare hosts the directory; the listed products are supplied by their respective publishers.'],
+      ['Scope of information', 'Profiles summarize publisher information. No hands-on result, security audit, certification or personalized legal advice is provided. Product names and trademarks belong to their respective owners.'],
+      ['Links and affiliation', 'Current profile links go directly to publishers with no declared affiliate relationship. Any future commission-bearing links will be labeled beside the link and subject to the relevant program’s terms. No exclusive discount or trial is promised.'],
+      ['Corrections', 'Use the public repository to suggest content corrections. This channel is not suitable for confidential information or private requests.'],
+    ],
+  },
+  privacy: fr ? {
+    title: 'Confidentialité',
+    intro: 'Cette page décrit les fonctions actuellement présentes sur AgentRadar. Elle ne constitue pas une certification de conformité.',
+    sections: [
+      ['Navigation', 'Le site ne propose ni compte utilisateur, ni formulaire de collecte, ni paiement. Les recherches et les comparaisons sont effectuées dans votre navigateur. Les outils comparés peuvent être indiqués dans l’adresse de la page ; ne placez aucune donnée personnelle dans ces paramètres.'],
+      ['Préférence d’affichage', 'Le navigateur conserve localement votre choix de thème clair ou sombre dans une préférence nommée ar_theme. Le code du site n’installe aucun pixel publicitaire ou outil d’analyse d’audience.'],
+      ['Hébergement et requêtes', 'Cloudflare reçoit les requêtes nécessaires à l’affichage du site, qui comportent notamment une adresse IP et des informations de navigateur. Le traitement de ces requêtes relève aussi des services de l’hébergeur. Nous ne présentons pas ces données comme anonymes par défaut et ne fixons pas ici une durée de conservation que nous n’avons pas vérifiée.'],
+      ['Liens externes', 'Les liens vers les éditeurs et GitHub ouvrent des services tiers disposant de leurs propres politiques. Les fiches actuelles ne comportent pas de liens d’affiliation actifs. Un futur programme peut appliquer ses propres mécanismes d’attribution après votre départ du site.'],
+      ['Contact', 'L’adresse privée et l’identité de l’éditeur restent à renseigner. Le dépôt GitHub sert uniquement aux corrections publiques : n’y transmettez pas de demande confidentielle ni de données personnelles. Ces informations de contact doivent être complétées avant de présenter ce site comme un dossier éditeur finalisé.'],
+    ],
+  } : {
+    title: 'Privacy',
+    intro: 'This page describes the features currently present on AgentRadar. It is not a compliance certification.',
+    sections: [
+      ['Browsing', 'The site offers no user account, collection form or payment. Search and comparison run in your browser. Selected comparison tools can appear in the page URL; do not enter personal information in those parameters.'],
+      ['Display preference', 'Your browser stores the light or dark theme preference locally as ar_theme. The site code installs no advertising pixel or audience analytics tool.'],
+      ['Hosting requests', 'Cloudflare receives requests needed to serve the site, including IP and browser information. Its hosting services also govern this processing. We do not characterize this data as anonymous by default or state an unverified retention period.'],
+      ['External links', 'Publisher and GitHub links open third-party services with their own policies. Current profiles have no active affiliate links. A future affiliate program may use its own attribution mechanisms after you leave the site.'],
+      ['Contact', 'Private contact details and publisher identity remain to be supplied. GitHub is for public corrections only; do not submit confidential requests or personal information there. These contact details need completing before presenting the site as a finalized publisher application.'],
+    ],
+  },
+};
+const page = pages[kind];
+---
+<Layout lang={lang} title={`${page.title} | AgentRadar`} description={page.intro}>
+  <article lang={fr ? 'fr' : 'en'} class="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-white">{page.title}</h1>
+    <p class="text-lg text-slate-200 leading-relaxed">{page.intro}</p>
+    {page.sections.map(([title,body]) => <section class="p-6 rounded-2xl bg-dark-900 border border-dark-800 space-y-3"><h2 class="text-xl font-bold text-white">{title}</h2><p class="text-slate-200 leading-relaxed">{body}</p></section>)}
+    <nav class="flex flex-wrap gap-5 text-radar-400 underline">
+      <a href={`${prefix}/about`}>{fr ? 'À propos' : 'About'}</a>
+      <a href={`${prefix}/methodology`}>{fr ? 'Méthode éditoriale' : 'Editorial methodology'}</a>
+      <a href="https://github.com/Korbenus/agentradar/issues/new" target="_blank" rel="noopener noreferrer">{fr ? 'Proposer une correction publique sur GitHub' : 'Suggest a public correction on GitHub'} ↗</a>
+    </nav>
+  </article>
+</Layout>

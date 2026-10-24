@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test": "python -m unittest discover -s tests -p \"test_*.py\" && node --test tests/editorial.test.mjs",
+    "test:site": "node --test tests/site.test.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
