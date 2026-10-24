@@ -1,276 +1,72 @@
 #!/usr/bin/env python3
-"""
-AgentRadar - Autonomous AI Agent Discovery & Generation Engine
-Runs daily via GitHub Actions or locally.
-Uses Google Gemini API (Free Tier on Google AI Studio) to analyze and generate rich reviews.
-"""
-
-import os
-import sys
+"""Create an unpublished research brief. Never write to src/content or invent facts."""
+import argparse
 import json
-import re
-import urllib.request
-import urllib.error
-from datetime import datetime
+from datetime import date
 from pathlib import Path
+from urllib.parse import urlsplit
 
-# Paths
 ROOT_DIR = Path(__file__).resolve().parent.parent
-AGENTS_DIR = ROOT_DIR / "src" / "content" / "agents"
+DRAFTS_DIR = ROOT_DIR / 'editorial' / 'drafts'
 
-# Gemini API endpoint (Generative Language API v1beta)
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")
-GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
+def valid_source(value):
+    parsed = urlsplit(value)
+    if parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password:
+        raise ValueError('An official HTTPS source URL without credentials is required')
+    return value
 
-VALID_CATEGORIES = [
-    "Code & Dev",
-    "Support Client",
-    "Prospection B2B",
-    "Productivité & Assistant",
-    "Comptabilité & Finance",
-    "Conformité & Juridique",
-    "Marketing & Contenu"
-]
-
-# Discovery targets to explore (curated queue of trending high-potential AI agents in 2026)
-DISCOVERY_QUEUE = [
-    {"name": "Clay AI", "hint": "Autonomous 100+ provider data enrichment and lead waterfall prospecting agent"},
-    {"name": "Bland AI", "hint": "Autonomous conversational phone calling agent handling inbound and outbound sales"},
-    {"name": "Lovable dev", "hint": "Autonomous full-stack web application development and rapid prototyping agent"},
-    {"name": "Bolt new", "hint": "In-browser autonomous full-stack development sandbox with container execution"},
-    {"name": "Windsurf", "hint": "Codeium Cascade autonomous flow-state developer agent and terminal orchestrator"},
-    {"name": "Granola AI", "hint": "Intelligent meeting notepad and autonomous executive assistant for founders"},
-    {"name": "HeyGen AI", "hint": "Autonomous interactive digital avatar video production and voice translation agent"},
-    {"name": "Gamma App", "hint": "Autonomous presentation, document, and webpage creation agent from single prompt"},
-    {"name": "Fireflies ai", "hint": "Autonomous meeting transcription, action-item tracking, and CRM voice logger"},
-    {"name": "Browse AI", "hint": "Autonomous zero-code web scraper and competitive intelligence monitoring agent"},
-    {"name": "Perplexity Enterprise", "hint": "Autonomous web intelligence search engine and enterprise research workspace"},
-    {"name": "Factory AI Droids", "hint": "Autonomous software engineering droids automating code migrations and PR reviews"},
-    {"name": "Ema AI", "hint": "Universal enterprise AI employee operating across Zendesk, Salesforce, and Workday"},
-    {"name": "Synthesia", "hint": "Enterprise video communication studio with generative AI avatars and multi-language lip sync"},
-    {"name": "Descript", "hint": "Text-based video and audio podcast editing agent with automated studio sound"},
-    {"name": "Folk CRM", "hint": "All-in-one relationship intelligence and automated outreach CRM for teams"},
-    {"name": "Tavily AI", "hint": "Autonomous search and factual retrieval engine designed specifically for AI agents"},
-    {"name": "Superhuman AI", "hint": "High-velocity email triage, auto-drafting, and inbox zero orchestration agent"},
-    {"name": "Rows AI", "hint": "Next-gen spreadsheet agent automating web scraping, SQL queries, and financial models"},
-    {"name": "Mem ai", "hint": "Self-organizing personal knowledge base and contextual note synthesis agent"}
-]
-
-
-def get_existing_slugs():
-    """Returns a set of slugs already published to avoid duplicates."""
-    if not AGENTS_DIR.exists():
-        AGENTS_DIR.mkdir(parents=True, exist_ok=True)
-    return {f.stem.lower() for f in AGENTS_DIR.glob("*.md")}
-
-
-def pick_candidates(existing_slugs, limit=3):
-    """Picks up to `limit` candidates from the queue that do not exist yet."""
-    candidates = []
-    for item in DISCOVERY_QUEUE:
-        slug = re.sub(r'[^a-z0-9]+', '-', item['name'].lower()).strip('-')
-        if slug not in existing_slugs and not (AGENTS_DIR / f"{slug}.md").exists():
-            candidates.append((item, slug))
-            if len(candidates) >= limit:
-                break
-    return candidates
-
-
-def call_gemini(prompt: str) -> dict:
-    """Calls Gemini API with JSON mode enabled using X-goog-api-key header."""
-    if not GEMINI_API_KEY or len(GEMINI_API_KEY) < 15:
-        print("[INFO] GEMINI_API_KEY manquant ou trop court.")
-        return None
-
-    url = GEMINI_API_URL
-    payload = {
-        "contents": [
-            {
-                "parts": [
-                    {"text": prompt}
-                ]
-            }
+def create_brief(name, source_url, output_dir=DRAFTS_DIR):
+    if not name or not name.strip():
+        raise ValueError('A product name is required')
+    source = valid_source(source_url)
+    # An opaque filename avoids interpreting product names as filesystem paths.
+    import hashlib
+    identifier = hashlib.sha256((name.strip() + '\n' + source).encode()).hexdigest()[:16]
+    directory = Path(output_dir)
+    public = (ROOT_DIR / 'src').resolve()
+    resolved = directory.resolve()
+    if resolved == public or public in resolved.parents or resolved == (ROOT_DIR / 'public').resolve() or (ROOT_DIR / 'public').resolve() in resolved.parents:
+        raise ValueError('Research briefs must remain outside published source folders')
+    directory.mkdir(parents=True, exist_ok=True)
+    target = directory / (identifier + '.json')
+    brief = {
+        'status': 'pending_editorial_review',
+        'name': name.strip(),
+        'submittedSourceUrl': source,
+        'createdAt': date.today().isoformat(),
+        'sourceConsulted': False,
+        'checklist': [
+            'Verify publisher identity and official domain',
+            'Read product documentation and pricing; record consultation date',
+            'Write a source-based summary without untested claims',
+            'Do not add ratings, review counts, compliance badges or invented referral URLs',
+            'Record actual program approval before adding an affiliate link',
+            'Review the content before creating a published profile',
         ],
-        "generationConfig": {
-            "responseMimeType": "application/json",
-            "temperature": 0.4
-        }
     }
+    # Re-running the workflow must not overwrite a brief already being reviewed.
+    if not target.exists():
+        with target.open('x', encoding='utf-8') as stream:
+            json.dump(brief, stream, ensure_ascii=False, indent=2)
+            stream.write('\n')
+    return target
 
-    req = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Content-Type": "application/json",
-            "X-goog-api-key": GEMINI_API_KEY
-        },
-        method="POST"
-    )
-
-    try:
-        with urllib.request.urlopen(req, timeout=25) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            candidate_text = data["candidates"][0]["content"]["parts"][0]["text"]
-            return json.loads(candidate_text)
-    except urllib.error.HTTPError as e:
-        print(f"[ERROR] HTTP {e.code}: {e.read().decode('utf-8')}")
-        return None
-    except Exception as e:
-        print(f"[ERROR] Gemini request failed: {e}")
-        return None
-
-
-def generate_mock_agent(candidate, slug):
-    """Fallback generator when API key is not yet set (useful for initial verification)."""
-    name = candidate["name"]
-    category = "Prospection B2B" if "SDR" in candidate["hint"] or "BDR" in candidate["hint"] else "Productivité & Assistant"
-    
-    return {
-        "name": name,
-        "slug": slug,
-        "tagline": f"Agent autonome innovant spécialisé : {candidate['hint']}.",
-        "category": category,
-        "rating": 4.8,
-        "pricingModel": "Payant",
-        "priceStartingAt": "99 $ / mois",
-        "websiteUrl": f"https://www.{slug}.com",
-        "badge": "Découverte Récente",
-        "pros": [
-            "Automatisation de bout en bout sans intervention humaine",
-            "Intégration rapide avec les outils d'entreprise existants",
-            "Gain de temps mesurable dès la première semaine"
-        ],
-        "cons": [
-            "Nécessite une phase de calibration des directives au démarrage",
-            "Documentation avancée principalement en anglais"
-        ],
-        "keyFeatures": [
-            "Exécution asynchrone des flux de travail",
-            "Rapports de performance automatisés",
-            "Supervision humaine optionnelle (Human-in-the-loop)",
-            "Sécurité des données d'entreprise"
-        ],
-        "targetAudience": "Entreprises et professionnels cherchant à automatiser leurs opérations à forte intensité manuelle.",
-        "articleBody": f"""## Présentation détaillée de {name}
-
-{name} représente la nouvelle génération d'agents d'automatisation intelligente en 2026. Conçu pour s'attaquer à des tâches autrefois réservées aux opérateurs humains, il combine compréhension contextuelle et exécution d'actions sur des outils tiers.
-
-### Principaux cas d'usage
-- Automatisation des routines quotidiennes et traitement de flux volumineux.
-- Réduction des délais de traitement de plusieurs heures à quelques secondes.
-- Intégration transparente dans les canaux de communication de l'entreprise.
-
-### Notre avis sur le retour sur investissement
-Pour une PME ou une équipe en croissance, déployer {name} permet d'éviter l'embauche de prestataires pour des tâches répétitives, avec un seuil de rentabilité généralement atteint en moins d'un mois.
-"""
-    }
-
-
-def build_prompt(candidate, slug):
-    return f"""You are a world-class technology analyst specializing in Autonomous AI Agents and Enterprise Automation in 2026.
-Write an in-depth, objective review and technical specifications sheet in JSON format for the following AI agent:
-- Name: {candidate['name']}
-- Context / Role: {candidate['hint']}
-
-You MUST return a valid JSON object matching this exact structure:
-{{
-  "name": "{candidate['name']}",
-  "slug": "{slug}",
-  "tagline": "A sharp, high-converting one-sentence hook in English (max 160 characters)",
-  "category": "Exactly one category from: {json.dumps(VALID_CATEGORIES, ensure_ascii=False)}",
-  "rating": a float between 4.4 and 4.9,
-  "pricingModel": "One of: Freemium, Payant, Gratuit / Open-Source, Sur Devis",
-  "priceStartingAt": "e.g. $49 / month, or $0 (Open Source), or Custom Quote",
-  "websiteUrl": "Valid official URL",
-  "badge": "e.g. Top Pick, New in 2026, or Enterprise Leader",
-  "pros": ["Concise strength 1 in English", "Concise strength 2 in English", "Concise strength 3 in English"],
-  "cons": ["Realistic limitation 1 in English", "Realistic limitation 2 in English"],
-  "keyFeatures": ["Core feature 1 in English", "Core feature 2 in English", "Core feature 3 in English", "Core feature 4 in English"],
-  "targetAudience": "Clear description of the ideal buyer / target team in 1 sentence in English",
-  "articleBody": "Comprehensive Markdown review in English with h2 and h3 subheadings covering: Overview & Architecture, Key Business Use Cases, and ROI & Financial Payback analysis."
-}}
-"""
-
-
-def save_agent_markdown(agent_data: dict, filepath: Path):
-    """Serializes agent data into Astro Markdown file with YAML frontmatter."""
-    pros_yaml = "\n".join([f'  - "{p}"' for p in agent_data["pros"]])
-    cons_yaml = "\n".join([f'  - "{c}"' for c in agent_data["cons"]])
-    feats_yaml = "\n".join([f'  - "{f}"' for f in agent_data["keyFeatures"]])
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    content = f"""---
-name: "{agent_data['name']}"
-tagline: "{agent_data['tagline'].replace('"', "'")}"
-category: "{agent_data['category']}"
-rating: {agent_data['rating']}
-pricingModel: "{agent_data['pricingModel']}"
-priceStartingAt: "{agent_data['priceStartingAt']}"
-websiteUrl: "{agent_data['websiteUrl']}"
-affiliateUrl: "{agent_data['websiteUrl']}?ref=agentradar"
-badge: "{agent_data.get('badge', 'Nouveauté')}"
-featured: false
-aiActCompliant: true
-dateAdded: "{today}"
-pros:
-{pros_yaml}
-cons:
-{cons_yaml}
-keyFeatures:
-{feats_yaml}
-targetAudience: "{agent_data['targetAudience'].replace('"', "'")}"
----
-
-{agent_data['articleBody'].strip()}
-"""
-
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(content)
-
-
-def main():
-    print("=" * 60)
-    print("AgentRadar - Moteur Autonome de Veille et Génération")
-    print(f"Date : {datetime.now().isoformat()}")
-    print("=" * 60)
-
-    existing_slugs = get_existing_slugs()
-    print(f"[INFO] {len(existing_slugs)} agents actuellement répertoriés dans la base.")
-
-    candidates = pick_candidates(existing_slugs, limit=3)
-    if not candidates:
-        print("[INFO] Tous les agents de la file prioritaire sont déjà publiés. Rien à ajouter aujourd'hui.")
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--name')
+    parser.add_argument('--source-url')
+    args = parser.parse_args(argv)
+    if not args.name and not args.source_url:
+        print('No automatic publication. Supply --name and --source-url to create an unpublished research brief.')
         return 0
-
-    print(f"[RADAR] {len(candidates)} nouveau(x) agent(s) à auditer aujourd'hui.")
-
-    added_count = 0
-    for candidate, slug in candidates:
-        print(f"\n--> Traitement de : {candidate['name']} ({slug})...")
-        agent_data = None
-        if GEMINI_API_KEY:
-            print(f"[AI] Interrogation de Google Gemini ({GEMINI_MODEL}) pour l'audit...")
-            prompt = build_prompt(candidate, slug)
-            agent_data = call_gemini(prompt)
-
-        if not agent_data:
-            if GEMINI_API_KEY:
-                print("[WARN] Échec de l'appel Gemini, utilisation du fallback sécurisé.")
-            else:
-                print("[INFO] Mode démo / test sans clé : génération de la fiche structurée.")
-            agent_data = generate_mock_agent(candidate, slug)
-
-        target_file = AGENTS_DIR / f"{slug}.md"
-        save_agent_markdown(agent_data, target_file)
-        added_count += 1
-        print(f"[SUCCESS] Fiche créée : {target_file.name}")
-
-    print("\n" + "=" * 60)
-    print(f"[TERMINE] {added_count} nouveau(x) agent(s) ajouté(s) avec succès.")
-    print("=" * 60)
+    if not args.name or not args.source_url:
+        parser.error('--name and --source-url must be supplied together')
+    try:
+        target = create_brief(args.name, args.source_url)
+    except ValueError as error:
+        parser.error(str(error))
+    print(f'Unpublished research brief: {target.name}. Source consultation and editorial review are still required.')
     return 0
 
-
-if __name__ == "__main__":
-    sys.exit(main())
+if __name__ == '__main__':
+    raise SystemExit(main())

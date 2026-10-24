@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { editorialCopy } from '../lib/editorial';
 import AgentCard from './AgentCard.astro';
 import { getCollection } from 'astro:content';
 import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
@@ -60,7 +61,7 @@ const info = categoryInfo[normalizedSlug] || {
 };
 
 const title = t(info.titleKey);
-const desc = info.descKey.startsWith('catDesc.') ? t(info.descKey) : info.descKey;
+const desc = editorialCopy(lang).notice;
 
 const allAgents = await getCollection('agents');
 const filteredAgents = allAgents.filter(a => a.data.category === info.enTitle);
@@ -74,7 +75,7 @@ function localizedHref(path: string): string {
 
 <Layout
   lang={lang}
-  title={`${title} : Best AI Agents (2026) | AgentRadar`}
+  title={`${title} — AI tools | AgentRadar`}
   description={desc}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -87,7 +88,7 @@ function localizedHref(path: string): string {
     </nav>
 
     <div class="max-w-3xl mb-12">
-      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">{t('card.category')}</span>
+      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">{lang === 'fr' ? 'Catégorie' : 'Category'}</span>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
         {title}
       </h1>
@@ -105,7 +106,7 @@ function localizedHref(path: string): string {
     ) : (
       <div class="text-center py-20 bg-dark-900/40 rounded-2xl border border-dark-800">
         <p class="text-slate-400 text-sm">{t('section.noResults')}</p>
-        <p class="text-xs text-slate-500 mt-2">Our autonomous radar scans and adds new vetted AI agents to this category on a regular basis.</p>
+        <p class="text-xs text-slate-500 mt-2">{lang === 'fr' ? 'Aucune fiche suffisamment documentée n’est publiée dans cette catégorie pour le moment.' : 'No sufficiently documented profile is published in this category yet.'}</p>
       </div>
     )}
   </div>

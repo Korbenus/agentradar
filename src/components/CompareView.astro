@@ -1,275 +1,72 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
-import { useTranslations, type SupportedLang, defaultLang } from '../i18n/translations';
+import { getCollection } from 'astro:content';
+import { defaultLang, type SupportedLang } from '../i18n/translations';
 import { getLocalizedAgent } from '../i18n/agentData';
-import { getAgentLogoUrl, getAgentMonogram } from '../utils/brand';
-
-interface Props {
-  lang?: SupportedLang;
-}
-
+import { editorialCopy, outbound } from '../lib/editorial';
+interface Props { lang?: SupportedLang }
 const { lang = defaultLang } = Astro.props;
-const t = useTranslations(lang);
-
-const allAgents = await getCollection('agents');
-
-// Sort alphabetically for clean selector dropdowns
-const sortedAgents = allAgents.sort((a, b) => a.data.name.localeCompare(b.data.name));
-
-const agentsMap = Object.fromEntries(
-  sortedAgents.map(a => {
-    const loc = getLocalizedAgent(a, lang);
-    return [a.id.replace(/\.md$/, ''), {
-      name: loc.name,
-      logo: getAgentLogoUrl(loc.websiteUrl),
-      monogram: getAgentMonogram(loc.name),
-      tagline: loc.tagline,
-      category: loc.category,
-      rating: loc.rating,
-      price: loc.priceStartingAt,
-      model: loc.pricingModel,
-      aiAct: loc.aiActCompliant,
-      pros: loc.pros,
-      cons: loc.cons,
-      features: loc.keyFeatures,
-      target: loc.targetAudience,
-      url: loc.affiliateUrl || loc.websiteUrl,
-      reviewUrl: lang === defaultLang ? `/agents/${a.id.replace(/\.md$/, '')}` : `/${lang}/agents/${a.id.replace(/\.md$/, '')}`
-    }];
-  })
-);
-
-const labels = {
-  startingPrice: t('card.startingPrice'),
-  pricingModel: t('card.pricingModel'),
-  strengths: t('compare.strengths'),
-  limitations: t('compare.limitations'),
-  idealFor: t('compare.idealFor'),
-  tryNow: t('compare.tryNow'),
-  readReview: t('compare.readReview')
-};
-
-// Presets
-const presets = [
-  { name: 'Devin vs Cursor Agent', a: 'devin', b: 'cursor-agent' },
-  { name: 'Apollo.io vs Artisan (Ava)', a: 'apollo-ai', b: 'artisan-ai-ava' },
-  { name: 'Sierra vs Fin AI (Intercom)', a: 'sierra-ai', b: 'fin-ai-intercom' },
-  { name: 'Make.com vs n8n AI', a: 'make-ai-agents', b: 'n8n-ai' },
-];
+const copy = editorialCopy(lang);
+const agents = (await getCollection('agents')).sort((a,b) => a.data.name.localeCompare(b.data.name));
+const prefix = lang === defaultLang ? '' : `/${lang}`;
+const agentsMap = Object.fromEntries(agents.map(agent => [agent.id, { ...getLocalizedAgent(agent,lang), link: outbound(agent.data), profile: `${prefix}/agents/${agent.id}` }]));
+const labels = { ...copy, chooseA: lang === 'fr' ? 'Premier outil' : 'First tool', chooseB: lang === 'fr' ? 'Deuxième outil' : 'Second tool' };
 ---
-
-<Layout
-  lang={lang}
-  title={`${t('compare.pageTitle')} | AgentRadar`}
-  description={t('compare.pageDesc')}
->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-    <div class="text-center max-w-3xl mx-auto mb-12">
-      <span class="text-xs font-bold text-radar-400 uppercase tracking-wider block mb-2">⚡ Benchmark Arena</span>
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-        {t('compare.pageTitle')}
-      </h1>
-      <p class="mt-4 text-base text-slate-300 leading-relaxed">
-        {t('compare.pageDesc')}
-      </p>
-
-      <!-- Preset Pills -->
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
-        <span class="text-xs text-slate-500 font-semibold mr-1">{t('compare.popularDuels')}</span>
-        {presets.map((p) => (
-          <button
-            type="button"
-            class="preset-btn px-3 py-1.5 rounded-lg bg-dark-900 border border-dark-800 text-xs text-slate-300 hover:text-white hover:border-radar-500/40 transition cursor-pointer"
-            data-a={p.a}
-            data-b={p.b}
-          >
-            {p.name}
-          </button>
-        ))}
-      </div>
+<Layout lang={lang} title={`${copy.compare} | AgentRadar`} description={copy.notice}>
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-8">
+    <h1 class="text-4xl font-bold text-white">{copy.compare}</h1>
+    <p class="text-slate-300">{copy.notice} <a href={`${prefix}/methodology`} class="text-radar-400 underline">{copy.methodology}</a></p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {[['selectAgentA',labels.chooseA],['selectAgentB',labels.chooseB]].map(([id,label],i) => <div><label for={id} class="block text-slate-300 mb-2">{label}</label><select id={id} class="w-full px-4 py-3 rounded-xl bg-dark-900 border border-dark-700 text-white">{agents.map((agent,index) => <option value={agent.id} selected={index===i}>{agent.data.name}</option>)}</select></div>)}
     </div>
-
-    <!-- Dropdown Selector Bar -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 rounded-2xl bg-dark-900 border border-dark-800 shadow-xl mb-12">
-      <div>
-        <label class="block text-xs font-bold text-radar-400 uppercase tracking-wider mb-2">{t('compare.selectAgentA')}</label>
-        <select id="selectAgentA" class="w-full px-4 py-3 rounded-xl bg-dark-950 border border-dark-700 text-white text-sm focus:outline-none focus:border-radar-500 cursor-pointer">
-          {sortedAgents.map((a, idx) => (
-            <option value={a.id.replace(/\.md$/, '')} selected={idx === 0}>{a.data.name} ({a.data.category})</option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold text-radar-400 uppercase tracking-wider mb-2">{t('compare.selectAgentB')}</label>
-        <select id="selectAgentB" class="w-full px-4 py-3 rounded-xl bg-dark-950 border border-dark-700 text-white text-sm focus:outline-none focus:border-radar-500 cursor-pointer">
-          {sortedAgents.map((a, idx) => (
-            <option value={a.id.replace(/\.md$/, '')} selected={idx === 1}>{a.data.name} ({a.data.category})</option>
-          ))}
-        </select>
-      </div>
-    </div>
-
-    <!-- Comparison Table / Cards Container -->
-    <div id="comparisonContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Agent A Card -->
-      <div id="colA" class="p-8 rounded-3xl bg-dark-900/80 border border-dark-800 shadow-2xl flex flex-col justify-between space-y-8">
-        <!-- Rendered by JS -->
-      </div>
-
-      <!-- Agent B Card -->
-      <div id="colB" class="p-8 rounded-3xl bg-dark-900/80 border border-dark-800 shadow-2xl flex flex-col justify-between space-y-8">
-        <!-- Rendered by JS -->
-      </div>
-    </div>
-  </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6"><article id="colA" class="p-6 rounded-3xl bg-dark-900 border border-dark-800 space-y-5"></article><article id="colB" class="p-6 rounded-3xl bg-dark-900 border border-dark-800 space-y-5"></article></div>
+    <noscript><p class="text-slate-300">{lang === 'fr' ? 'Le comparateur interactif nécessite JavaScript. Les fiches restent accessibles ci-dessous.' : 'The interactive comparison requires JavaScript. Individual profiles remain available below.'}</p></noscript>
+    <ul class="flex flex-wrap gap-4">{agents.map(agent => <li><a class="text-radar-400 underline" href={`${prefix}/agents/${agent.id}`}>{agent.data.name}</a></li>)}</ul>
+  </section>
 </Layout>
-
 <script is:inline define:vars={{ agentsMap, labels }}>
   const selectA = document.getElementById('selectAgentA');
   const selectB = document.getElementById('selectAgentB');
-  const colA = document.getElementById('colA');
-  const colB = document.getElementById('colB');
-  const presetButtons = document.querySelectorAll('.preset-btn');
-
-  function renderAgentCard(container, data) {
+  function add(parent, tag, text, className) {
+    const element = document.createElement(tag);
+    element.textContent = text;
+    if (className) element.className = className;
+    parent.appendChild(element);
+    return element;
+  }
+  function render(id, key) {
+    const container = document.getElementById(id);
+    const data = Object.prototype.hasOwnProperty.call(agentsMap,key) ? agentsMap[key] : null;
     if (!container || !data) return;
-
-    container.innerHTML = `
-      <div class="space-y-6">
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3.5">
-            <div class="w-12 h-12 rounded-xl bg-white p-2 flex items-center justify-center shadow-md border border-slate-200/80 shrink-0">
-              <img
-                src="${data.logo}"
-                alt="${data.name}"
-                class="w-full h-full object-contain"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-              />
-              <span style="display:none" class="w-full h-full items-center justify-center text-xs font-extrabold text-slate-900 bg-slate-100 rounded-lg">
-                ${data.monogram}
-              </span>
-            </div>
-            <div>
-              <span class="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-dark-800 text-slate-200 border border-dark-700 inline-block mb-1">
-                ${data.category}
-              </span>
-              <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">${data.name}</h3>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5 text-sm font-extrabold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-3 py-1.5 rounded-xl shrink-0">
-            <span>★ ${data.rating.toFixed(1)}</span>
-            <span class="text-xs text-amber-200/70 font-medium">/ 5</span>
-          </div>
-        </div>
-
-        <p class="text-[15px] text-slate-200 leading-relaxed">${data.tagline}</p>
-
-        <div class="p-4 rounded-2xl bg-dark-950/90 border border-dark-750 space-y-2.5 text-sm">
-          <div class="flex justify-between items-center">
-            <span class="text-slate-400 font-medium">${labels.startingPrice} :</span>
-            <span class="font-extrabold text-base text-white">${data.price}</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-slate-400 font-medium">${labels.pricingModel} :</span>
-            <span class="text-slate-200 font-semibold">${data.model}</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-slate-400 font-medium">EU AI Act :</span>
-            <span class="text-emerald-300 font-bold">${data.aiAct ? '🇪🇺 Compliant' : 'Standard'}</span>
-          </div>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-emerald-950/15 border border-emerald-500/25">
-          <h4 class="text-xs font-extrabold text-emerald-300 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <span>👍</span> ${labels.strengths}
-          </h4>
-          <ul class="space-y-2 text-[14.5px] text-slate-100 leading-snug">
-            ${data.pros.map(p => `<li class="flex items-start gap-2.5"><span class="text-emerald-400 font-extrabold">✓</span><span>${p}</span></li>`).join('')}
-          </ul>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-rose-950/15 border border-rose-500/25">
-          <h4 class="text-xs font-extrabold text-rose-300 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <span>⚠️</span> ${labels.limitations}
-          </h4>
-          <ul class="space-y-2 text-[14.5px] text-slate-200 leading-snug">
-            ${data.cons.map(c => `<li class="flex items-start gap-2.5"><span class="text-rose-400 font-extrabold">−</span><span>${c}</span></li>`).join('')}
-          </ul>
-        </div>
-
-        <div class="p-4 rounded-2xl bg-dark-850/70 border border-dark-750">
-          <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">🎯 ${labels.idealFor}</h4>
-          <p class="text-[14.5px] text-slate-200 font-medium leading-relaxed">${data.target}</p>
-        </div>
-      </div>
-
-      <div class="pt-6 border-t border-dark-750 space-y-3">
-        <a
-          href="${data.url}"
-          target="_blank"
-          rel="sponsored noopener noreferrer"
-          class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-radar-500 hover:bg-radar-400 text-slate-950 font-extrabold text-sm transition-all shadow-lg shadow-radar-500/20 text-center"
-        >
-          <span>${labels.tryNow} ${data.name}</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-          </svg>
-        </a>
-        <a
-          href="${data.reviewUrl}"
-          class="block text-center text-sm font-semibold text-slate-300 hover:text-radar-300 transition py-1"
-        >
-          ${labels.readReview}
-        </a>
-      </div>
-    `;
-  }
-
-  function updateComparison(syncUrl = true) {
-    const keyA = selectA ? selectA.value : '';
-    const keyB = selectB ? selectB.value : '';
-    renderAgentCard(colA, agentsMap[keyA]);
-    renderAgentCard(colB, agentsMap[keyB]);
-
-    if (syncUrl && keyA && keyB && window.history && window.history.replaceState) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('a', keyA);
-      url.searchParams.set('b', keyB);
-      window.history.replaceState({}, '', url.toString());
-    }
-  }
-
-  if (selectA) selectA.addEventListener('change', () => updateComparison(true));
-  if (selectB) selectB.addEventListener('change', () => updateComparison(true));
-
-  presetButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const a = btn.getAttribute('data-a');
-      const b = btn.getAttribute('data-b');
-      if (selectA && a) selectA.value = a;
-      if (selectB && b) selectB.value = b;
-      updateComparison(true);
+    container.replaceChildren();
+    add(container,'h2',data.name,'text-2xl font-bold text-white');
+    add(container,'p',data.tagline,'text-slate-200');
+    add(container,'p',labels.documentary,'text-sm text-radar-400');
+    [[labels.capabilities,data.keyFeatures],[labels.considerations,data.considerations]].forEach(([title,values]) => {
+      add(container,'h3',title,'text-lg font-semibold text-white');
+      const list = add(container,'ul','','list-disc pl-5 space-y-2 text-slate-200');
+      values.forEach(value => add(list,'li',value));
     });
-  });
-
-  // Read URL search params if present, else fallback to Devin vs Cursor
+    add(container,'h3',labels.target,'font-semibold text-white');
+    add(container,'p',data.targetAudience,'text-slate-200');
+    add(container,'p',`${labels.reviewed}: ${data.lastReviewed}`,'text-xs text-slate-400');
+    [[labels.pricing,data.pricingUrl,'noopener noreferrer'],[labels.visit,data.link.url,data.link.rel],[labels.profile,data.profile,null]].forEach(([title,url,rel]) => {
+      const a = add(container,'a',title,'block text-radar-400 underline');
+      a.href = url;
+      if (rel) { a.rel = rel; a.target = '_blank'; }
+    });
+    add(container,'p',data.link.affiliate ? labels.affiliate : labels.noAffiliate,'text-xs text-slate-400');
+  }
+  function update() {
+    render('colA',selectA.value); render('colB',selectB.value);
+    const url = new URL(window.location.href);
+    url.searchParams.set('a',selectA.value); url.searchParams.set('b',selectB.value);
+    window.history.replaceState({},'',url);
+  }
   const params = new URLSearchParams(window.location.search);
   const paramA = params.get('a');
   const paramB = params.get('b');
-
-  if (paramA && agentsMap[paramA] && selectA) {
-    selectA.value = paramA;
-  } else if (selectA && agentsMap['devin']) {
-    selectA.value = 'devin';
-  }
-
-  if (paramB && agentsMap[paramB] && selectB) {
-    selectB.value = paramB;
-  } else if (selectB && agentsMap['cursor-agent']) {
-    selectB.value = 'cursor-agent';
-  }
-
-  updateComparison(false);
+  if (paramA && Object.prototype.hasOwnProperty.call(agentsMap,paramA)) selectA.value = paramA;
+  if (paramB && Object.prototype.hasOwnProperty.call(agentsMap,paramB)) selectB.value = paramB;
+  selectA.addEventListener('change',update); selectB.addEventListener('change',update); update();
 </script>

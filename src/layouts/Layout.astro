@@ -11,9 +11,9 @@ interface Props {
 }
 
 const {
-  title = "AgentRadar | Compare the Best Autonomous AI Agents (2026)",
-  description = "Discover, compare and select the best autonomous AI agents for your business. B2B sales outreach, customer support, coding, accounting, and EU AI Act compliance.",
-  ogImage = "/og-image.png",
+  title = "AgentRadar | Independent directory of AI tools",
+  description = "Explore documentary profiles of business AI tools, with official sources and practical selection criteria.",
+  ogImage,
   lang = defaultLang
 } = Astro.props;
 
@@ -47,14 +47,14 @@ const cleanPath = getCleanPath();
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, Astro.site)} />}
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />
+    {ogImage && <meta property="twitter:image" content={new URL(ogImage, Astro.site)} />}
 
     <!-- Multilingual hreflang alternate links for SEO -->
     <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, Astro.site)} />
@@ -80,11 +80,6 @@ const cleanPath = getCleanPath();
         } catch (e) {}
       })();
     </script>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <!-- Schema.org -->
     <script type="application/ld+json" set:html={JSON.stringify({
@@ -256,7 +251,10 @@ const cleanPath = getCleanPath();
     background-color: #f8fafc !important;
     color: #0f172a !important;
   }
-  html.light header {
+  .site-header {
+    background-color: rgba(2, 6, 23, 0.95);
+  }
+  html.light .site-header {
     background-color: rgba(255, 255, 255, 0.95) !important;
     border-color: #cbd5e1 !important;
   }

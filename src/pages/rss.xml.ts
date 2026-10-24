@@ -11,10 +11,10 @@ export async function GET(context: APIContext) {
 
   return rss({
     title: 'AgentRadar | Observatoire des Agents IA Autonomes',
-    description: 'Veille continue, avis techniques et benchmarks des solutions d\'agents IA pour entreprises.',
+    description: 'Synthèses documentaires d’outils IA pour entreprises, avec sources officielles.',
     site: context.site || 'https://agentradar.pages.dev',
     items: sorted.map((agent) => ({
-      title: `${agent.data.name} (${agent.data.category}) - Avis & Tarifs`,
+      title: `${agent.data.name} (${agent.data.category}) - Fiche documentaire`,
       pubDate: new Date(agent.data.dateAdded),
       description: agent.data.tagline,
       link: `/agents/${agent.id.replace(/\.md$/, '')}/`,

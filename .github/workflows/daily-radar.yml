@@ -1,46 +1,33 @@
-name: "Daily Autonomous Radar"
-
+name: Editorial research brief
 on:
-  schedule:
-    # Tourne chaque nuit à 03:00 UTC (05:00 heure de Paris)
-    - cron: '0 3 * * *'
-  workflow_dispatch: # Permet de déclencher l'audit manuellement en 1 clic sur GitHub
-
+  workflow_dispatch:
+    inputs:
+      product_name:
+        description: Product name to research
+        required: true
+        type: string
+      official_source_url:
+        description: Official HTTPS product page (to be verified during review)
+        required: true
+        type: string
 permissions:
-  contents: write
-
+  contents: read
 jobs:
-  run-radar:
+  research:
     runs-on: ubuntu-latest
     steps:
-      - name: Récupération du code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Configuration de Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Exécution du Moteur Radar Autonome
+      - name: Create unpublished brief
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: 'gemini-flash-latest'
-        run: |
-          python -u scripts/radar.py
-
-      - name: Vérification et Publication Automatique
-        run: |
-          git config --global user.name "AgentRadar Bot"
-          git config --global user.email "bot@agentradar.pages.dev"
-          
-          # Vérifie si un nouveau fichier a été créé dans src/content/agents/
-          if [ -n "$(git status --porcelain src/content/agents/)" ]; then
-            echo "Nouveau(x) agent(s) détecté(s) ! Publication en cours..."
-            git add src/content/agents/
-            git commit -m "chore(radar): nouvel agent analysé et publié automatiquement [skip ci]"
-            git push origin main
-          else
-            echo "Aucune nouvelle fiche aujourd'hui. Dépôt à jour."
-          fi
+          PRODUCT_NAME: ${{ inputs.product_name }}
+          OFFICIAL_SOURCE_URL: ${{ inputs.official_source_url }}
+        run: python scripts/radar.py --name "$PRODUCT_NAME" --source-url "$OFFICIAL_SOURCE_URL"
+      - name: Save brief for editorial review
+        uses: actions/upload-artifact@v4
+        with:
+          name: unpublished-research-brief
+          path: editorial/drafts/*.json
+          if-no-files-found: error

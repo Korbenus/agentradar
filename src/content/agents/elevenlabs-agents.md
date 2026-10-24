@@ -1,31 +1,20 @@
 ---
-name: "ElevenLabs Conversational AI"
-tagline: "Ultra-low latency conversational voice AI agents delivering human-indistinguishable customer interactions."
+name: "ElevenLabs Agents"
+tagline: "Conversational AI agents for voice and text interactions."
 category: "Support Client"
-rating: 4.9
-pricingModel: "Freemium"
-priceStartingAt: "$5 / month"
-websiteUrl: "https://elevenlabs.io"
-affiliateUrl: "https://elevenlabs.io?ref=agentradar"
-badge: "Voice Breakthrough"
-featured: true
-aiActCompliant: true
-dateAdded: "2026-10-23"
-pros:
-  - "Sub-400ms end-to-end voice latency for fluid natural dialogue"
-  - "Emotional inflection, pause management, and realistic breathing cues"
-  - "Support for 31+ languages with accurate local accents"
-cons:
-  - "Voice customization requires clean 1-minute audio training samples"
-  - "High concurrency usage requires enterprise plan scaling"
-keyFeatures:
-  - "Turnkey SDKs for Web, iOS, Android, and Twilio SIP telephony"
-  - "Dynamic prompt injection with real-time tool calling"
-  - "Knowledge base ingestion for live question answering"
-  - "SOC2 Type II certified voice synthesis infrastructure"
-targetAudience: "Call centers, healthcare providers, hospitality brands, and gaming studios building voice interfaces."
+websiteUrl: "https://elevenlabs.io/agents"
+pricingUrl: "https://elevenlabs.io/pricing/agents"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product information", "url": "https://elevenlabs.io/agents"}, {"title": "Publisher pricing and plan information", "url": "https://elevenlabs.io/pricing/agents"}]
+keyFeatures: ["Conversational voice agents", "Agent configuration and monitoring", "Multiple communication channels"]
+considerations: ["Test recognition and handoff with your own languages and vocabulary.", "Verify agent-specific billing rather than assuming speech generation pricing applies."]
+targetAudience: "Teams assessing conversational interfaces for customer interactions."
 ---
 
-## ElevenLabs Conversational AI: The Voice Barrier Shattered
+## Evaluation scenario
 
-ElevenLabs has solved the uncanny valley of automated voice telephony. With response times under 400 milliseconds, users cannot distinguish whether they are conversing with an onshore human agent or an AI voice model.
+Prepare a short script with a normal request, an interruption and an out-of-scope question. Check whether the caller can reach a person and whether the transcript preserves the request accurately. Do not extrapolate a published latency claim to your own telephone setup.
+
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

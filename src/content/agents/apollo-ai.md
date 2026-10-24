@@ -1,31 +1,20 @@
 ---
-name: "Apollo.io AI"
-tagline: "End-to-end B2B sales intelligence and sequence generation powered by a 275M+ contact database."
+name: "Apollo"
+tagline: "Sales platform combining prospect data, enrichment and outreach tools."
 category: "Prospection B2B"
-rating: 4.8
-pricingModel: "Freemium"
-priceStartingAt: "$49 / month"
-websiteUrl: "https://apollo.io"
-affiliateUrl: "https://apollo.io?ref=agentradar"
-badge: "Top Sales Data"
-featured: true
-aiActCompliant: true
-dateAdded: "2026-10-23"
-pros:
-  - "Unmatched 275M+ verified B2B email and direct-dial phone database"
-  - "Integrated multi-channel outreach engine (Email, LinkedIn, Dialer)"
-  - "Generous free tier with monthly credit replenishment"
-cons:
-  - "Data accuracy requires selective verification on niche local markets"
-  - "Comprehensive interface with initial onboarding learning curve"
-keyFeatures:
-  - "AI Sales Assistant crafting personalized email sequences"
-  - "Real-time buyer intent signals via Bombora integration"
-  - "Automated dialer with local presence and call recording"
-  - "Seamless bi-directional sync with HubSpot, Salesforce, and Zapier"
-targetAudience: "Sales development teams, growth hackers, founders, and recruitment consultants."
+websiteUrl: "https://www.apollo.io/"
+pricingUrl: "https://www.apollo.io/pricing"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product information", "url": "https://www.apollo.io/"}, {"title": "Publisher pricing and plan information", "url": "https://www.apollo.io/pricing"}]
+keyFeatures: ["Prospect data and enrichment", "Sales engagement tools", "Business application integrations"]
+considerations: ["Check data coverage against a sample of your actual target market.", "Assess export limits, contact permissions and outreach rules before using a list."]
+targetAudience: "Sales and operations teams evaluating a prospecting workflow."
 ---
 
-## Apollo.io AI: The Sales Engine Powering 500,000+ Teams
+## Evaluation scenario
 
-Apollo eliminates the need for separate prospecting databases, email sequencers, and enrichment tools. By combining AI copywriting with verified corporate intelligence, it allows a single sales rep to run outbound campaigns equivalent to a 5-person agency.
+Use a small sample of companies matching your target segment. Check whether the relevant roles and contact fields are present and current before designing a campaign. The volume of a publisher’s database does not establish the quality of your own target list.
+
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

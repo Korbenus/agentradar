@@ -1,31 +1,20 @@
 ---
-name: "Make.com AI Workflows"
-tagline: "Visual automation canvas enabling complex multi-app AI agents with branching logic and webhooks."
-category: "Code & Dev"
-rating: 4.9
-pricingModel: "Freemium"
-priceStartingAt: "$9 / month"
-websiteUrl: "https://make.com"
-affiliateUrl: "https://make.com?ref=agentradar"
-badge: "No-Code Standard"
-featured: true
-aiActCompliant: true
-dateAdded: "2026-10-23"
-pros:
-  - "Visual drag-and-drop builder with infinite branching possibilities"
-  - "Over 1,800 native connectors to popular cloud tools and databases"
-  - "Direct support for OpenAI, Gemini, Claude, and HuggingFace models"
-cons:
-  - "Complex data transformation formulas can be challenging for beginners"
-  - "Execution operations require monitoring on heavy data syncs"
-keyFeatures:
-  - "Real-time visual execution inspector and debugger"
-  - "JSON parsing, array aggregation, and custom HTTP module"
-  - "Enterprise compliance with ISO 27001 and GDPR standards"
-  - "Automated error handling with rollback and retry mechanisms"
-targetAudience: "No-Code builders, operations specialists, digital agencies, and marketing automation architects."
+name: "Make AI Agents"
+tagline: "Visual workflows connecting applications and AI agents."
+category: "Productivité & Assistant"
+websiteUrl: "https://www.make.com/ai-agents"
+pricingUrl: "https://www.make.com/pricing"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product information", "url": "https://www.make.com/ai-agents"}, {"title": "Publisher pricing and plan information", "url": "https://www.make.com/pricing"}]
+keyFeatures: ["Visual workflow builder", "AI agents within automation scenarios", "Connected applications and tools"]
+considerations: ["Estimate credits consumed by every step, including retries.", "Check which actions need human approval before connecting production accounts."]
+targetAudience: "Teams connecting business applications through visual workflows."
 ---
 
-## Make.com: The Orchestration Backbone of Modern AI Agents
+## Evaluation scenario
 
-While standalone AI agents are powerful, Make.com gives them hands and feet. By allowing models to trigger actions across CRMs, Slack, Google Drive, and databases in visual scenarios, Make transforms isolated prompts into production enterprise pipelines.
+For an incoming customer request, map the steps that are predictable and reserve agent decisions for the ambiguous parts. Start with read-only access, record the proposed action, and review the result before enabling writes.
+
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

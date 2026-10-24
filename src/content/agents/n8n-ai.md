@@ -1,32 +1,20 @@
 ---
-name: "n8n AI Agents"
-tagline: "La plateforme d'orchestration de workflows open-source n°1 pour construire des agents IA sur-mesure et souverains."
-category: "Code & Dev"
-rating: 4.9
-pricingModel: "Freemium"
-priceStartingAt: "0 € (Self-hosted) / 20 € (Cloud)"
-websiteUrl: "https://n8n.io"
-affiliateUrl: "https://n8n.io?ref=agentradar"
-badge: "Choix Open Source"
-featured: true
-aiActCompliant: true
-dateAdded: "2026-10-22"
-pros:
-  - "Contrôle total des données : auto-hébergeable sur vos propres serveurs (RGPD)"
-  - "Compatible avec tous les LLMs (Gemini, Claude, OpenAI, Ollama local)"
-  - "Plus de 400 connecteurs natifs sans coût par tâche abusif"
-cons:
-  - "Nécessite des notions de logique de programmation ou de NoCode avancé"
-  - "Gestion de l'infrastructure requise si auto-hébergé"
-keyFeatures:
-  - "Nœud d'Agent IA multi-outils avec mémoire conversationnelle"
-  - "Prise en charge de LangChain et des vector stores (Qdrant, Pinecone)"
-  - "Accès illimité aux webhooks et exécution de code JavaScript/Python"
-targetAudience: "Développeurs, ingénieurs automatisation, agences NoCode et entreprises attentives à la souveraineté de leurs données."
+name: "n8n"
+tagline: "Workflow automation combining defined steps and AI agent decisions."
+category: "Productivité & Assistant"
+websiteUrl: "https://n8n.io/ai-agents/"
+pricingUrl: "https://n8n.io/pricing/"
+dateAdded: "2026-10-24"
+lastReviewed: "2026-10-24"
+reviewType: "documentary"
+sources: [{"title": "Publisher product information", "url": "https://n8n.io/ai-agents/"}, {"title": "Publisher pricing and plan information", "url": "https://n8n.io/pricing/"}]
+keyFeatures: ["Workflow execution logs", "Cloud and self-hosted options", "AI agents and application integrations"]
+considerations: ["Compare workflow execution allowances with your expected volume.", "For self-hosting, budget for updates, backups and operational ownership."]
+targetAudience: "Technical teams building workflows with control over execution and hosting."
 ---
 
-## n8n AI Agents : L'alternative open source souveraine par excellence
+## Evaluation scenario
 
-Pour les entreprises européennes soumises à des contraintes strictes de confidentialité et de conformité (RGPD / EU AI Act), confier toutes ses données à des plateformes cloud fermées pose problème. 
+To compare n8n with Make, draw the same workflow and count executions, branches and external model calls separately. A trial should include a failed API request and a duplicate event; checking recovery is more informative than a successful demo alone.
 
-n8n propose le meilleur des deux mondes : une interface visuelle élégante combinée à la possibilité d'héberger l'agent sur ses propres serveurs en utilisant des modèles locaux ou des APIs sécurisées.
+This is a proposed evaluation scenario, not a test carried out by AgentRadar. Product capabilities above summarize the linked publisher pages; they are not independently measured results.

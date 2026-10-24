@@ -1,0 +1,7 @@
+---
+import InfoView from '../../components/InfoView.astro';
+import { languages, defaultLang, type SupportedLang } from '../../i18n/translations';
+export function getStaticPaths() { return Object.keys(languages).filter(lang => lang !== defaultLang).map(lang => ({ params: { lang } })); }
+const lang = Astro.params.lang as SupportedLang;
+---
+<InfoView kind="about" lang={lang} />
